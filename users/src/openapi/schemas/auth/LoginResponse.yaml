@@ -1,0 +1,22 @@
+name: LoginResponse
+description: Ответ POST /auth/login.
+type: object
+required:
+  - user
+  - access_token
+  - refresh_token
+  - expires_in
+properties:
+  user:
+    $ref: "../models/User.yaml"
+  access_token:
+    type: string
+    x-validations: ["Size >=1"]
+  refresh_token:
+    type: string
+    x-validations: ["Size >=1"]
+  expires_in:
+    type: integer
+    format: int64
+    x-validations: [">0"]
+additionalProperties: false

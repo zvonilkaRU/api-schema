@@ -1,0 +1,27 @@
+name: RegisterRequest
+description: Тело запроса POST /auth/register.
+type: object
+required:
+  - login
+  - email
+  - password
+  - nickname
+properties:
+  login:
+    type: string
+    description: Уникальный скрытый идентификатор. 3-32 символа, a-z0-9._-, lowercased.
+    x-validations: ["Size >=3", "Size <=32", "app.LoginFormat"]
+  email:
+    type: string
+    format: email
+    x-validations: ["app.EmailFormat"]
+  password:
+    type: string
+    format: password
+    description: 8-128 символов.
+    x-validations: ["Size >=8", "Size <=128"]
+  nickname:
+    type: string
+    description: Отображаемое имя. 1-32 Unicode.
+    x-validations: ["Size >=1", "Size <=32", "app.NoControlChars"]
+additionalProperties: false

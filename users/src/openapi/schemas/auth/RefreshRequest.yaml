@@ -1,0 +1,11 @@
+name: RefreshRequest
+description: Тело запроса POST /auth/refresh.
+type: object
+required:
+  - refresh_token
+properties:
+  refresh_token:
+    type: string
+    description: Ранее выданный refresh токен.
+    x-validations: ["Size >=1"]
+additionalProperties: false

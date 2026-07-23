@@ -1,0 +1,13 @@
+name: UpdateUserRequest
+description: Тело запроса PATCH /users/me. Все поля optional.
+type: object
+properties:
+  nickname:
+    type: string
+    description: Новое отображаемое имя.
+    x-validations: ["Size >=1", "Size <=32", "app.NoControlChars"]
+  login:
+    type: string
+    description: Новый login. В MVP разрешена смена без подтверждения.
+    x-validations: ["Size >=3", "Size <=32", "app.LoginFormat"]
+additionalProperties: false

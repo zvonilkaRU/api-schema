@@ -1,0 +1,16 @@
+name: LoginRequest
+description: Тело запроса POST /auth/login. Identifier может быть email или login.
+type: object
+required:
+  - identifier
+  - password
+properties:
+  identifier:
+    type: string
+    description: Email или login. Сервер определяет формат (наличие '@' → email).
+    x-validations: ["Size >=3", "Size <=320", "app.IdentifierFormat"]
+  password:
+    type: string
+    format: password
+    x-validations: ["Size >=8", "Size <=128"]
+additionalProperties: false

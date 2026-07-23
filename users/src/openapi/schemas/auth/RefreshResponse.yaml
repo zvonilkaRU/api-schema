@@ -1,0 +1,19 @@
+name: RefreshResponse
+description: Ответ POST /auth/refresh. Новый access + новый refresh. Старый refresh инвалидируется.
+type: object
+required:
+  - access_token
+  - refresh_token
+  - expires_in
+properties:
+  access_token:
+    type: string
+    x-validations: ["Size >=1"]
+  refresh_token:
+    type: string
+    x-validations: ["Size >=1"]
+  expires_in:
+    type: integer
+    format: int64
+    x-validations: [">0"]
+additionalProperties: false

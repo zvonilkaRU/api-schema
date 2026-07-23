@@ -1,0 +1,11 @@
+name: LogoutRequest
+description: Тело запроса POST /auth/logout. Инвалидирует refresh-цепочку.
+type: object
+required:
+  - refresh_token
+properties:
+  refresh_token:
+    type: string
+    description: Refresh токен, который нужно инвалидировать (вместе со всей цепочкой).
+    x-validations: ["Size >=1"]
+additionalProperties: false
