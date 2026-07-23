@@ -1,0 +1,40 @@
+get:
+  tags:
+    - service
+  summary: Health check
+  description: Liveness/readiness probe. Без аутентификации.
+  operationId: healthCheck
+  security: []
+  responses:
+    "200":
+      description: Service is healthy.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+            properties:
+              status:
+                type: string
+                enum: ["ok"]
+              version:
+                type: string
+                x-validations: ["Size <=64"]
+            additionalProperties: false
+    "503":
+      description: Service is unhealthy.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+            properties:
+              status:
+                type: string
+                enum: ["degraded"]
+              error:
+                type: string
+                x-validations: ["Size <=256"]
+            additionalProperties: false

@@ -1,0 +1,59 @@
+get:
+  tags:
+    - service
+  summary: Get JWKS (JSON Web Key Set)
+  description: Возвращает публичные ключи для верификации JWT access токенов. Без аутентификации. Другие сервисы polled этот endpoint для локальной верификации JWT.
+  operationId: getJwks
+  security: []
+  responses:
+    "200":
+      description: JWKS (RFC 7517).
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - keys
+            properties:
+              keys:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - kty
+                    - kid
+                    - use
+                    - alg
+                    - crv
+                    - x
+                    - y
+                  properties:
+                    kty:
+                      type: string
+                      enum: ["EC"]
+                    kid:
+                      type: string
+                      description: Key ID. Совпадает с kid в JWT header.
+                    use:
+                      type: string
+                      enum: ["sig"]
+                    alg:
+                      type: string
+                      enum: ["ES256"]
+                    crv:
+                      type: string
+                      enum: ["P-256"]
+                    x:
+                      type: string
+                      description: Base64url-encoded X coordinate.
+                    y:
+                      type: string
+                      description: Base64url-encoded Y coordinate.
+                  additionalProperties: false
+            additionalProperties: false
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
