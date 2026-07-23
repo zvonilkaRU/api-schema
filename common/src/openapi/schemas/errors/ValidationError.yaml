@@ -1,0 +1,20 @@
+name: ValidationError
+description: Детали ошибки валидации конкретного поля. Вкладывается в Error.details.
+type: object
+required:
+  - field
+  - message
+properties:
+  field:
+    type: string
+    description: Имя поля (dot-path для nested, e.g., "user.login" или "items[0].id").
+    x-validations: ["Size >=1", "Size <=128"]
+  message:
+    type: string
+    description: Что не так с полем.
+    x-validations: ["Size >=1", "Size <=256"]
+  rule:
+    type: string
+    description: Имя нарушенного правила (e.g., "Size", "app.EmailFormat").
+    x-validations: ["Size <=64"]
+additionalProperties: false
