@@ -1,0 +1,5 @@
+# Per-service override for users/ — inherits global defaults, no overrides.
+# Listed explicitly for documentation.
+
+GOLANG_SPLIT_REQUEST_RESPONSE: true
+USE_UTC_FOR_DATE_TIME: true

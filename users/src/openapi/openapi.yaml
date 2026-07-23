@@ -1,0 +1,55 @@
+openapi: 3.1.0
+info:
+  title: Zvonilka Users/Auth API
+  description: |
+    Users & Authentication service for zvonilka.
+
+    ## Identity model
+    - `login` — unique, HIDDEN (only in /users/me). Used for auth.
+    - `email` — unique, required, HIDDEN. For password reset + verification.
+    - `nickname` — display name, NOT unique.
+    - `tag` — 7 chars A-Z0-9, server-generated, globally unique.
+
+    ## Auth
+    - Access token: JWT ES256, 15min TTL. Verified locally by other services via JWKS.
+    - Refresh token: 7 days, rotation + reuse detection. Stored in PostgreSQL.
+    - Login endpoint accepts `identifier` (email or login).
+
+    ## Visibility
+    - `/users/me` → full User (with login, email).
+    - `/users/{id}` → UserRef (id, nickname, tag). NO login/email.
+    - JWT claims: sub, iss, aud, exp, iat only.
+  version: 1.0.0
+servers:
+  - url: https://users.zvonilka.space
+    description: Production
+  - url: http://localhost:8080
+    description: Local dev
+paths:
+  /users/v1/auth/register:
+    $ref: "./resources/v1/auth/register.yaml#/post"
+  /users/v1/auth/login:
+    $ref: "./resources/v1/auth/login.yaml#/post"
+  /users/v1/auth/refresh:
+    $ref: "./resources/v1/auth/refresh.yaml#/post"
+  /users/v1/auth/logout:
+    $ref: "./resources/v1/auth/logout.yaml#/post"
+  /users/v1/users/me:
+    $ref: "./resources/v1/profile/usersMe.yaml"
+  /users/v1/users/{id}:
+    $ref: "./resources/v1/profile/users.yaml#/get"
+  /users/v1/sessions:
+    $ref: "./resources/v1/sessions/sessions.yaml#/get"
+  /users/v1/sessions/{id}:
+    $ref: "./resources/v1/sessions/session.yaml#/delete"
+  /users/v1/.well-known/jwks.json:
+    $ref: "./resources/v1/service/jwks.yaml#/get"
+  /users/v1/health:
+    $ref: "./resources/v1/service/health.yaml#/get"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT access token (ES256). Obtained from /auth/login or /auth/refresh.
