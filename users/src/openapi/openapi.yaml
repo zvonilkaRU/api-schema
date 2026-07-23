@@ -47,6 +47,31 @@ paths:
   /users/v1/health:
     $ref: "./resources/v1/service/health.yaml#/get"
 components:
+  schemas:
+    User:
+      $ref: "./schemas/models/User.yaml"
+    UserRef:
+      $ref: "./schemas/models/UserRef.yaml"
+    UserStatus:
+      $ref: "./schemas/models/UserStatus.yaml"
+    Session:
+      $ref: "./schemas/models/Session.yaml"
+    RegisterRequest:
+      $ref: "./schemas/auth/RegisterRequest.yaml"
+    RegisterResponse:
+      $ref: "./schemas/auth/RegisterResponse.yaml"
+    LoginRequest:
+      $ref: "./schemas/auth/LoginRequest.yaml"
+    LoginResponse:
+      $ref: "./schemas/auth/LoginResponse.yaml"
+    RefreshRequest:
+      $ref: "./schemas/auth/RefreshRequest.yaml"
+    RefreshResponse:
+      $ref: "./schemas/auth/RefreshResponse.yaml"
+    LogoutRequest:
+      $ref: "./schemas/auth/LogoutRequest.yaml"
+    UpdateUserRequest:
+      $ref: "./schemas/profile/UpdateUserRequest.yaml"
   securitySchemes:
     bearerAuth:
       type: http

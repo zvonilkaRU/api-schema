@@ -1,14 +1,26 @@
 # Global generation flags for oapigenerator.
-# Per-service override: <service>/generation_flags.yaml.
-# See ~/projects/oapigenerator README.md for flag semantics.
+# Per-service override: <service>/generation_flags.yaml uses key-value format.
 
 - name: GOLANG_SPLIT_REQUEST_RESPONSE
-  description: "Split Request/Response models"
+  description: "Split schemas into Request/Response"
   enabled: true
   defaultValue: false
   targetValue: true
   affects: [golang]
-  dependsOn: {}
+
+- name: GOLANG_SERVER_BODY_REQUEST_NO_AUTO_DEFAULTS
+  description: "Disable SetDefaults() on server request body decode"
+  enabled: false
+  defaultValue: false
+  targetValue: true
+  affects: [golang]
+
+- name: USE_REQUIRED_V2
+  description: "Use x-request-required / x-response-required attributes"
+  enabled: false
+  defaultValue: false
+  targetValue: true
+  affects: [golang]
 
 - name: USE_UTC_FOR_DATE_TIME
   description: "Serialize date-time in UTC via model.UTCTime"
@@ -16,20 +28,10 @@
   defaultValue: false
   targetValue: true
   affects: [golang]
-  dependsOn: {}
 
-- name: GOLANG_SERVER_BODY_REQUEST_NO_AUTO_DEFAULTS
-  description: "Server request decoder does not call SetDefaults"
+- name: GOLANG_USE_OPTIONAL
+  description: "Use optional.Optional[T] for update request fields"
   enabled: false
   defaultValue: false
   targetValue: true
   affects: [golang]
-  dependsOn: {}
-
-- name: USE_REQUIRED_V2
-  description: "Use x-request-required/x-response-required"
-  enabled: false
-  defaultValue: false
-  targetValue: true
-  affects: [golang]
-  dependsOn: {}

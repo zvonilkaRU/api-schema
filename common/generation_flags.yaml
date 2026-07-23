@@ -1,5 +1,4 @@
-# Per-service override for common/ — inherits global defaults, no overrides.
-# Listed explicitly for documentation.
+# Per-service override for common/ — enables flags needed for common models.
 
 GOLANG_SPLIT_REQUEST_RESPONSE: true
 USE_UTC_FOR_DATE_TIME: true
