@@ -1,0 +1,41 @@
+get:
+  tags:
+    - sessions
+  summary: List active sessions
+  description: Возвращает список активных сессий (refresh token entries) текущего пользователя.
+  operationId: listSessions
+  security:
+    - bearerAuth: []
+  parameters:
+    - $ref: "../../../../../../common/src/openapi/parameters/list.yaml#/pageSizeParam"
+    - $ref: "../../../../../../common/src/openapi/parameters/list.yaml#/pageTokenParam"
+  responses:
+    "200":
+      description: List of active sessions.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - items
+            properties:
+              items:
+                type: array
+                items:
+                  $ref: "../../../schemas/models/Session.yaml"
+              next_page_token:
+                type: string
+                x-validations: ["Size <=256"]
+            additionalProperties: false
+    "401":
+      description: Invalid or expired access token.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
