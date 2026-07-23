@@ -1,0 +1,48 @@
+name: User
+description: Полный профиль пользователя. Возвращается ТОЛЬКО из /users/me (владельцу). login и email скрыты от других пользователей.
+type: object
+required:
+  - id
+  - login
+  - email
+  - nickname
+  - tag
+  - status
+  - email_verified
+  - created_at
+  - updated_at
+properties:
+  id:
+    $ref: "../../../../../common/src/openapi/schemas/identifiers/UUIDv7.yaml"
+  login:
+    type: string
+    description: Уникальный скрытый идентификатор для аутентификации. 3-32 символа, a-z0-9._-, lowercased.
+    x-validations: ["Size >=3", "Size <=32", "app.LoginFormat"]
+  email:
+    type: string
+    format: email
+    description: Email пользователя. Скрытый (видит только владелец).
+    x-validations: ["app.EmailFormat"]
+  nickname:
+    type: string
+    description: Отображаемое имя. 1-32 Unicode-символа. Может повторяться.
+    x-validations: ["Size >=1", "Size <=32", "app.NoControlChars"]
+  tag:
+    type: string
+    description: 7 символов A-Z0-9, генерируется сервером. Глобально уникальный. Для disambiguation при совпадении nickname.
+    readOnly: true
+    x-validations: ["Size ==7", "app.TagFormat"]
+  status:
+    $ref: "./UserStatus.yaml"
+    readOnly: true
+  email_verified:
+    type: boolean
+    description: Подтверждён ли email. В MVP всегда false (верификация — #4.6).
+    readOnly: true
+  created_at:
+    $ref: "../../../../../common/src/openapi/schemas/time/Timestamp.yaml"
+    readOnly: true
+  updated_at:
+    $ref: "../../../../../common/src/openapi/schemas/time/Timestamp.yaml"
+    readOnly: true
+additionalProperties: false

@@ -1,0 +1,20 @@
+name: UserRef
+description: Публичный профиль пользователя. Без login и email. Возвращается из /users/{id} другим пользователям/сервисам.
+type: object
+required:
+  - id
+  - nickname
+  - tag
+properties:
+  id:
+    $ref: "../../../../../common/src/openapi/schemas/identifiers/UUIDv7.yaml"
+  nickname:
+    type: string
+    description: Отображаемое имя.
+    x-validations: ["Size >=1", "Size <=32", "app.NoControlChars"]
+  tag:
+    type: string
+    description: 7 символов A-Z0-9. Для disambiguation.
+    readOnly: true
+    x-validations: ["Size ==7", "app.TagFormat"]
+additionalProperties: false

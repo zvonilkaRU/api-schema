@@ -1,0 +1,8 @@
+name: UserStatus
+description: Статус учётной записи пользователя.
+type: string
+enum:
+  - active
+  - suspended
+  - deleted
+x-validations: ["app.UserStatusValue"]
