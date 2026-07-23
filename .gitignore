@@ -1,0 +1,8 @@
+# Generated Go code — produces by oapigenerator
+generated/
+
+# Python cache
+__pycache__/
+
+# OS files
+.DS_Store
