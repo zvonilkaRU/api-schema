@@ -1,0 +1,43 @@
+post:
+  tags:
+    - auth
+  summary: Login
+  description: Аутентификация по identifier (email или login) + password. Возвращает access + refresh.
+  operationId: loginUser
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/auth/LoginRequest.yaml"
+  responses:
+    "200":
+      description: Login successful.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/auth/LoginResponse.yaml"
+    "400":
+      description: Invalid request body.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "401":
+      description: Invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "422":
+      description: Validation error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

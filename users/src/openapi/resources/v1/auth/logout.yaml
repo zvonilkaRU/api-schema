@@ -1,0 +1,35 @@
+post:
+  tags:
+    - auth
+  summary: Logout
+  description: Инвалидирует текущую refresh-цепочку. Требует access токен в Authorization header + refresh_token в body.
+  operationId: logoutUser
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/auth/LogoutRequest.yaml"
+  responses:
+    "204":
+      description: Logout successful. No content.
+    "401":
+      description: Invalid or expired access token.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "422":
+      description: Validation error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

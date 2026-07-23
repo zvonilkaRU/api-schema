@@ -1,0 +1,43 @@
+post:
+  tags:
+    - auth
+  summary: Refresh access token
+  description: Принимает refresh токен, выдаёт новый access + новый refresh. Старый refresh инвалидируется. При reuse отозванного токена — инвалидация всей цепочки (409).
+  operationId: refreshToken
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/auth/RefreshRequest.yaml"
+  responses:
+    "200":
+      description: New token pair.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/auth/RefreshResponse.yaml"
+    "401":
+      description: Invalid or expired refresh token.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "409":
+      description: Refresh token reuse detected. Entire chain invalidated. Client must re-login.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "422":
+      description: Validation error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
