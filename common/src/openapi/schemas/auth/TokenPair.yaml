@@ -1,0 +1,22 @@
+name: TokenPair
+description: Пара access + refresh токенов. Возвращается из auth-эндпоинтов. Общая для всех сервисов, использующих Users/Auth.
+type: object
+required:
+  - access_token
+  - refresh_token
+  - expires_in
+properties:
+  access_token:
+    type: string
+    description: JWT (ES256) access токен. TTL 15min.
+    x-validations: ["Size >=1"]
+  refresh_token:
+    type: string
+    description: Opaque refresh токен. TTL 7 дней. Хранить на клиенте (httpOnly cookie для web).
+    x-validations: ["Size >=1"]
+  expires_in:
+    type: integer
+    format: int64
+    description: TTL access токена в секундах (900 = 15min).
+    x-validations: [">0"]
+additionalProperties: false
