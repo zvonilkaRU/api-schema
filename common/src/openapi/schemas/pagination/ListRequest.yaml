@@ -1,0 +1,25 @@
+name: ListRequest
+description: Общие query-параметры для list-эндпоинтов (пагинация, фильтрация).
+type: object
+properties:
+  page_size:
+    type: integer
+    format: int32
+    description: Количество элементов на странице. Max 100.
+    default: 20
+    minimum: 1
+    maximum: 100
+    x-validations: [">=1", "<=100"]
+  page_token:
+    type: string
+    description: Opaque токен страницы. Извлекается из ListResponse.next_page_token.
+    x-validations: ["Size <=256"]
+  filter:
+    type: string
+    description: Фильтр в SQL-подобном синтаксисе (service-specific).
+    x-validations: ["Size <=1024"]
+  order_by:
+    type: string
+    description: Поле сортировки с опциональным направлением (e.g., "created_at desc").
+    x-validations: ["Size <=128"]
+additionalProperties: false

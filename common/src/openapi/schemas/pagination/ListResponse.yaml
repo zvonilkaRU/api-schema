@@ -1,0 +1,11 @@
+name: ListResponse
+description: Обёртка для list-ответов с пагинацией. Наследуется конкретными response-схемами через allOf.
+type: object
+required:
+  - items
+properties:
+  next_page_token:
+    type: string
+    description: Токен следующей страницы. Пустой или отсутствует — это последняя страница.
+    x-validations: ["Size <=256"]
+additionalProperties: false
