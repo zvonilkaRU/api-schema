@@ -1,0 +1,79 @@
+get:
+  tags:
+    - users
+  summary: Get current user profile
+  description: Возвращает полный профиль текущего пользователя (по JWT), включая скрытые login и email.
+  operationId: getCurrentUser
+  security:
+    - bearerAuth: []
+  responses:
+    "200":
+      description: Current user profile.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/models/User.yaml"
+    "401":
+      description: Invalid or expired access token.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+
+patch:
+  tags:
+    - users
+  summary: Update current user profile
+  description: Обновляет nickname и/или login текущего пользователя. Email/password — отдельные эндпоинты (вне MVP).
+  operationId: updateCurrentUser
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/profile/UpdateUserRequest.yaml"
+  responses:
+    "200":
+      description: Updated user profile.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/models/User.yaml"
+    "400":
+      description: Invalid request body.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "401":
+      description: Invalid or expired access token.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "409":
+      description: Login already taken.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "422":
+      description: Validation error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

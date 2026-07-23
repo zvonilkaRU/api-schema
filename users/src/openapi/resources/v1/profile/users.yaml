@@ -1,0 +1,47 @@
+get:
+  tags:
+    - users
+  summary: Get user by ID
+  description: "Возвращает публичный профиль (UserRef: id, nickname, tag). БЕЗ login и email. В MVP доступен любому аутентифицированному. После IAM — закрыть через policy."
+  operationId: getUserById
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      x-validations: ["app.UUIDv7"]
+  responses:
+    "200":
+      description: User public profile.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/models/UserRef.yaml"
+    "401":
+      description: Invalid or expired access token.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "404":
+      description: User not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "422":
+      description: Validation error (invalid UUID).
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
