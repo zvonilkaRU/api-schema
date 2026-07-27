@@ -2,10 +2,8 @@ module github.com/zvonilkaRU/api-schema/generated
 
 go 1.26.3
 
-replace github.com/ilovepitsa/oapicodegen => ../../../../projects/oapigenerator
-
 require (
-	github.com/ilovepitsa/oapicodegen v0.0.0-00010101000000-000000000000
+	github.com/ilovepitsa/oapicodegen v1.1.0
 	github.com/labstack/echo/v4 v4.15.4
 	go.uber.org/mock v0.6.0
 )
