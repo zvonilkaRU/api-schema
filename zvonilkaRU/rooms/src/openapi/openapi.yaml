@@ -17,6 +17,9 @@ paths:
     $ref: "./resources/v1/join.yaml"
   /rooms/v1/health:
     $ref: "./resources/v1/health.yaml"
+  # WebSocket endpoint (not expressible in OpenAPI 3.1 — see main.go):
+  #   GET /rooms/v1/rooms/{id}/events?token=<jwt>
+  #   Events: participant.joined, participant.left, call.ended
 components:
   schemas:
     Room:
