@@ -1,0 +1,39 @@
+post:
+  tags:
+    - rooms
+  summary: Join room
+  description: Возвращает LiveKit join-токен для подключения к аудио/видео комнате.
+  operationId: joinRoom
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    "200":
+      description: Join token.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - token
+              - url
+            properties:
+              token:
+                type: string
+                description: LiveKit access token.
+              url:
+                type: string
+                description: WebSocket URL для подключения.
+            additionalProperties: false
+    "404":
+      description: Room not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/errors/Error.yaml"

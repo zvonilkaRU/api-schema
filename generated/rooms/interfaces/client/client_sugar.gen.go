@@ -60,6 +60,17 @@ func (x *ClientSugared) DeleteRoom(ctx context.Context, req *DeleteRoomRequest) 
 	return fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
+func (x *ClientSugared) JoinRoom(ctx context.Context, req *JoinRoomRequest) (*any, error) {
+	resp, err := x.impl.JoinRoom(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
 func (x *ClientSugared) HealthCheck(ctx context.Context, req *HealthCheckRequest) (*any, error) {
 	resp, err := x.impl.HealthCheck(ctx, req)
 	if err != nil {

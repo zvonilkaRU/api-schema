@@ -13,6 +13,7 @@ type Client interface {
 	ListRooms(ctx context.Context, req *ListRoomsRequest) (*ListRoomsResponse, error)
 	GetRoomByID(ctx context.Context, req *GetRoomByIDRequest) (*GetRoomByIDResponse, error)
 	DeleteRoom(ctx context.Context, req *DeleteRoomRequest) (*DeleteRoomResponse, error)
+	JoinRoom(ctx context.Context, req *JoinRoomRequest) (*JoinRoomResponse, error)
 	HealthCheck(ctx context.Context, req *HealthCheckRequest) (*HealthCheckResponse, error)
 }
 
@@ -52,6 +53,16 @@ type DeleteRoomRequest struct {
 type DeleteRoomResponse struct {
 	Code        int
 	Response204 bool
+	Response404 *errors.ErrorResponse
+}
+
+type JoinRoomRequest struct {
+	ID string `param:"id"`
+}
+
+type JoinRoomResponse struct {
+	Code        int
+	Response200 *any
 	Response404 *errors.ErrorResponse
 }
 

@@ -13,6 +13,8 @@ paths:
     $ref: "./resources/v1/rooms.yaml"
   /rooms/v1/rooms/{id}:
     $ref: "./resources/v1/room.yaml"
+  /rooms/v1/rooms/{id}/join:
+    $ref: "./resources/v1/join.yaml"
   /rooms/v1/health:
     $ref: "./resources/v1/health.yaml"
 components:

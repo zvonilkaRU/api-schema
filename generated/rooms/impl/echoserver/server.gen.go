@@ -43,6 +43,7 @@ func (s *ServerHTTP) Register(e *echo.Echo) {
 	e.GET("/rooms/v1/rooms", s.listRooms)
 	e.GET("/rooms/v1/rooms/:id", s.getRoomByID)
 	e.DELETE("/rooms/v1/rooms/:id", s.deleteRoom)
+	e.POST("/rooms/v1/rooms/:id/join", s.joinRoom)
 	e.GET("/rooms/v1/health", s.healthCheck)
 }
 
@@ -114,6 +115,24 @@ func (s *ServerHTTP) deleteRoom(c echo.Context) error {
 	}
 	if resp.Response204 {
 		return c.NoContent(204)
+	}
+	if resp.Response404 != nil {
+		return c.JSON(404, resp.Response404)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) joinRoom(c echo.Context) error {
+	req := &apiclient.JoinRoomRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.JoinRoom(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
 	}
 	if resp.Response404 != nil {
 		return c.JSON(404, resp.Response404)

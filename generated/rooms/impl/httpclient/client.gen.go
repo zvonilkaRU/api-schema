@@ -165,6 +165,40 @@ func (c *Client) DeleteRoom(ctx context.Context, req *apiclient.DeleteRoomReques
 	return result, nil
 }
 
+func (c *Client) JoinRoom(ctx context.Context, req *apiclient.JoinRoomRequest) (*apiclient.JoinRoomResponse, error) {
+	path := "/rooms/v1/rooms/{id}/join"
+	path = strings.Replace(path, "{id}", url.PathEscape(fmt.Sprint(req.ID)), 1)
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.JoinRoomResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v any
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 404:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 404: %w", err)
+		}
+		result.Response404 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
 func (c *Client) HealthCheck(ctx context.Context, req *apiclient.HealthCheckRequest) (*apiclient.HealthCheckResponse, error) {
 	path := "/rooms/v1/health"
 	u := *c.http.ServerURL()

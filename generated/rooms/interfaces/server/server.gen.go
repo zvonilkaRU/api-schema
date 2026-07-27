@@ -12,5 +12,6 @@ type Server interface {
 	ListRooms(ctx context.Context, req *client.ListRoomsRequest) (*client.ListRoomsResponse, error)
 	GetRoomByID(ctx context.Context, req *client.GetRoomByIDRequest) (*client.GetRoomByIDResponse, error)
 	DeleteRoom(ctx context.Context, req *client.DeleteRoomRequest) (*client.DeleteRoomResponse, error)
+	JoinRoom(ctx context.Context, req *client.JoinRoomRequest) (*client.JoinRoomResponse, error)
 	HealthCheck(ctx context.Context, req *client.HealthCheckRequest) (*client.HealthCheckResponse, error)
 }
