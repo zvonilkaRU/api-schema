@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info:
+  title: Zvonilka Rooms API
+  description: CRUD для комнат аудио/видео звонков.
+  version: 1.0.0
+servers:
+  - url: https://rooms.zvonilka.space
+    description: Production
+  - url: http://localhost:8080
+    description: Local dev
+paths:
+  /rooms/v1/rooms:
+    $ref: "./resources/v1/rooms.yaml"
+  /rooms/v1/rooms/{id}:
+    $ref: "./resources/v1/room.yaml"
+  /rooms/v1/health:
+    $ref: "./resources/v1/health.yaml"
+components:
+  schemas:
+    Room:
+      $ref: "./schemas/models/Room.yaml"
+    CreateRoomRequest:
+      $ref: "./schemas/models/CreateRoomRequest.yaml"
+    RoomList:
+      $ref: "./schemas/models/RoomList.yaml"
+    Error:
+      $ref: "./schemas/errors/Error.yaml"
+    Timestamp:
+      $ref: "./schemas/time/Timestamp.yaml"
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT access token (ES256) от Users/Auth сервиса.

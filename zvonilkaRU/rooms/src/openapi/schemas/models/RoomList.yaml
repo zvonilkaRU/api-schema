@@ -1,0 +1,11 @@
+name: RoomList
+description: Список комнат.
+type: object
+required:
+  - items
+properties:
+  items:
+    type: array
+    items:
+      $ref: "./Room.yaml"
+additionalProperties: false

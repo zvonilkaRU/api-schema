@@ -1,0 +1,27 @@
+name: Room
+description: Комната (аудио/видео).
+type: object
+required:
+  - id
+  - name
+  - created_by
+  - created_at
+properties:
+  id:
+    type: string
+    format: uuid
+    description: UUID v7.
+    readOnly: true
+  name:
+    type: string
+    description: Название комнаты.
+    x-validations: ["Size >=1", "Size <=128"]
+  created_by:
+    type: string
+    format: uuid
+    description: ID создателя.
+    readOnly: true
+  created_at:
+    $ref: "../../schemas/time/Timestamp.yaml"
+    readOnly: true
+additionalProperties: false

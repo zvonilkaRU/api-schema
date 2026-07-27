@@ -1,0 +1,47 @@
+post:
+  tags:
+    - rooms
+  summary: Create room
+  operationId: createRoom
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../schemas/models/CreateRoomRequest.yaml"
+  responses:
+    "201":
+      description: Room created.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/models/Room.yaml"
+    "400":
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/errors/Error.yaml"
+
+get:
+  tags:
+    - rooms
+  summary: List rooms
+  operationId: listRooms
+  security:
+    - bearerAuth: []
+  responses:
+    "200":
+      description: List of rooms.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/models/RoomList.yaml"

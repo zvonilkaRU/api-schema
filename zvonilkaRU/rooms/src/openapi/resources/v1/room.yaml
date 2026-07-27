@@ -1,0 +1,51 @@
+get:
+  tags:
+    - rooms
+  summary: Get room by ID
+  operationId: getRoomByID
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    "200":
+      description: Room.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/models/Room.yaml"
+    "404":
+      description: Room not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/errors/Error.yaml"
+
+delete:
+  tags:
+    - rooms
+  summary: Delete room
+  operationId: deleteRoom
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    "204":
+      description: Room deleted.
+    "404":
+      description: Room not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/errors/Error.yaml"

@@ -1,0 +1,11 @@
+name: CreateRoomRequest
+description: Запрос на создание комнаты.
+type: object
+required:
+  - name
+properties:
+  name:
+    type: string
+    description: Название комнаты.
+    x-validations: ["Size >=1", "Size <=128"]
+additionalProperties: false
