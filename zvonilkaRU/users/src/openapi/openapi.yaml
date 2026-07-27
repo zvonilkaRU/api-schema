@@ -27,25 +27,25 @@ servers:
     description: Local dev
 paths:
   /users/v1/auth/register:
-    $ref: "./resources/v1/auth/register.yaml#/post"
+    $ref: "./resources/v1/auth/register.yaml"
   /users/v1/auth/login:
-    $ref: "./resources/v1/auth/login.yaml#/post"
+    $ref: "./resources/v1/auth/login.yaml"
   /users/v1/auth/refresh:
-    $ref: "./resources/v1/auth/refresh.yaml#/post"
+    $ref: "./resources/v1/auth/refresh.yaml"
   /users/v1/auth/logout:
-    $ref: "./resources/v1/auth/logout.yaml#/post"
+    $ref: "./resources/v1/auth/logout.yaml"
   /users/v1/users/me:
     $ref: "./resources/v1/profile/usersMe.yaml"
   /users/v1/users/{id}:
-    $ref: "./resources/v1/profile/users.yaml#/get"
+    $ref: "./resources/v1/profile/users.yaml"
   /users/v1/sessions:
-    $ref: "./resources/v1/sessions/sessions.yaml#/get"
+    $ref: "./resources/v1/sessions/sessions.yaml"
   /users/v1/sessions/{id}:
-    $ref: "./resources/v1/sessions/session.yaml#/delete"
+    $ref: "./resources/v1/sessions/session.yaml"
   /users/v1/.well-known/jwks.json:
-    $ref: "./resources/v1/service/jwks.yaml#/get"
+    $ref: "./resources/v1/service/jwks.yaml"
   /users/v1/health:
-    $ref: "./resources/v1/service/health.yaml#/get"
+    $ref: "./resources/v1/service/health.yaml"
 components:
   schemas:
     User:

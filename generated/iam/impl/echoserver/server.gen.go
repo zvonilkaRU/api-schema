@@ -6,8 +6,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/labstack/echo/v4"
-	apiclient "github.com/zvonilkaRU/api-schema/generated/iam/interfaces/client"
-	apiserver "github.com/zvonilkaRU/api-schema/generated/iam/interfaces/server"
+	apiclient "github.com/zvonilkaRU/api-schema/iam/interfaces/client"
+	apiserver "github.com/zvonilkaRU/api-schema/iam/interfaces/server"
 	"io"
 	"net/http"
 )
@@ -41,6 +41,8 @@ func bindBody(c echo.Context, dst any) error {
 func (s *ServerHTTP) Register(e *echo.Echo) {
 	e.POST("/iam/v1/tuples", s.writeTuple)
 	e.DELETE("/iam/v1/tuples", s.deleteTuple)
+	e.POST("/iam/v1/check", s.checkPermission)
+	e.GET("/iam/v1/health", s.healthCheck)
 }
 
 func (s *ServerHTTP) writeTuple(c echo.Context) error {
@@ -84,6 +86,45 @@ func (s *ServerHTTP) deleteTuple(c echo.Context) error {
 	}
 	if resp.Response404 != nil {
 		return c.JSON(404, resp.Response404)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) checkPermission(c echo.Context) error {
+	req := &apiclient.CheckPermissionRequest{}
+	if err := bindBody(c, &req.Body); err != nil {
+		return err
+	}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.CheckPermission(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response400 != nil {
+		return c.JSON(400, resp.Response400)
+	}
+	if resp.Response500 != nil {
+		return c.JSON(500, resp.Response500)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) healthCheck(c echo.Context) error {
+	req := &apiclient.HealthCheckRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.HealthCheck(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
 	}
 	return c.NoContent(resp.Code)
 }

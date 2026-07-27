@@ -5,6 +5,7 @@ package client
 import (
 	"context"
 	"fmt"
+	models "github.com/zvonilkaRU/api-schema/iam/model/models"
 )
 
 type ClientSugared struct {
@@ -15,7 +16,7 @@ func NewClientSugared(impl Client) *ClientSugared {
 	return &ClientSugared{impl: impl}
 }
 
-func (x *ClientSugared) WriteTuple(ctx context.Context, req *WriteTupleRequest) (*any, error) {
+func (x *ClientSugared) WriteTuple(ctx context.Context, req *WriteTupleRequest) (*models.TupleResponse, error) {
 	resp, err := x.impl.WriteTuple(ctx, req)
 	if err != nil {
 		return nil, err
@@ -35,4 +36,26 @@ func (x *ClientSugared) DeleteTuple(ctx context.Context, req *DeleteTupleRequest
 		return nil
 	}
 	return fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) CheckPermission(ctx context.Context, req *CheckPermissionRequest) (*models.CheckResponseResponse, error) {
+	resp, err := x.impl.CheckPermission(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) HealthCheck(ctx context.Context, req *HealthCheckRequest) (*any, error) {
+	resp, err := x.impl.HealthCheck(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
 }

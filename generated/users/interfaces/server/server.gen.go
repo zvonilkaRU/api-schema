@@ -4,10 +4,19 @@ package server
 
 import (
 	"context"
-	client "github.com/zvonilkaRU/api-schema/generated/users/interfaces/client"
+	client "github.com/zvonilkaRU/api-schema/users/interfaces/client"
 )
 
 type Server interface {
+	RegisterUser(ctx context.Context, req *client.RegisterUserRequest) (*client.RegisterUserResponse, error)
+	LoginUser(ctx context.Context, req *client.LoginUserRequest) (*client.LoginUserResponse, error)
+	RefreshToken(ctx context.Context, req *client.RefreshTokenRequest) (*client.RefreshTokenResponse, error)
+	LogoutUser(ctx context.Context, req *client.LogoutUserRequest) (*client.LogoutUserResponse, error)
 	GetCurrentUser(ctx context.Context, req *client.GetCurrentUserRequest) (*client.GetCurrentUserResponse, error)
 	UpdateCurrentUser(ctx context.Context, req *client.UpdateCurrentUserRequest) (*client.UpdateCurrentUserResponse, error)
+	GetUserByID(ctx context.Context, req *client.GetUserByIDRequest) (*client.GetUserByIDResponse, error)
+	ListSessions(ctx context.Context, req *client.ListSessionsRequest) (*client.ListSessionsResponse, error)
+	DeleteSession(ctx context.Context, req *client.DeleteSessionRequest) (*client.DeleteSessionResponse, error)
+	GetJwks(ctx context.Context, req *client.GetJwksRequest) (*client.GetJwksResponse, error)
+	HealthCheck(ctx context.Context, req *client.HealthCheckRequest) (*client.HealthCheckResponse, error)
 }

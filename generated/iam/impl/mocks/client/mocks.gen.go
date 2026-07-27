@@ -4,7 +4,7 @@ package mock_client
 
 import (
 	"context"
-	apiclient "github.com/zvonilkaRU/api-schema/generated/iam/interfaces/client"
+	apiclient "github.com/zvonilkaRU/api-schema/iam/interfaces/client"
 	"go.uber.org/mock/gomock"
 	"reflect"
 )
@@ -54,4 +54,30 @@ func (m *MockClient) DeleteTuple(arg0 context.Context, arg1 *apiclient.DeleteTup
 func (mr *MockClientMockRecorder) DeleteTuple(arg0, arg1 any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteTuple", reflect.TypeOf((*MockClient)(nil).DeleteTuple), arg0, arg1)
+}
+
+func (m *MockClient) CheckPermission(arg0 context.Context, arg1 *apiclient.CheckPermissionRequest) (*apiclient.CheckPermissionResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CheckPermission", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.CheckPermissionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockClientMockRecorder) CheckPermission(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckPermission", reflect.TypeOf((*MockClient)(nil).CheckPermission), arg0, arg1)
+}
+
+func (m *MockClient) HealthCheck(arg0 context.Context, arg1 *apiclient.HealthCheckRequest) (*apiclient.HealthCheckResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "HealthCheck", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.HealthCheckResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockClientMockRecorder) HealthCheck(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HealthCheck", reflect.TypeOf((*MockClient)(nil).HealthCheck), arg0, arg1)
 }

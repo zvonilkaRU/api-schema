@@ -4,31 +4,53 @@ package client
 
 import (
 	"context"
-	model "github.com/zvonilkaRU/api-schema/generated/iam/model"
+	errors "github.com/zvonilkaRU/api-schema/iam/model/errors"
+	models "github.com/zvonilkaRU/api-schema/iam/model/models"
 )
 
 type Client interface {
 	WriteTuple(ctx context.Context, req *WriteTupleRequest) (*WriteTupleResponse, error)
 	DeleteTuple(ctx context.Context, req *DeleteTupleRequest) (*DeleteTupleResponse, error)
+	CheckPermission(ctx context.Context, req *CheckPermissionRequest) (*CheckPermissionResponse, error)
+	HealthCheck(ctx context.Context, req *HealthCheckRequest) (*HealthCheckResponse, error)
 }
 
 type WriteTupleRequest struct {
-	Body any `json:"-"`
+	Body models.TupleRequestRequest `json:"-"`
 }
 
 type WriteTupleResponse struct {
 	Code        int
-	Response201 *any
-	Response400 *model.ErrorYaml
-	Response500 *model.ErrorYaml
+	Response201 *models.TupleResponse
+	Response400 *errors.ErrorResponse
+	Response500 *errors.ErrorResponse
 }
 
 type DeleteTupleRequest struct {
-	Body any `json:"-"`
+	Body models.TupleRequestRequest `json:"-"`
 }
 
 type DeleteTupleResponse struct {
 	Code        int
 	Response204 bool
-	Response404 *model.ErrorYaml
+	Response404 *errors.ErrorResponse
+}
+
+type CheckPermissionRequest struct {
+	Body models.CheckRequestRequest `json:"-"`
+}
+
+type CheckPermissionResponse struct {
+	Code        int
+	Response200 *models.CheckResponseResponse
+	Response400 *errors.ErrorResponse
+	Response500 *errors.ErrorResponse
+}
+
+type HealthCheckRequest struct {
+}
+
+type HealthCheckResponse struct {
+	Code        int
+	Response200 *any
 }

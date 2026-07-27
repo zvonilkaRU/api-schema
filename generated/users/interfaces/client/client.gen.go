@@ -4,12 +4,75 @@ package client
 
 import (
 	"context"
-	model "github.com/zvonilkaRU/api-schema/generated/users/model"
+	model "github.com/zvonilkaRU/api-schema/users/model"
+	auth "github.com/zvonilkaRU/api-schema/users/model/auth"
+	models "github.com/zvonilkaRU/api-schema/users/model/models"
+	profile "github.com/zvonilkaRU/api-schema/users/model/profile"
 )
 
 type Client interface {
+	RegisterUser(ctx context.Context, req *RegisterUserRequest) (*RegisterUserResponse, error)
+	LoginUser(ctx context.Context, req *LoginUserRequest) (*LoginUserResponse, error)
+	RefreshToken(ctx context.Context, req *RefreshTokenRequest) (*RefreshTokenResponse, error)
+	LogoutUser(ctx context.Context, req *LogoutUserRequest) (*LogoutUserResponse, error)
 	GetCurrentUser(ctx context.Context, req *GetCurrentUserRequest) (*GetCurrentUserResponse, error)
 	UpdateCurrentUser(ctx context.Context, req *UpdateCurrentUserRequest) (*UpdateCurrentUserResponse, error)
+	GetUserByID(ctx context.Context, req *GetUserByIDRequest) (*GetUserByIDResponse, error)
+	ListSessions(ctx context.Context, req *ListSessionsRequest) (*ListSessionsResponse, error)
+	DeleteSession(ctx context.Context, req *DeleteSessionRequest) (*DeleteSessionResponse, error)
+	GetJwks(ctx context.Context, req *GetJwksRequest) (*GetJwksResponse, error)
+	HealthCheck(ctx context.Context, req *HealthCheckRequest) (*HealthCheckResponse, error)
+}
+
+type RegisterUserRequest struct {
+	Body auth.RegisterRequestRequest `json:"-"`
+}
+
+type RegisterUserResponse struct {
+	Code        int
+	Response201 *auth.RegisterResponseResponse
+	Response400 *model.Error
+	Response409 *model.Error
+	Response422 *model.Error
+	Response500 *model.Error
+}
+
+type LoginUserRequest struct {
+	Body auth.LoginRequestRequest `json:"-"`
+}
+
+type LoginUserResponse struct {
+	Code        int
+	Response200 *auth.LoginResponseResponse
+	Response400 *model.Error
+	Response401 *model.Error
+	Response422 *model.Error
+	Response500 *model.Error
+}
+
+type RefreshTokenRequest struct {
+	Body auth.RefreshRequestRequest `json:"-"`
+}
+
+type RefreshTokenResponse struct {
+	Code        int
+	Response200 *auth.RefreshResponseResponse
+	Response401 *model.Error
+	Response409 *model.Error
+	Response422 *model.Error
+	Response500 *model.Error
+}
+
+type LogoutUserRequest struct {
+	Body auth.LogoutRequestRequest `json:"-"`
+}
+
+type LogoutUserResponse struct {
+	Code        int
+	Response204 bool
+	Response401 *model.Error
+	Response422 *model.Error
+	Response500 *model.Error
 }
 
 type GetCurrentUserRequest struct {
@@ -17,21 +80,78 @@ type GetCurrentUserRequest struct {
 
 type GetCurrentUserResponse struct {
 	Code        int
-	Response200 *model.UserYaml
-	Response401 *model.ErrorYaml
-	Response500 *model.ErrorYaml
+	Response200 *models.UserResponse
+	Response401 *model.Error
+	Response500 *model.Error
 }
 
 type UpdateCurrentUserRequest struct {
-	Body model.UpdateUserRequestYaml `json:"-"`
+	Body profile.UpdateUserRequestRequest `json:"-"`
 }
 
 type UpdateCurrentUserResponse struct {
 	Code        int
-	Response200 *model.UserYaml
-	Response400 *model.ErrorYaml
-	Response401 *model.ErrorYaml
-	Response409 *model.ErrorYaml
-	Response422 *model.ErrorYaml
-	Response500 *model.ErrorYaml
+	Response200 *models.UserResponse
+	Response400 *model.Error
+	Response401 *model.Error
+	Response409 *model.Error
+	Response422 *model.Error
+	Response500 *model.Error
+}
+
+type GetUserByIDRequest struct {
+	ID string `param:"id"`
+}
+
+type GetUserByIDResponse struct {
+	Code        int
+	Response200 *models.UserRefResponse
+	Response401 *model.Error
+	Response404 *model.Error
+	Response422 *model.Error
+	Response500 *model.Error
+}
+
+type ListSessionsRequest struct {
+	PageSize  *int32  `query:"page_size"`
+	PageToken *string `query:"page_token"`
+}
+
+type ListSessionsResponse struct {
+	Code        int
+	Response200 *any
+	Response401 *model.Error
+	Response500 *model.Error
+}
+
+type DeleteSessionRequest struct {
+	ID string `param:"id"`
+}
+
+type DeleteSessionResponse struct {
+	Code        int
+	Response204 bool
+	Response401 *model.Error
+	Response403 *model.Error
+	Response404 *model.Error
+	Response422 *model.Error
+	Response500 *model.Error
+}
+
+type GetJwksRequest struct {
+}
+
+type GetJwksResponse struct {
+	Code        int
+	Response200 *any
+	Response500 *model.Error
+}
+
+type HealthCheckRequest struct {
+}
+
+type HealthCheckResponse struct {
+	Code        int
+	Response200 *any
+	Response503 *any
 }

@@ -5,8 +5,8 @@ package sdk
 import (
 	"fmt"
 	httpclient "github.com/ilovepitsa/oapicodegen/pkg/httpclient"
-	implclient "github.com/zvonilkaRU/api-schema/generated/iam/impl/httpclient"
-	apiclient "github.com/zvonilkaRU/api-schema/generated/iam/interfaces/client"
+	implclient "github.com/zvonilkaRU/api-schema/iam/impl/httpclient"
+	apiclient "github.com/zvonilkaRU/api-schema/iam/interfaces/client"
 )
 
 type SDK struct {

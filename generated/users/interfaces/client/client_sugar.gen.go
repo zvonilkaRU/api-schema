@@ -5,7 +5,8 @@ package client
 import (
 	"context"
 	"fmt"
-	model "github.com/zvonilkaRU/api-schema/generated/users/model"
+	auth "github.com/zvonilkaRU/api-schema/users/model/auth"
+	models "github.com/zvonilkaRU/api-schema/users/model/models"
 )
 
 type ClientSugared struct {
@@ -16,7 +17,51 @@ func NewClientSugared(impl Client) *ClientSugared {
 	return &ClientSugared{impl: impl}
 }
 
-func (x *ClientSugared) GetCurrentUser(ctx context.Context, req *GetCurrentUserRequest) (*model.UserYaml, error) {
+func (x *ClientSugared) RegisterUser(ctx context.Context, req *RegisterUserRequest) (*auth.RegisterResponseResponse, error) {
+	resp, err := x.impl.RegisterUser(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response201 != nil {
+		return resp.Response201, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) LoginUser(ctx context.Context, req *LoginUserRequest) (*auth.LoginResponseResponse, error) {
+	resp, err := x.impl.LoginUser(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) RefreshToken(ctx context.Context, req *RefreshTokenRequest) (*auth.RefreshResponseResponse, error) {
+	resp, err := x.impl.RefreshToken(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) LogoutUser(ctx context.Context, req *LogoutUserRequest) error {
+	resp, err := x.impl.LogoutUser(ctx, req)
+	if err != nil {
+		return err
+	}
+	if resp.Response204 {
+		return nil
+	}
+	return fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) GetCurrentUser(ctx context.Context, req *GetCurrentUserRequest) (*models.UserResponse, error) {
 	resp, err := x.impl.GetCurrentUser(ctx, req)
 	if err != nil {
 		return nil, err
@@ -27,8 +72,63 @@ func (x *ClientSugared) GetCurrentUser(ctx context.Context, req *GetCurrentUserR
 	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
-func (x *ClientSugared) UpdateCurrentUser(ctx context.Context, req *UpdateCurrentUserRequest) (*model.UserYaml, error) {
+func (x *ClientSugared) UpdateCurrentUser(ctx context.Context, req *UpdateCurrentUserRequest) (*models.UserResponse, error) {
 	resp, err := x.impl.UpdateCurrentUser(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) GetUserByID(ctx context.Context, req *GetUserByIDRequest) (*models.UserRefResponse, error) {
+	resp, err := x.impl.GetUserByID(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) ListSessions(ctx context.Context, req *ListSessionsRequest) (*any, error) {
+	resp, err := x.impl.ListSessions(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) DeleteSession(ctx context.Context, req *DeleteSessionRequest) error {
+	resp, err := x.impl.DeleteSession(ctx, req)
+	if err != nil {
+		return err
+	}
+	if resp.Response204 {
+		return nil
+	}
+	return fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) GetJwks(ctx context.Context, req *GetJwksRequest) (*any, error) {
+	resp, err := x.impl.GetJwks(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) HealthCheck(ctx context.Context, req *HealthCheckRequest) (*any, error) {
+	resp, err := x.impl.HealthCheck(ctx, req)
 	if err != nil {
 		return nil, err
 	}

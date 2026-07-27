@@ -1,0 +1,55 @@
+post:
+  tags:
+    - tuples
+  summary: Write relationship tuple
+  operationId: writeTuple
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../schemas/models/TupleRequest.yaml"
+  responses:
+    "201":
+      description: Tuple written.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/models/Tuple.yaml"
+    "400":
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/errors/Error.yaml"
+
+delete:
+  tags:
+    - tuples
+  summary: Delete relationship tuple
+  operationId: deleteTuple
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../schemas/models/TupleRequest.yaml"
+  responses:
+    "204":
+      description: Tuple deleted.
+    "404":
+      description: Tuple not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/errors/Error.yaml"

@@ -8,8 +8,9 @@ import (
 	"encoding/json"
 	"fmt"
 	httpclient "github.com/ilovepitsa/oapicodegen/pkg/httpclient"
-	apiclient "github.com/zvonilkaRU/api-schema/generated/iam/interfaces/client"
-	model "github.com/zvonilkaRU/api-schema/generated/iam/model"
+	apiclient "github.com/zvonilkaRU/api-schema/iam/interfaces/client"
+	errors "github.com/zvonilkaRU/api-schema/iam/model/errors"
+	models "github.com/zvonilkaRU/api-schema/iam/model/models"
 	"net/http"
 	"strings"
 )
@@ -49,19 +50,19 @@ func (c *Client) WriteTuple(ctx context.Context, req *apiclient.WriteTupleReques
 	result := &apiclient.WriteTupleResponse{Code: resp.StatusCode}
 	switch resp.StatusCode {
 	case 201:
-		var v any
+		var v models.TupleResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 201: %w", err)
 		}
 		result.Response201 = &v
 	case 400:
-		var v model.ErrorYaml
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 400: %w", err)
 		}
 		result.Response400 = &v
 	case 500:
-		var v model.ErrorYaml
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
@@ -95,11 +96,82 @@ func (c *Client) DeleteTuple(ctx context.Context, req *apiclient.DeleteTupleRequ
 	case 204:
 		result.Response204 = true
 	case 404:
-		var v model.ErrorYaml
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
 		result.Response404 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) CheckPermission(ctx context.Context, req *apiclient.CheckPermissionRequest) (*apiclient.CheckPermissionResponse, error) {
+	path := "/iam/v1/check"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	body, err := json.Marshal(req.Body)
+	if err != nil {
+		return nil, fmt.Errorf("encode body: %w", err)
+	}
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", u.String(), bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+	httpReq.Header.Set("Content-Type", "application/json")
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.CheckPermissionResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v models.CheckResponseResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 400:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 400: %w", err)
+		}
+		result.Response400 = &v
+	case 500:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 500: %w", err)
+		}
+		result.Response500 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) HealthCheck(ctx context.Context, req *apiclient.HealthCheckRequest) (*apiclient.HealthCheckResponse, error) {
+	path := "/iam/v1/health"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.HealthCheckResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v any
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
 	default:
 		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
 	}

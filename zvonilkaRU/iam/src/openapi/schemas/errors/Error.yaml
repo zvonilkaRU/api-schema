@@ -1,0 +1,26 @@
+name: Error
+description: Стандартная ошибка API. Возвращается во всех не-2xx ответах.
+type: object
+required:
+  - code
+  - message
+properties:
+  code:
+    type: string
+    description: Машинный код ошибки (e.g., "INVALID_ARGUMENT", "NOT_FOUND", "PERMISSION_DENIED").
+    x-validations: ["Size >=1", "Size <=64"]
+  message:
+    type: string
+    description: Человекочитаемое сообщение.
+    x-validations: ["Size >=1", "Size <=512"]
+  details:
+    type: array
+    description: Дополнительные детали (могут быть специфичны для кода ошибки).
+    items:
+      type: object
+      additionalProperties: true
+  request_id:
+    type: string
+    description: Trace ID запроса (для корреляции с логами).
+    x-validations: ["Size <=64"]
+additionalProperties: false

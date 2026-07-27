@@ -8,9 +8,12 @@ import (
 	"encoding/json"
 	"fmt"
 	httpclient "github.com/ilovepitsa/oapicodegen/pkg/httpclient"
-	apiclient "github.com/zvonilkaRU/api-schema/generated/users/interfaces/client"
-	model "github.com/zvonilkaRU/api-schema/generated/users/model"
+	apiclient "github.com/zvonilkaRU/api-schema/users/interfaces/client"
+	model "github.com/zvonilkaRU/api-schema/users/model"
+	auth "github.com/zvonilkaRU/api-schema/users/model/auth"
+	models "github.com/zvonilkaRU/api-schema/users/model/models"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -26,6 +29,220 @@ func NewClient(baseURL string, opts ...httpclient.Option) (*Client, error) {
 		return nil, err
 	}
 	return &Client{http: c}, nil
+}
+
+func (c *Client) RegisterUser(ctx context.Context, req *apiclient.RegisterUserRequest) (*apiclient.RegisterUserResponse, error) {
+	path := "/users/v1/auth/register"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	body, err := json.Marshal(req.Body)
+	if err != nil {
+		return nil, fmt.Errorf("encode body: %w", err)
+	}
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", u.String(), bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+	httpReq.Header.Set("Content-Type", "application/json")
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.RegisterUserResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 201:
+		var v auth.RegisterResponseResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 201: %w", err)
+		}
+		result.Response201 = &v
+	case 400:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 400: %w", err)
+		}
+		result.Response400 = &v
+	case 409:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 409: %w", err)
+		}
+		result.Response409 = &v
+	case 422:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 422: %w", err)
+		}
+		result.Response422 = &v
+	case 500:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 500: %w", err)
+		}
+		result.Response500 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) LoginUser(ctx context.Context, req *apiclient.LoginUserRequest) (*apiclient.LoginUserResponse, error) {
+	path := "/users/v1/auth/login"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	body, err := json.Marshal(req.Body)
+	if err != nil {
+		return nil, fmt.Errorf("encode body: %w", err)
+	}
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", u.String(), bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+	httpReq.Header.Set("Content-Type", "application/json")
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.LoginUserResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v auth.LoginResponseResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 400:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 400: %w", err)
+		}
+		result.Response400 = &v
+	case 401:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 422:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 422: %w", err)
+		}
+		result.Response422 = &v
+	case 500:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 500: %w", err)
+		}
+		result.Response500 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) RefreshToken(ctx context.Context, req *apiclient.RefreshTokenRequest) (*apiclient.RefreshTokenResponse, error) {
+	path := "/users/v1/auth/refresh"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	body, err := json.Marshal(req.Body)
+	if err != nil {
+		return nil, fmt.Errorf("encode body: %w", err)
+	}
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", u.String(), bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+	httpReq.Header.Set("Content-Type", "application/json")
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.RefreshTokenResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v auth.RefreshResponseResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 401:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 409:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 409: %w", err)
+		}
+		result.Response409 = &v
+	case 422:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 422: %w", err)
+		}
+		result.Response422 = &v
+	case 500:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 500: %w", err)
+		}
+		result.Response500 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) LogoutUser(ctx context.Context, req *apiclient.LogoutUserRequest) (*apiclient.LogoutUserResponse, error) {
+	path := "/users/v1/auth/logout"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	body, err := json.Marshal(req.Body)
+	if err != nil {
+		return nil, fmt.Errorf("encode body: %w", err)
+	}
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", u.String(), bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+	httpReq.Header.Set("Content-Type", "application/json")
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.LogoutUserResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 204:
+		result.Response204 = true
+	case 401:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 422:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 422: %w", err)
+		}
+		result.Response422 = &v
+	case 500:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 500: %w", err)
+		}
+		result.Response500 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
 }
 
 func (c *Client) GetCurrentUser(ctx context.Context, req *apiclient.GetCurrentUserRequest) (*apiclient.GetCurrentUserResponse, error) {
@@ -44,19 +261,19 @@ func (c *Client) GetCurrentUser(ctx context.Context, req *apiclient.GetCurrentUs
 	result := &apiclient.GetCurrentUserResponse{Code: resp.StatusCode}
 	switch resp.StatusCode {
 	case 200:
-		var v model.UserYaml
+		var v models.UserResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 200: %w", err)
 		}
 		result.Response200 = &v
 	case 401:
-		var v model.ErrorYaml
+		var v model.Error
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 401: %w", err)
 		}
 		result.Response401 = &v
 	case 500:
-		var v model.ErrorYaml
+		var v model.Error
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
@@ -88,41 +305,260 @@ func (c *Client) UpdateCurrentUser(ctx context.Context, req *apiclient.UpdateCur
 	result := &apiclient.UpdateCurrentUserResponse{Code: resp.StatusCode}
 	switch resp.StatusCode {
 	case 200:
-		var v model.UserYaml
+		var v models.UserResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 200: %w", err)
 		}
 		result.Response200 = &v
 	case 400:
-		var v model.ErrorYaml
+		var v model.Error
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 400: %w", err)
 		}
 		result.Response400 = &v
 	case 401:
-		var v model.ErrorYaml
+		var v model.Error
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 401: %w", err)
 		}
 		result.Response401 = &v
 	case 409:
-		var v model.ErrorYaml
+		var v model.Error
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 409: %w", err)
 		}
 		result.Response409 = &v
 	case 422:
-		var v model.ErrorYaml
+		var v model.Error
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 422: %w", err)
 		}
 		result.Response422 = &v
 	case 500:
-		var v model.ErrorYaml
+		var v model.Error
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
 		result.Response500 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) GetUserByID(ctx context.Context, req *apiclient.GetUserByIDRequest) (*apiclient.GetUserByIDResponse, error) {
+	path := "/users/v1/users/{id}"
+	path = strings.Replace(path, "{id}", url.PathEscape(fmt.Sprint(req.ID)), 1)
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.GetUserByIDResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v models.UserRefResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 401:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 404:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 404: %w", err)
+		}
+		result.Response404 = &v
+	case 422:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 422: %w", err)
+		}
+		result.Response422 = &v
+	case 500:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 500: %w", err)
+		}
+		result.Response500 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) ListSessions(ctx context.Context, req *apiclient.ListSessionsRequest) (*apiclient.ListSessionsResponse, error) {
+	path := "/users/v1/sessions"
+	q := url.Values{}
+	if req.PageSize != nil {
+		q.Set("page_size", fmt.Sprint(*req.PageSize))
+	}
+	if req.PageToken != nil {
+		q.Set("page_token", fmt.Sprint(*req.PageToken))
+	}
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	u.RawQuery = q.Encode()
+	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.ListSessionsResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v any
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 401:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 500:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 500: %w", err)
+		}
+		result.Response500 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) DeleteSession(ctx context.Context, req *apiclient.DeleteSessionRequest) (*apiclient.DeleteSessionResponse, error) {
+	path := "/users/v1/sessions/{id}"
+	path = strings.Replace(path, "{id}", url.PathEscape(fmt.Sprint(req.ID)), 1)
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "DELETE", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.DeleteSessionResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 204:
+		result.Response204 = true
+	case 401:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 403:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 403: %w", err)
+		}
+		result.Response403 = &v
+	case 404:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 404: %w", err)
+		}
+		result.Response404 = &v
+	case 422:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 422: %w", err)
+		}
+		result.Response422 = &v
+	case 500:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 500: %w", err)
+		}
+		result.Response500 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) GetJwks(ctx context.Context, req *apiclient.GetJwksRequest) (*apiclient.GetJwksResponse, error) {
+	path := "/users/v1/.well-known/jwks.json"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.GetJwksResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v any
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 500:
+		var v model.Error
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 500: %w", err)
+		}
+		result.Response500 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) HealthCheck(ctx context.Context, req *apiclient.HealthCheckRequest) (*apiclient.HealthCheckResponse, error) {
+	path := "/users/v1/health"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.HealthCheckResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v any
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 503:
+		var v any
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 503: %w", err)
+		}
+		result.Response503 = &v
 	default:
 		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
 	}

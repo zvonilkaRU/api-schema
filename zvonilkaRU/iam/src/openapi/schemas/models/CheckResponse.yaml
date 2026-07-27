@@ -1,0 +1,10 @@
+name: CheckResponse
+description: Результат проверки.
+type: object
+required:
+  - allow
+properties:
+  allow:
+    type: boolean
+    description: true — отношение существует.
+additionalProperties: false

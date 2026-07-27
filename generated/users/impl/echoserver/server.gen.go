@@ -6,8 +6,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/labstack/echo/v4"
-	apiclient "github.com/zvonilkaRU/api-schema/generated/users/interfaces/client"
-	apiserver "github.com/zvonilkaRU/api-schema/generated/users/interfaces/server"
+	apiclient "github.com/zvonilkaRU/api-schema/users/interfaces/client"
+	apiserver "github.com/zvonilkaRU/api-schema/users/interfaces/server"
 	"io"
 	"net/http"
 )
@@ -39,8 +39,134 @@ func bindBody(c echo.Context, dst any) error {
 }
 
 func (s *ServerHTTP) Register(e *echo.Echo) {
+	e.POST("/users/v1/auth/register", s.registerUser)
+	e.POST("/users/v1/auth/login", s.loginUser)
+	e.POST("/users/v1/auth/refresh", s.refreshToken)
+	e.POST("/users/v1/auth/logout", s.logoutUser)
 	e.GET("/users/v1/users/me", s.getCurrentUser)
 	e.PATCH("/users/v1/users/me", s.updateCurrentUser)
+	e.GET("/users/v1/users/:id", s.getUserByID)
+	e.GET("/users/v1/sessions", s.listSessions)
+	e.DELETE("/users/v1/sessions/:id", s.deleteSession)
+	e.GET("/users/v1/.well-known/jwks.json", s.getJwks)
+	e.GET("/users/v1/health", s.healthCheck)
+}
+
+func (s *ServerHTTP) registerUser(c echo.Context) error {
+	req := &apiclient.RegisterUserRequest{}
+	if err := bindBody(c, &req.Body); err != nil {
+		return err
+	}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.RegisterUser(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response201 != nil {
+		return c.JSON(201, resp.Response201)
+	}
+	if resp.Response400 != nil {
+		return c.JSON(400, resp.Response400)
+	}
+	if resp.Response409 != nil {
+		return c.JSON(409, resp.Response409)
+	}
+	if resp.Response422 != nil {
+		return c.JSON(422, resp.Response422)
+	}
+	if resp.Response500 != nil {
+		return c.JSON(500, resp.Response500)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) loginUser(c echo.Context) error {
+	req := &apiclient.LoginUserRequest{}
+	if err := bindBody(c, &req.Body); err != nil {
+		return err
+	}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.LoginUser(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response400 != nil {
+		return c.JSON(400, resp.Response400)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response422 != nil {
+		return c.JSON(422, resp.Response422)
+	}
+	if resp.Response500 != nil {
+		return c.JSON(500, resp.Response500)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) refreshToken(c echo.Context) error {
+	req := &apiclient.RefreshTokenRequest{}
+	if err := bindBody(c, &req.Body); err != nil {
+		return err
+	}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.RefreshToken(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response409 != nil {
+		return c.JSON(409, resp.Response409)
+	}
+	if resp.Response422 != nil {
+		return c.JSON(422, resp.Response422)
+	}
+	if resp.Response500 != nil {
+		return c.JSON(500, resp.Response500)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) logoutUser(c echo.Context) error {
+	req := &apiclient.LogoutUserRequest{}
+	if err := bindBody(c, &req.Body); err != nil {
+		return err
+	}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.LogoutUser(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response204 {
+		return c.NoContent(204)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response422 != nil {
+		return c.JSON(422, resp.Response422)
+	}
+	if resp.Response500 != nil {
+		return c.JSON(500, resp.Response500)
+	}
+	return c.NoContent(resp.Code)
 }
 
 func (s *ServerHTTP) getCurrentUser(c echo.Context) error {
@@ -93,6 +219,120 @@ func (s *ServerHTTP) updateCurrentUser(c echo.Context) error {
 	}
 	if resp.Response500 != nil {
 		return c.JSON(500, resp.Response500)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) getUserByID(c echo.Context) error {
+	req := &apiclient.GetUserByIDRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.GetUserByID(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response404 != nil {
+		return c.JSON(404, resp.Response404)
+	}
+	if resp.Response422 != nil {
+		return c.JSON(422, resp.Response422)
+	}
+	if resp.Response500 != nil {
+		return c.JSON(500, resp.Response500)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) listSessions(c echo.Context) error {
+	req := &apiclient.ListSessionsRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.ListSessions(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response500 != nil {
+		return c.JSON(500, resp.Response500)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) deleteSession(c echo.Context) error {
+	req := &apiclient.DeleteSessionRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.DeleteSession(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response204 {
+		return c.NoContent(204)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response403 != nil {
+		return c.JSON(403, resp.Response403)
+	}
+	if resp.Response404 != nil {
+		return c.JSON(404, resp.Response404)
+	}
+	if resp.Response422 != nil {
+		return c.JSON(422, resp.Response422)
+	}
+	if resp.Response500 != nil {
+		return c.JSON(500, resp.Response500)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) getJwks(c echo.Context) error {
+	req := &apiclient.GetJwksRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.GetJwks(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response500 != nil {
+		return c.JSON(500, resp.Response500)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) healthCheck(c echo.Context) error {
+	req := &apiclient.HealthCheckRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.HealthCheck(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response503 != nil {
+		return c.JSON(503, resp.Response503)
 	}
 	return c.NoContent(resp.Code)
 }

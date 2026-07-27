@@ -1,0 +1,21 @@
+name: TupleRequest
+description: Запрос на запись/удаление кортежа отношения.
+type: object
+required:
+  - user
+  - relation
+  - object
+properties:
+  user:
+    type: string
+    description: Субъект в формате "type:id".
+    x-validations: ["Size >=1", "Size <=256"]
+  relation:
+    type: string
+    description: Отношение.
+    x-validations: ["Size >=1", "Size <=64"]
+  object:
+    type: string
+    description: Объект в формате "type:id".
+    x-validations: ["Size >=1", "Size <=256"]
+additionalProperties: false

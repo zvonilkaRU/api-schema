@@ -4,10 +4,12 @@ package server
 
 import (
 	"context"
-	client "github.com/zvonilkaRU/api-schema/generated/iam/interfaces/client"
+	client "github.com/zvonilkaRU/api-schema/iam/interfaces/client"
 )
 
 type Server interface {
 	WriteTuple(ctx context.Context, req *client.WriteTupleRequest) (*client.WriteTupleResponse, error)
 	DeleteTuple(ctx context.Context, req *client.DeleteTupleRequest) (*client.DeleteTupleResponse, error)
+	CheckPermission(ctx context.Context, req *client.CheckPermissionRequest) (*client.CheckPermissionResponse, error)
+	HealthCheck(ctx context.Context, req *client.HealthCheckRequest) (*client.HealthCheckResponse, error)
 }

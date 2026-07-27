@@ -1,0 +1,15 @@
+name: Tuple
+description: Сохранённый кортеж отношения.
+type: object
+required:
+  - user
+  - relation
+  - object
+properties:
+  user:
+    type: string
+  relation:
+    type: string
+  object:
+    type: string
+additionalProperties: false

@@ -15,10 +15,21 @@ paths:
   /iam/v1/tuples:
     $ref: "./resources/v1/tuples.yaml"
   /iam/v1/check:
-    $ref: "./resources/v1/check.yaml#/post"
+    $ref: "./resources/v1/check.yaml"
   /iam/v1/health:
-    $ref: "./resources/v1/health.yaml#/get"
+    $ref: "./resources/v1/health.yaml"
 components:
+  schemas:
+    Error:
+      $ref: "./schemas/errors/Error.yaml"
+    TupleRequest:
+      $ref: "./schemas/models/TupleRequest.yaml"
+    Tuple:
+      $ref: "./schemas/models/Tuple.yaml"
+    CheckRequest:
+      $ref: "./schemas/models/CheckRequest.yaml"
+    CheckResponse:
+      $ref: "./schemas/models/CheckResponse.yaml"
   securitySchemes:
     bearerAuth:
       type: http

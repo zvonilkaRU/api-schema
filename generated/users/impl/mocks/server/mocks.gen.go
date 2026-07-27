@@ -4,8 +4,8 @@ package mock_server
 
 import (
 	"context"
-	apiclient "github.com/zvonilkaRU/api-schema/generated/users/interfaces/client"
-	apiserver "github.com/zvonilkaRU/api-schema/generated/users/interfaces/server"
+	apiclient "github.com/zvonilkaRU/api-schema/users/interfaces/client"
+	apiserver "github.com/zvonilkaRU/api-schema/users/interfaces/server"
 	"go.uber.org/mock/gomock"
 	"reflect"
 )
@@ -29,6 +29,58 @@ func NewMockServer(ctrl *gomock.Controller) *MockServer {
 
 func (m *MockServer) EXPECT() *MockServerMockRecorder {
 	return m.recorder
+}
+
+func (m *MockServer) RegisterUser(arg0 context.Context, arg1 *apiclient.RegisterUserRequest) (*apiclient.RegisterUserResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RegisterUser", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.RegisterUserResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) RegisterUser(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterUser", reflect.TypeOf((*MockServer)(nil).RegisterUser), arg0, arg1)
+}
+
+func (m *MockServer) LoginUser(arg0 context.Context, arg1 *apiclient.LoginUserRequest) (*apiclient.LoginUserResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "LoginUser", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.LoginUserResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) LoginUser(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LoginUser", reflect.TypeOf((*MockServer)(nil).LoginUser), arg0, arg1)
+}
+
+func (m *MockServer) RefreshToken(arg0 context.Context, arg1 *apiclient.RefreshTokenRequest) (*apiclient.RefreshTokenResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RefreshToken", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.RefreshTokenResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) RefreshToken(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RefreshToken", reflect.TypeOf((*MockServer)(nil).RefreshToken), arg0, arg1)
+}
+
+func (m *MockServer) LogoutUser(arg0 context.Context, arg1 *apiclient.LogoutUserRequest) (*apiclient.LogoutUserResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "LogoutUser", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.LogoutUserResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) LogoutUser(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LogoutUser", reflect.TypeOf((*MockServer)(nil).LogoutUser), arg0, arg1)
 }
 
 func (m *MockServer) GetCurrentUser(arg0 context.Context, arg1 *apiclient.GetCurrentUserRequest) (*apiclient.GetCurrentUserResponse, error) {
@@ -55,4 +107,69 @@ func (m *MockServer) UpdateCurrentUser(arg0 context.Context, arg1 *apiclient.Upd
 func (mr *MockServerMockRecorder) UpdateCurrentUser(arg0, arg1 any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCurrentUser", reflect.TypeOf((*MockServer)(nil).UpdateCurrentUser), arg0, arg1)
+}
+
+func (m *MockServer) GetUserByID(arg0 context.Context, arg1 *apiclient.GetUserByIDRequest) (*apiclient.GetUserByIDResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserByID", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.GetUserByIDResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) GetUserByID(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByID", reflect.TypeOf((*MockServer)(nil).GetUserByID), arg0, arg1)
+}
+
+func (m *MockServer) ListSessions(arg0 context.Context, arg1 *apiclient.ListSessionsRequest) (*apiclient.ListSessionsResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListSessions", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.ListSessionsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) ListSessions(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListSessions", reflect.TypeOf((*MockServer)(nil).ListSessions), arg0, arg1)
+}
+
+func (m *MockServer) DeleteSession(arg0 context.Context, arg1 *apiclient.DeleteSessionRequest) (*apiclient.DeleteSessionResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteSession", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.DeleteSessionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) DeleteSession(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteSession", reflect.TypeOf((*MockServer)(nil).DeleteSession), arg0, arg1)
+}
+
+func (m *MockServer) GetJwks(arg0 context.Context, arg1 *apiclient.GetJwksRequest) (*apiclient.GetJwksResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetJwks", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.GetJwksResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) GetJwks(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetJwks", reflect.TypeOf((*MockServer)(nil).GetJwks), arg0, arg1)
+}
+
+func (m *MockServer) HealthCheck(arg0 context.Context, arg1 *apiclient.HealthCheckRequest) (*apiclient.HealthCheckResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "HealthCheck", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.HealthCheckResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) HealthCheck(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HealthCheck", reflect.TypeOf((*MockServer)(nil).HealthCheck), arg0, arg1)
 }
