@@ -4,8 +4,8 @@ package client
 
 import (
 	"context"
-	errors "github.com/zvonilkaRU/api-schema/iam/model/errors"
-	models "github.com/zvonilkaRU/api-schema/iam/model/models"
+	errors "github.com/zvonilkaRU/api-schema/generated/iam/model/errors"
+	models "github.com/zvonilkaRU/api-schema/generated/iam/model/models"
 )
 
 type Client interface {

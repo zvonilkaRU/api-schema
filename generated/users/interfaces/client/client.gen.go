@@ -4,10 +4,10 @@ package client
 
 import (
 	"context"
-	auth "github.com/zvonilkaRU/api-schema/users/model/auth"
-	errors "github.com/zvonilkaRU/api-schema/users/model/errors"
-	models "github.com/zvonilkaRU/api-schema/users/model/models"
-	profile "github.com/zvonilkaRU/api-schema/users/model/profile"
+	auth "github.com/zvonilkaRU/api-schema/generated/users/model/auth"
+	errors "github.com/zvonilkaRU/api-schema/generated/users/model/errors"
+	models "github.com/zvonilkaRU/api-schema/generated/users/model/models"
+	profile "github.com/zvonilkaRU/api-schema/generated/users/model/profile"
 )
 
 type Client interface {

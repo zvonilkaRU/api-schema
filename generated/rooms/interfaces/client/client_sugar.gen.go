@@ -5,7 +5,7 @@ package client
 import (
 	"context"
 	"fmt"
-	models "github.com/zvonilkaRU/api-schema/rooms/model/models"
+	models "github.com/zvonilkaRU/api-schema/generated/rooms/model/models"
 )
 
 type ClientSugared struct {

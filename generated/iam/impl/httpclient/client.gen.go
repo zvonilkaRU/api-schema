@@ -8,9 +8,9 @@ import (
 	"encoding/json"
 	"fmt"
 	httpclient "github.com/ilovepitsa/oapicodegen/pkg/httpclient"
-	apiclient "github.com/zvonilkaRU/api-schema/iam/interfaces/client"
-	errors "github.com/zvonilkaRU/api-schema/iam/model/errors"
-	models "github.com/zvonilkaRU/api-schema/iam/model/models"
+	apiclient "github.com/zvonilkaRU/api-schema/generated/iam/interfaces/client"
+	errors "github.com/zvonilkaRU/api-schema/generated/iam/model/errors"
+	models "github.com/zvonilkaRU/api-schema/generated/iam/model/models"
 	"net/http"
 	"strings"
 )

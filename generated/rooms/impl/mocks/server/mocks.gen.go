@@ -4,8 +4,8 @@ package mock_server
 
 import (
 	"context"
-	apiclient "github.com/zvonilkaRU/api-schema/rooms/interfaces/client"
-	apiserver "github.com/zvonilkaRU/api-schema/rooms/interfaces/server"
+	apiclient "github.com/zvonilkaRU/api-schema/generated/rooms/interfaces/client"
+	apiserver "github.com/zvonilkaRU/api-schema/generated/rooms/interfaces/server"
 	"go.uber.org/mock/gomock"
 	"reflect"
 )
