@@ -4,7 +4,7 @@ package model
 
 import (
 	"fmt"
-	validator "nschugorev/oapigenerator/pkg/validator"
+	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
 )
 
 // Публичный профиль пользователя. Без login и email. Возвращается из /users/{id} другим пользователям/сервисам.

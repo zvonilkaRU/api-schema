@@ -4,7 +4,7 @@ package model
 
 import (
 	"fmt"
-	validator "nschugorev/oapigenerator/pkg/validator"
+	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
 )
 
 // Пара access + refresh токенов. Возвращается из auth-эндпоинтов. Общая для всех сервисов, использующих Users/Auth.

@@ -4,7 +4,7 @@ package model
 
 import (
 	"fmt"
-	validator "nschugorev/oapigenerator/pkg/validator"
+	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
 )
 
 // Стандартная ошибка API. Возвращается во всех не-2xx ответах.

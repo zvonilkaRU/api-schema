@@ -4,7 +4,7 @@ package model
 
 import (
 	"fmt"
-	validator "nschugorev/oapigenerator/pkg/validator"
+	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
 )
 
 // Ответ POST /auth/refresh. Новый access + новый refresh. Старый refresh инвалидируется.

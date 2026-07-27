@@ -1,0 +1,60 @@
+post:
+  tags:
+    - check
+  summary: Check permission
+  description: |
+    Проверяет, имеет ли пользователь право на отношение к объекту.
+    Используется другими сервисами server-to-server.
+    Поддерживает ReBAC — разрешения вычисляются через цепочки отношений.
+  operationId: checkPermission
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - user
+            - relation
+            - object
+          properties:
+            user:
+              type: string
+              description: Субъект в формате "type:id".
+              x-validations: ["Size >=1", "Size <=256"]
+            relation:
+              type: string
+              description: Отношение.
+              x-validations: ["Size >=1", "Size <=64"]
+            object:
+              type: string
+              description: Объект в формате "type:id".
+              x-validations: ["Size >=1", "Size <=256"]
+          additionalProperties: false
+  responses:
+    "200":
+      description: Permission check result.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - allow
+            properties:
+              allow:
+                type: boolean
+            additionalProperties: false
+    "400":
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../common/src/openapi/schemas/errors/Error.yaml"

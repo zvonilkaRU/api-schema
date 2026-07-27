@@ -1,0 +1,27 @@
+openapi: 3.1.0
+info:
+  title: Zvonilka IAM API
+  description: |
+    Identity & Access Management на базе OpenFGA.
+    Поддерживает ReBAC (Relationship-Based Access Control).
+    Authorization model: `authz/model.fga`.
+  version: 1.0.0
+servers:
+  - url: https://iam.zvonilka.space
+    description: Production
+  - url: http://localhost:8080
+    description: Local dev
+paths:
+  /iam/v1/tuples:
+    $ref: "./resources/v1/tuples.yaml"
+  /iam/v1/check:
+    $ref: "./resources/v1/check.yaml#/post"
+  /iam/v1/health:
+    $ref: "./resources/v1/health.yaml#/get"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT access token (ES256) от Users/Auth сервиса. IAM верифицирует через JWKS.
