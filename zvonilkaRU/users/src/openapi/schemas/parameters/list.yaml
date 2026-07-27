@@ -1,0 +1,41 @@
+# Общие query-параметры для list-эндпоинтов.
+# Используются через $ref в resource-файлах.
+
+pageSizeParam:
+  name: page_size
+  in: query
+  description: Количество элементов на странице.
+  required: false
+  schema:
+    type: integer
+    format: int32
+    default: 20
+    minimum: 1
+    maximum: 100
+
+pageTokenParam:
+  name: page_token
+  in: query
+  description: Opaque токен страницы.
+  required: false
+  schema:
+    type: string
+    maxLength: 256
+
+filterParam:
+  name: filter
+  in: query
+  description: SQL-подобный фильтр.
+  required: false
+  schema:
+    type: string
+    maxLength: 1024
+
+orderByParam:
+  name: order_by
+  in: query
+  description: Поле сортировки (e.g., "created_at desc").
+  required: false
+  schema:
+    type: string
+    maxLength: 128

@@ -3,7 +3,7 @@ module github.com/zvonilkaRU/api-schema
 go 1.26.3
 
 require (
-	github.com/ilovepitsa/oapicodegen v1.1.2
+	github.com/ilovepitsa/oapicodegen v1.1.7
 	github.com/labstack/echo/v4 v4.15.4
 	go.uber.org/mock v0.6.0
 )

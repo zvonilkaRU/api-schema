@@ -9,8 +9,8 @@ import (
 	"fmt"
 	httpclient "github.com/ilovepitsa/oapicodegen/pkg/httpclient"
 	apiclient "github.com/zvonilkaRU/api-schema/users/interfaces/client"
-	model "github.com/zvonilkaRU/api-schema/users/model"
 	auth "github.com/zvonilkaRU/api-schema/users/model/auth"
+	errors "github.com/zvonilkaRU/api-schema/users/model/errors"
 	models "github.com/zvonilkaRU/api-schema/users/model/models"
 	"net/http"
 	"net/url"
@@ -58,25 +58,25 @@ func (c *Client) RegisterUser(ctx context.Context, req *apiclient.RegisterUserRe
 		}
 		result.Response201 = &v
 	case 400:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 400: %w", err)
 		}
 		result.Response400 = &v
 	case 409:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 409: %w", err)
 		}
 		result.Response409 = &v
 	case 422:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 422: %w", err)
 		}
 		result.Response422 = &v
 	case 500:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
@@ -114,25 +114,25 @@ func (c *Client) LoginUser(ctx context.Context, req *apiclient.LoginUserRequest)
 		}
 		result.Response200 = &v
 	case 400:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 400: %w", err)
 		}
 		result.Response400 = &v
 	case 401:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 401: %w", err)
 		}
 		result.Response401 = &v
 	case 422:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 422: %w", err)
 		}
 		result.Response422 = &v
 	case 500:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
@@ -170,25 +170,25 @@ func (c *Client) RefreshToken(ctx context.Context, req *apiclient.RefreshTokenRe
 		}
 		result.Response200 = &v
 	case 401:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 401: %w", err)
 		}
 		result.Response401 = &v
 	case 409:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 409: %w", err)
 		}
 		result.Response409 = &v
 	case 422:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 422: %w", err)
 		}
 		result.Response422 = &v
 	case 500:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
@@ -222,19 +222,19 @@ func (c *Client) LogoutUser(ctx context.Context, req *apiclient.LogoutUserReques
 	case 204:
 		result.Response204 = true
 	case 401:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 401: %w", err)
 		}
 		result.Response401 = &v
 	case 422:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 422: %w", err)
 		}
 		result.Response422 = &v
 	case 500:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
@@ -267,13 +267,13 @@ func (c *Client) GetCurrentUser(ctx context.Context, req *apiclient.GetCurrentUs
 		}
 		result.Response200 = &v
 	case 401:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 401: %w", err)
 		}
 		result.Response401 = &v
 	case 500:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
@@ -311,31 +311,31 @@ func (c *Client) UpdateCurrentUser(ctx context.Context, req *apiclient.UpdateCur
 		}
 		result.Response200 = &v
 	case 400:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 400: %w", err)
 		}
 		result.Response400 = &v
 	case 401:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 401: %w", err)
 		}
 		result.Response401 = &v
 	case 409:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 409: %w", err)
 		}
 		result.Response409 = &v
 	case 422:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 422: %w", err)
 		}
 		result.Response422 = &v
 	case 500:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
@@ -369,25 +369,25 @@ func (c *Client) GetUserByID(ctx context.Context, req *apiclient.GetUserByIDRequ
 		}
 		result.Response200 = &v
 	case 401:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 401: %w", err)
 		}
 		result.Response401 = &v
 	case 404:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
 		result.Response404 = &v
 	case 422:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 422: %w", err)
 		}
 		result.Response422 = &v
 	case 500:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
@@ -428,13 +428,13 @@ func (c *Client) ListSessions(ctx context.Context, req *apiclient.ListSessionsRe
 		}
 		result.Response200 = &v
 	case 401:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 401: %w", err)
 		}
 		result.Response401 = &v
 	case 500:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
@@ -464,31 +464,31 @@ func (c *Client) DeleteSession(ctx context.Context, req *apiclient.DeleteSession
 	case 204:
 		result.Response204 = true
 	case 401:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 401: %w", err)
 		}
 		result.Response401 = &v
 	case 403:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 403: %w", err)
 		}
 		result.Response403 = &v
 	case 404:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
 		result.Response404 = &v
 	case 422:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 422: %w", err)
 		}
 		result.Response422 = &v
 	case 500:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
@@ -521,7 +521,7 @@ func (c *Client) GetJwks(ctx context.Context, req *apiclient.GetJwksRequest) (*a
 		}
 		result.Response200 = &v
 	case 500:
-		var v model.Error
+		var v errors.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}

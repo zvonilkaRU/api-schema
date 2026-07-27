@@ -1,7 +1,7 @@
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/ilovepitsa/oapicodegen v1.1.2 h1:wjsMQOihofrPVaOPTEKV5A5VjW0TDPj03yBJHgaURqM=
-github.com/ilovepitsa/oapicodegen v1.1.2/go.mod h1:Io+47sHnvHGAVfzV8+iYeirT2lw2h6JTZCQEAAzk3wM=
+github.com/ilovepitsa/oapicodegen v1.1.7 h1:sZxaHC9KX+m0cOL0PczI15GtQ+C2V2ruad1hZLOuUnc=
+github.com/ilovepitsa/oapicodegen v1.1.7/go.mod h1:Io+47sHnvHGAVfzV8+iYeirT2lw2h6JTZCQEAAzk3wM=
 github.com/labstack/echo/v4 v4.15.4 h1:DL45vVYa+BWE+XuW+zZNd9H0YEdZ80UAWJGcTVW4EVs=
 github.com/labstack/echo/v4 v4.15.4/go.mod h1:CuMetKIRwsuO/qlAgMq+KTAalwGoB/h4tC+yPdrTj1g=
 github.com/labstack/gommon v0.5.0 h1:6VSQ2NOzsnEJ5W6+84E0RbcaDDmgB6NIAzWCczTEe6c=

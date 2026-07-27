@@ -4,8 +4,8 @@ package client
 
 import (
 	"context"
-	model "github.com/zvonilkaRU/api-schema/users/model"
 	auth "github.com/zvonilkaRU/api-schema/users/model/auth"
+	errors "github.com/zvonilkaRU/api-schema/users/model/errors"
 	models "github.com/zvonilkaRU/api-schema/users/model/models"
 	profile "github.com/zvonilkaRU/api-schema/users/model/profile"
 )
@@ -31,10 +31,10 @@ type RegisterUserRequest struct {
 type RegisterUserResponse struct {
 	Code        int
 	Response201 *auth.RegisterResponseResponse
-	Response400 *model.Error
-	Response409 *model.Error
-	Response422 *model.Error
-	Response500 *model.Error
+	Response400 *errors.ErrorResponse
+	Response409 *errors.ErrorResponse
+	Response422 *errors.ErrorResponse
+	Response500 *errors.ErrorResponse
 }
 
 type LoginUserRequest struct {
@@ -44,10 +44,10 @@ type LoginUserRequest struct {
 type LoginUserResponse struct {
 	Code        int
 	Response200 *auth.LoginResponseResponse
-	Response400 *model.Error
-	Response401 *model.Error
-	Response422 *model.Error
-	Response500 *model.Error
+	Response400 *errors.ErrorResponse
+	Response401 *errors.ErrorResponse
+	Response422 *errors.ErrorResponse
+	Response500 *errors.ErrorResponse
 }
 
 type RefreshTokenRequest struct {
@@ -57,10 +57,10 @@ type RefreshTokenRequest struct {
 type RefreshTokenResponse struct {
 	Code        int
 	Response200 *auth.RefreshResponseResponse
-	Response401 *model.Error
-	Response409 *model.Error
-	Response422 *model.Error
-	Response500 *model.Error
+	Response401 *errors.ErrorResponse
+	Response409 *errors.ErrorResponse
+	Response422 *errors.ErrorResponse
+	Response500 *errors.ErrorResponse
 }
 
 type LogoutUserRequest struct {
@@ -70,9 +70,9 @@ type LogoutUserRequest struct {
 type LogoutUserResponse struct {
 	Code        int
 	Response204 bool
-	Response401 *model.Error
-	Response422 *model.Error
-	Response500 *model.Error
+	Response401 *errors.ErrorResponse
+	Response422 *errors.ErrorResponse
+	Response500 *errors.ErrorResponse
 }
 
 type GetCurrentUserRequest struct {
@@ -81,8 +81,8 @@ type GetCurrentUserRequest struct {
 type GetCurrentUserResponse struct {
 	Code        int
 	Response200 *models.UserResponse
-	Response401 *model.Error
-	Response500 *model.Error
+	Response401 *errors.ErrorResponse
+	Response500 *errors.ErrorResponse
 }
 
 type UpdateCurrentUserRequest struct {
@@ -92,11 +92,11 @@ type UpdateCurrentUserRequest struct {
 type UpdateCurrentUserResponse struct {
 	Code        int
 	Response200 *models.UserResponse
-	Response400 *model.Error
-	Response401 *model.Error
-	Response409 *model.Error
-	Response422 *model.Error
-	Response500 *model.Error
+	Response400 *errors.ErrorResponse
+	Response401 *errors.ErrorResponse
+	Response409 *errors.ErrorResponse
+	Response422 *errors.ErrorResponse
+	Response500 *errors.ErrorResponse
 }
 
 type GetUserByIDRequest struct {
@@ -106,10 +106,10 @@ type GetUserByIDRequest struct {
 type GetUserByIDResponse struct {
 	Code        int
 	Response200 *models.UserRefResponse
-	Response401 *model.Error
-	Response404 *model.Error
-	Response422 *model.Error
-	Response500 *model.Error
+	Response401 *errors.ErrorResponse
+	Response404 *errors.ErrorResponse
+	Response422 *errors.ErrorResponse
+	Response500 *errors.ErrorResponse
 }
 
 type ListSessionsRequest struct {
@@ -120,8 +120,8 @@ type ListSessionsRequest struct {
 type ListSessionsResponse struct {
 	Code        int
 	Response200 *any
-	Response401 *model.Error
-	Response500 *model.Error
+	Response401 *errors.ErrorResponse
+	Response500 *errors.ErrorResponse
 }
 
 type DeleteSessionRequest struct {
@@ -131,11 +131,11 @@ type DeleteSessionRequest struct {
 type DeleteSessionResponse struct {
 	Code        int
 	Response204 bool
-	Response401 *model.Error
-	Response403 *model.Error
-	Response404 *model.Error
-	Response422 *model.Error
-	Response500 *model.Error
+	Response401 *errors.ErrorResponse
+	Response403 *errors.ErrorResponse
+	Response404 *errors.ErrorResponse
+	Response422 *errors.ErrorResponse
+	Response500 *errors.ErrorResponse
 }
 
 type GetJwksRequest struct {
@@ -144,7 +144,7 @@ type GetJwksRequest struct {
 type GetJwksResponse struct {
 	Code        int
 	Response200 *any
-	Response500 *model.Error
+	Response500 *errors.ErrorResponse
 }
 
 type HealthCheckRequest struct {

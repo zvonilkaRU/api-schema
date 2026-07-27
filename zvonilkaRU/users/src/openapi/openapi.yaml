@@ -48,6 +48,8 @@ paths:
     $ref: "./resources/v1/service/health.yaml"
 components:
   schemas:
+    Error:
+      $ref: "./schemas/errors/Error.yaml"
     User:
       $ref: "./schemas/models/User.yaml"
     UserRef:
