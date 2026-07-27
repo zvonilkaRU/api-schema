@@ -4,7 +4,7 @@ package server
 
 import (
 	"context"
-	client "github.com/zvonilka/gen/users/interfaces/client"
+	client "github.com/zvonilkaRU/api-schema/generated/users/interfaces/client"
 )
 
 type Server interface {

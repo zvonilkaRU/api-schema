@@ -6,8 +6,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/labstack/echo/v4"
-	apiclient "github.com/zvonilka/gen/users/interfaces/client"
-	apiserver "github.com/zvonilka/gen/users/interfaces/server"
+	apiclient "github.com/zvonilkaRU/api-schema/generated/users/interfaces/client"
+	apiserver "github.com/zvonilkaRU/api-schema/generated/users/interfaces/server"
 	"io"
 	"net/http"
 )

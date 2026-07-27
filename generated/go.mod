@@ -1,4 +1,4 @@
-module github.com/zvonilka/gen
+module github.com/zvonilkaRU/api-schema/generated
 
 go 1.26.3
 

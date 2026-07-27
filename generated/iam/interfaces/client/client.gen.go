@@ -4,7 +4,7 @@ package client
 
 import (
 	"context"
-	model "github.com/zvonilka/gen/iam/model"
+	model "github.com/zvonilkaRU/api-schema/generated/iam/model"
 )
 
 type Client interface {

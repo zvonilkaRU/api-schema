@@ -4,7 +4,7 @@ package mock_client
 
 import (
 	"context"
-	apiclient "github.com/zvonilka/gen/users/interfaces/client"
+	apiclient "github.com/zvonilkaRU/api-schema/generated/users/interfaces/client"
 	"go.uber.org/mock/gomock"
 	"reflect"
 )
