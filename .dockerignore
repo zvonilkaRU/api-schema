@@ -1,0 +1,9 @@
+.git/
+*.log
+*.test
+_output/
+.idea/
+.vscode/
+*.swp
+*.swo
+*.md
