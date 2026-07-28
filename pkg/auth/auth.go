@@ -63,6 +63,12 @@ func NewVerifier(ctx context.Context, jwksURL string) (*Verifier, error) {
 	}, nil
 }
 
+// NewVerifierFromKey creates a Verifier from an in-memory public key (no HTTP fetch).
+// Use this in services that already have the key — e.g. the Users service itself.
+func NewVerifierFromKey(key *ecdsa.PublicKey, issuer string) *Verifier {
+	return &Verifier{key: key, issuer: issuer}
+}
+
 // Verify checks a JWT token and returns the claims.
 func (v *Verifier) Verify(tokenString string) (*jwt.RegisteredClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &jwt.RegisteredClaims{},
