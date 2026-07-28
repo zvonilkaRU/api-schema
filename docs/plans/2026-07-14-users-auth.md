@@ -1,6 +1,6 @@
 # #4.1 Users/Auth — api-schema Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Create the `api-schema/` repository with OpenAPI 3.1 schemas for the Users/Auth service (MVP scope), following the structure of `~/projects/api/mws` and conventions of `~/projects/oapigenerator`.
 
@@ -105,14 +105,14 @@ backend/api-schema/
 - Create: `backend/api-schema/README.md`
 - Create: `backend/api-schema/generation_flags.yaml`
 
-- [ ] **Step 1: Create directory structure**
+- [x] **Step 1: Create directory structure**
 
 ```bash
 mkdir -p backend/api-schema/{common/src/openapi/{schemas/{auth,errors,identifiers,pagination,time},parameters},users/src/openapi/{schemas/{auth,models,profile},resources/v1/{auth,profile,sessions,service}},generated}
 mkdir -p backend/api-schema/docs/{specs,plans}
 ```
 
-- [ ] **Step 2: Create `generation_flags.yaml`**
+- [x] **Step 2: Create `generation_flags.yaml`**
 
 ```yaml
 # Global generation flags for oapigenerator.
@@ -152,7 +152,7 @@ mkdir -p backend/api-schema/docs/{specs,plans}
   dependsOn: {}
 ```
 
-- [ ] **Step 3: Create `README.md`**
+- [x] **Step 3: Create `README.md`**
 
 ```markdown
 # Zvonilka API Schema
@@ -227,12 +227,12 @@ find . -name '*.yaml' -exec python3 -c "import yaml,sys; yaml.safe_load(open(sys
 Полная OpenAPI-валидация — через генератор (`-dry-run`) когда он будет передан.
 ```
 
-- [ ] **Step 4: Validate YAML syntax**
+- [x] **Step 4: Validate YAML syntax**
 
 Run: `python3 -c "import yaml; yaml.safe_load(open('backend/api-schema/generation_flags.yaml'))"`
 Expected: no output (success).
 
-- [ ] **Step 5: User commits**
+- [x] **Step 5: User commits**
 
 ```bash
 git add backend/api-schema/{README.md,generation_flags.yaml}
@@ -247,7 +247,7 @@ git commit -m "feat(api-schema): repo skeleton + global generation flags"
 - Create: `backend/api-schema/common/src/openapi/schemas/errors/Error.yaml`
 - Create: `backend/api-schema/common/src/openapi/schemas/errors/ValidationError.yaml`
 
-- [ ] **Step 1: Create `Error.yaml`**
+- [x] **Step 1: Create `Error.yaml`**
 
 ```yaml
 name: Error
@@ -278,7 +278,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 2: Create `ValidationError.yaml`**
+- [x] **Step 2: Create `ValidationError.yaml`**
 
 ```yaml
 name: ValidationError
@@ -303,7 +303,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 3: Validate YAML syntax**
+- [x] **Step 3: Validate YAML syntax**
 
 Run:
 ```bash
@@ -313,7 +313,7 @@ done
 ```
 Expected: no output (success).
 
-- [ ] **Step 4: User commits**
+- [x] **Step 4: User commits**
 
 ```bash
 git add backend/api-schema/common/src/openapi/schemas/errors/
@@ -329,7 +329,7 @@ git commit -m "feat(api-schema/common): error schemas (Error, ValidationError)"
 - Create: `backend/api-schema/common/src/openapi/schemas/pagination/ListResponse.yaml`
 - Create: `backend/api-schema/common/src/openapi/parameters/list.yaml`
 
-- [ ] **Step 1: Create `ListRequest.yaml`**
+- [x] **Step 1: Create `ListRequest.yaml`**
 
 ```yaml
 name: ListRequest
@@ -359,7 +359,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 2: Create `ListResponse.yaml`**
+- [x] **Step 2: Create `ListResponse.yaml`**
 
 ```yaml
 name: ListResponse
@@ -375,7 +375,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 3: Create `parameters/list.yaml`**
+- [x] **Step 3: Create `parameters/list.yaml`**
 
 ```yaml
 # Общие query-параметры для list-эндпоинтов.
@@ -421,7 +421,7 @@ orderByParam:
     maxLength: 128
 ```
 
-- [ ] **Step 4: Validate YAML syntax**
+- [x] **Step 4: Validate YAML syntax**
 
 Run:
 ```bash
@@ -433,7 +433,7 @@ done
 ```
 Expected: no output (success).
 
-- [ ] **Step 5: User commits**
+- [x] **Step 5: User commits**
 
 ```bash
 git add backend/api-schema/common/src/openapi/{schemas/pagination,parameters}
@@ -449,7 +449,7 @@ git commit -m "feat(api-schema/common): pagination schemas + shared query parame
 - Create: `backend/api-schema/common/src/openapi/schemas/identifiers/UUIDv7.yaml`
 - Create: `backend/api-schema/common/src/openapi/schemas/auth/TokenPair.yaml`
 
-- [ ] **Step 1: Create `Timestamp.yaml`**
+- [x] **Step 1: Create `Timestamp.yaml`**
 
 ```yaml
 name: Timestamp
@@ -459,7 +459,7 @@ format: date-time
 x-validations: ["app.UTCDateTime"]
 ```
 
-- [ ] **Step 2: Create `UUIDv7.yaml`**
+- [x] **Step 2: Create `UUIDv7.yaml`**
 
 ```yaml
 name: UUIDv7
@@ -470,7 +470,7 @@ pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
 x-validations: ["app.UUIDv7"]
 ```
 
-- [ ] **Step 3: Create `TokenPair.yaml`**
+- [x] **Step 3: Create `TokenPair.yaml`**
 
 ```yaml
 name: TokenPair
@@ -497,7 +497,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 4: Validate YAML syntax**
+- [x] **Step 4: Validate YAML syntax**
 
 Run:
 ```bash
@@ -507,7 +507,7 @@ done
 ```
 Expected: no output (success).
 
-- [ ] **Step 5: User commits**
+- [x] **Step 5: User commits**
 
 ```bash
 git add backend/api-schema/common/src/openapi/schemas/{time,identifiers,auth}
@@ -522,7 +522,7 @@ git commit -m "feat(api-schema/common): time, identifiers (UUIDv7), auth (TokenP
 - Create: `backend/api-schema/common/src/openapi/openapi.yaml`
 - Create: `backend/api-schema/common/generation_flags.yaml`
 
-- [ ] **Step 1: Create `common/generation_flags.yaml`**
+- [x] **Step 1: Create `common/generation_flags.yaml`**
 
 ```yaml
 # Per-service override for common/ — inherits global defaults, no overrides.
@@ -532,7 +532,7 @@ GOLANG_SPLIT_REQUEST_RESPONSE: true
 USE_UTC_FOR_DATE_TIME: true
 ```
 
-- [ ] **Step 2: Create `common/src/openapi/openapi.yaml`**
+- [x] **Step 2: Create `common/src/openapi/openapi.yaml`**
 
 ```yaml
 openapi: 3.1.0
@@ -570,7 +570,7 @@ components:
       $ref: "./parameters/list.yaml#/orderByParam"
 ```
 
-- [ ] **Step 3: Validate YAML syntax + resolve $ref paths**
+- [x] **Step 3: Validate YAML syntax + resolve $ref paths**
 
 Run:
 ```bash
@@ -587,7 +587,7 @@ PYEOF
 ```
 Expected: `All 7 common schemas resolve.`
 
-- [ ] **Step 4: User commits**
+- [x] **Step 4: User commits**
 
 ```bash
 git add backend/api-schema/common/{generation_flags.yaml,src/openapi/openapi.yaml}
@@ -603,7 +603,7 @@ git commit -m "feat(api-schema/common): openapi.yaml + per-service generation fl
 - Create: `backend/api-schema/users/src/openapi/schemas/models/User.yaml`
 - Create: `backend/api-schema/users/src/openapi/schemas/models/UserRef.yaml`
 
-- [ ] **Step 1: Create `UserStatus.yaml`**
+- [x] **Step 1: Create `UserStatus.yaml`**
 
 ```yaml
 name: UserStatus
@@ -616,7 +616,7 @@ enum:
 x-validations: ["app.UserStatusValue"]
 ```
 
-- [ ] **Step 2: Create `User.yaml`**
+- [x] **Step 2: Create `User.yaml`**
 
 ```yaml
 name: User
@@ -669,7 +669,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 3: Create `UserRef.yaml`**
+- [x] **Step 3: Create `UserRef.yaml`**
 
 ```yaml
 name: UserRef
@@ -694,7 +694,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 4: Validate YAML syntax**
+- [x] **Step 4: Validate YAML syntax**
 
 Run:
 ```bash
@@ -704,7 +704,7 @@ done
 ```
 Expected: no output (success).
 
-- [ ] **Step 5: User commits**
+- [x] **Step 5: User commits**
 
 ```bash
 git add backend/api-schema/users/src/openapi/schemas/models/
@@ -724,7 +724,7 @@ git commit -m "feat(api-schema/users): models (UserStatus, User, UserRef)"
 - Create: `backend/api-schema/users/src/openapi/schemas/auth/RefreshResponse.yaml`
 - Create: `backend/api-schema/users/src/openapi/schemas/auth/LogoutRequest.yaml`
 
-- [ ] **Step 1: Create `RegisterRequest.yaml`**
+- [x] **Step 1: Create `RegisterRequest.yaml`**
 
 ```yaml
 name: RegisterRequest
@@ -756,7 +756,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 2: Create `RegisterResponse.yaml`**
+- [x] **Step 2: Create `RegisterResponse.yaml`**
 
 ```yaml
 name: RegisterResponse
@@ -783,7 +783,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 3: Create `LoginRequest.yaml`**
+- [x] **Step 3: Create `LoginRequest.yaml`**
 
 ```yaml
 name: LoginRequest
@@ -804,7 +804,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 4: Create `LoginResponse.yaml`**
+- [x] **Step 4: Create `LoginResponse.yaml`**
 
 ```yaml
 name: LoginResponse
@@ -831,7 +831,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 5: Create `RefreshRequest.yaml`**
+- [x] **Step 5: Create `RefreshRequest.yaml`**
 
 ```yaml
 name: RefreshRequest
@@ -847,7 +847,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 6: Create `RefreshResponse.yaml`**
+- [x] **Step 6: Create `RefreshResponse.yaml`**
 
 ```yaml
 name: RefreshResponse
@@ -871,7 +871,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 7: Create `LogoutRequest.yaml`**
+- [x] **Step 7: Create `LogoutRequest.yaml`**
 
 ```yaml
 name: LogoutRequest
@@ -887,7 +887,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 8: Validate YAML syntax**
+- [x] **Step 8: Validate YAML syntax**
 
 Run:
 ```bash
@@ -898,7 +898,7 @@ done
 ```
 Expected: no output (success).
 
-- [ ] **Step 9: User commits**
+- [x] **Step 9: User commits**
 
 ```bash
 git add backend/api-schema/users/src/openapi/schemas/auth/
@@ -913,7 +913,7 @@ git commit -m "feat(api-schema/users): auth request/response schemas"
 - Create: `backend/api-schema/users/src/openapi/schemas/profile/UpdateUserRequest.yaml`
 - Create: `backend/api-schema/users/src/openapi/schemas/models/Session.yaml`
 
-- [ ] **Step 1: Create `UpdateUserRequest.yaml`**
+- [x] **Step 1: Create `UpdateUserRequest.yaml`**
 
 ```yaml
 name: UpdateUserRequest
@@ -931,7 +931,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 2: Create `Session.yaml`**
+- [x] **Step 2: Create `Session.yaml`**
 
 ```yaml
 name: Session
@@ -965,7 +965,7 @@ properties:
 additionalProperties: false
 ```
 
-- [ ] **Step 3: Validate YAML syntax**
+- [x] **Step 3: Validate YAML syntax**
 
 Run:
 ```bash
@@ -974,7 +974,7 @@ python3 -c "import yaml; yaml.safe_load(open('backend/api-schema/users/src/opena
 ```
 Expected: no output (success).
 
-- [ ] **Step 4: User commits**
+- [x] **Step 4: User commits**
 
 ```bash
 git add backend/api-schema/users/src/openapi/schemas/{profile,models/}
@@ -991,7 +991,7 @@ git commit -m "feat(api-schema/users): UpdateUserRequest, Session schemas"
 - Create: `backend/api-schema/users/src/openapi/resources/v1/auth/refresh.yaml`
 - Create: `backend/api-schema/users/src/openapi/resources/v1/auth/logout.yaml`
 
-- [ ] **Step 1: Create `register.yaml`**
+- [x] **Step 1: Create `register.yaml`**
 
 ```yaml
 post:
@@ -1039,7 +1039,7 @@ post:
             $ref: "../../../../../../../common/src/openapi/schemas/errors/Error.yaml"
 ```
 
-- [ ] **Step 2: Create `login.yaml`**
+- [x] **Step 2: Create `login.yaml`**
 
 ```yaml
 post:
@@ -1087,7 +1087,7 @@ post:
             $ref: "../../../../../../../common/src/openapi/schemas/errors/Error.yaml"
 ```
 
-- [ ] **Step 3: Create `refresh.yaml`**
+- [x] **Step 3: Create `refresh.yaml`**
 
 ```yaml
 post:
@@ -1135,7 +1135,7 @@ post:
             $ref: "../../../../../../../common/src/openapi/schemas/errors/Error.yaml"
 ```
 
-- [ ] **Step 4: Create `logout.yaml`**
+- [x] **Step 4: Create `logout.yaml`**
 
 ```yaml
 post:
@@ -1175,7 +1175,7 @@ post:
             $ref: "../../../../../../../common/src/openapi/schemas/errors/Error.yaml"
 ```
 
-- [ ] **Step 5: Validate YAML syntax**
+- [x] **Step 5: Validate YAML syntax**
 
 Run:
 ```bash
@@ -1185,7 +1185,7 @@ done
 ```
 Expected: no output (success).
 
-- [ ] **Step 6: User commits**
+- [x] **Step 6: User commits**
 
 ```bash
 git add backend/api-schema/users/src/openapi/resources/v1/auth/
@@ -1200,7 +1200,7 @@ git commit -m "feat(api-schema/users): auth resource endpoints"
 - Create: `backend/api-schema/users/src/openapi/resources/v1/profile/usersMe.yaml`
 - Create: `backend/api-schema/users/src/openapi/resources/v1/profile/users.yaml`
 
-- [ ] **Step 1: Create `usersMe.yaml`**
+- [x] **Step 1: Create `usersMe.yaml`**
 
 ```yaml
 get:
@@ -1284,7 +1284,7 @@ patch:
             $ref: "../../../../../../../common/src/openapi/schemas/errors/Error.yaml"
 ```
 
-- [ ] **Step 2: Create `users.yaml`**
+- [x] **Step 2: Create `users.yaml`**
 
 ```yaml
 get:
@@ -1336,7 +1336,7 @@ get:
             $ref: "../../../../../../../common/src/openapi/schemas/errors/Error.yaml"
 ```
 
-- [ ] **Step 3: Validate YAML syntax**
+- [x] **Step 3: Validate YAML syntax**
 
 Run:
 ```bash
@@ -1346,7 +1346,7 @@ done
 ```
 Expected: no output (success).
 
-- [ ] **Step 4: User commits**
+- [x] **Step 4: User commits**
 
 ```bash
 git add backend/api-schema/users/src/openapi/resources/v1/profile/
@@ -1361,7 +1361,7 @@ git commit -m "feat(api-schema/users): profile resource endpoints (me, by-id)"
 - Create: `backend/api-schema/users/src/openapi/resources/v1/sessions/sessions.yaml`
 - Create: `backend/api-schema/users/src/openapi/resources/v1/sessions/session.yaml`
 
-- [ ] **Step 1: Create `sessions.yaml`**
+- [x] **Step 1: Create `sessions.yaml`**
 
 ```yaml
 get:
@@ -1407,7 +1407,7 @@ get:
             $ref: "../../../../../../../common/src/openapi/schemas/errors/Error.yaml"
 ```
 
-- [ ] **Step 2: Create `session.yaml`**
+- [x] **Step 2: Create `session.yaml`**
 
 ```yaml
 delete:
@@ -1461,7 +1461,7 @@ delete:
             $ref: "../../../../../../../common/src/openapi/schemas/errors/Error.yaml"
 ```
 
-- [ ] **Step 3: Validate YAML syntax**
+- [x] **Step 3: Validate YAML syntax**
 
 Run:
 ```bash
@@ -1471,7 +1471,7 @@ done
 ```
 Expected: no output (success).
 
-- [ ] **Step 4: User commits**
+- [x] **Step 4: User commits**
 
 ```bash
 git add backend/api-schema/users/src/openapi/resources/v1/sessions/
@@ -1486,7 +1486,7 @@ git commit -m "feat(api-schema/users): session resource endpoints"
 - Create: `backend/api-schema/users/src/openapi/resources/v1/service/jwks.yaml`
 - Create: `backend/api-schema/users/src/openapi/resources/v1/service/health.yaml`
 
-- [ ] **Step 1: Create `jwks.yaml`**
+- [x] **Step 1: Create `jwks.yaml`**
 
 ```yaml
 get:
@@ -1550,7 +1550,7 @@ get:
             $ref: "../../../../../../../common/src/openapi/schemas/errors/Error.yaml"
 ```
 
-- [ ] **Step 2: Create `health.yaml`**
+- [x] **Step 2: Create `health.yaml`**
 
 ```yaml
 get:
@@ -1595,7 +1595,7 @@ get:
             additionalProperties: false
 ```
 
-- [ ] **Step 3: Validate YAML syntax**
+- [x] **Step 3: Validate YAML syntax**
 
 Run:
 ```bash
@@ -1605,7 +1605,7 @@ done
 ```
 Expected: no output (success).
 
-- [ ] **Step 4: User commits**
+- [x] **Step 4: User commits**
 
 ```bash
 git add backend/api-schema/users/src/openapi/resources/v1/service/
@@ -1620,7 +1620,7 @@ git commit -m "feat(api-schema/users): service resource endpoints (jwks, health)
 - Create: `backend/api-schema/users/src/openapi/openapi.yaml`
 - Create: `backend/api-schema/users/generation_flags.yaml`
 
-- [ ] **Step 1: Create `users/generation_flags.yaml`**
+- [x] **Step 1: Create `users/generation_flags.yaml`**
 
 ```yaml
 # Per-service override for users/ — inherits global defaults, no overrides.
@@ -1630,7 +1630,7 @@ GOLANG_SPLIT_REQUEST_RESPONSE: true
 USE_UTC_FOR_DATE_TIME: true
 ```
 
-- [ ] **Step 2: Create `users/src/openapi/openapi.yaml`**
+- [x] **Step 2: Create `users/src/openapi/openapi.yaml`**
 
 ```yaml
 openapi: 3.1.0
@@ -1690,7 +1690,7 @@ components:
       description: JWT access token (ES256). Obtained from /auth/login or /auth/refresh.
 ```
 
-- [ ] **Step 3: Validate YAML syntax + resolve all $ref paths**
+- [x] **Step 3: Validate YAML syntax + resolve all $ref paths**
 
 Run:
 ```bash
@@ -1716,7 +1716,7 @@ PYEOF
 ```
 Expected: `All 10 paths resolve.`
 
-- [ ] **Step 4: User commits**
+- [x] **Step 4: User commits**
 
 ```bash
 git add backend/api-schema/users/{generation_flags.yaml,src/openapi/openapi.yaml}
@@ -1730,7 +1730,7 @@ git commit -m "feat(api-schema/users): main openapi.yaml + per-service generatio
 **Files:**
 - No new files. Validation only.
 
-- [ ] **Step 1: Validate YAML syntax of all files**
+- [x] **Step 1: Validate YAML syntax of all files**
 
 Run:
 ```bash
@@ -1741,7 +1741,7 @@ echo "YAML syntax check complete."
 ```
 Expected: no `FAIL:` lines, `YAML syntax check complete.` at the end.
 
-- [ ] **Step 2: Validate all $ref cross-references resolve**
+- [x] **Step 2: Validate all $ref cross-references resolve**
 
 Run:
 ```bash
@@ -1784,7 +1784,7 @@ PYEOF
 ```
 Expected: `All $refs resolve.`
 
-- [ ] **Step 3: Verify all expected files exist**
+- [x] **Step 3: Verify all expected files exist**
 
 Run:
 ```bash
@@ -1846,7 +1846,7 @@ PYEOF
 ```
 Expected: `All 36 expected files exist.`
 
-- [ ] **Step 4: User final commit**
+- [x] **Step 4: User final commit**
 
 ```bash
 git add backend/api-schema/
@@ -1857,21 +1857,21 @@ git commit -m "feat(api-schema): complete Users/Auth MVP OpenAPI schemas"
 
 ## Self-review checklist (after implementation)
 
-- [ ] All 36 expected files created (Task 13 Step 3).
-- [ ] All YAML files syntactically valid (Task 13 Step 1).
-- [ ] All `$ref` cross-references resolve (Task 13 Step 2).
-- [ ] `common/openapi.yaml` has empty `paths:` and all 7 schemas in `components.schemas` (Task 5).
-- [ ] `users/openapi.yaml` has all 10 paths with `$ref` to resource files in subfolders (Task 12).
-- [ ] `User.yaml` includes `login`, `email` (hidden fields). `UserRef.yaml` does NOT include them (Task 5b).
-- [ ] `LoginRequest.yaml` uses `identifier` field, not `email`/`login` separately (Task 6).
-- [ ] `refresh.yaml` returns `409` on reuse detection (Task 8).
-- [ ] `logout.yaml` has `security: bearerAuth` (requires access token) (Task 8).
-- [ ] `jwks.yaml` and `health.yaml` have `security: []` (no auth) (Task 11).
-- [ ] `generation_flags.yaml` (global) has `GOLANG_SPLIT_REQUEST_RESPONSE` and `USE_UTC_FOR_DATE_TIME` enabled (Task 1).
-- [ ] Tag charset is `A-Z0-9` (all uppercase, 36 chars) (Task 5b, User.yaml + UserRef.yaml).
-- [ ] `TokenPair.yaml` lives in `common/schemas/auth/` (shared, not in users/) (Task 4).
-- [ ] `UUIDv7.yaml` lives in `common/schemas/identifiers/` (Task 4).
-- [ ] Users resources are in subfolders (`auth/`, `profile/`, `sessions/`, `service/`) — no `authRegister.yaml` prefixes (Task 8-11).
+- [x] All 36 expected files created (Task 13 Step 3).
+- [x] All YAML files syntactically valid (Task 13 Step 1).
+- [x] All `$ref` cross-references resolve (Task 13 Step 2).
+- [x] `common/openapi.yaml` has empty `paths:` and all 7 schemas in `components.schemas` (Task 5).
+- [x] `users/openapi.yaml` has all 10 paths with `$ref` to resource files in subfolders (Task 12).
+- [x] `User.yaml` includes `login`, `email` (hidden fields). `UserRef.yaml` does NOT include them (Task 5b).
+- [x] `LoginRequest.yaml` uses `identifier` field, not `email`/`login` separately (Task 6).
+- [x] `refresh.yaml` returns `409` on reuse detection (Task 8).
+- [x] `logout.yaml` has `security: bearerAuth` (requires access token) (Task 8).
+- [x] `jwks.yaml` and `health.yaml` have `security: []` (no auth) (Task 11).
+- [x] `generation_flags.yaml` (global) has `GOLANG_SPLIT_REQUEST_RESPONSE` and `USE_UTC_FOR_DATE_TIME` enabled (Task 1).
+- [x] Tag charset is `A-Z0-9` (all uppercase, 36 chars) (Task 5b, User.yaml + UserRef.yaml).
+- [x] `TokenPair.yaml` lives in `common/schemas/auth/` (shared, not in users/) (Task 4).
+- [x] `UUIDv7.yaml` lives in `common/schemas/identifiers/` (Task 4).
+- [x] Users resources are in subfolders (`auth/`, `profile/`, `sessions/`, `service/`) — no `authRegister.yaml` prefixes (Task 8-11).
 
 ## Post-implementation notes
 
