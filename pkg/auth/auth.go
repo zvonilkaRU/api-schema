@@ -92,6 +92,16 @@ func UserID(ctx context.Context) string {
 	return ""
 }
 
+// RawToken extracts the raw JWT token from a request context (set by Middleware).
+func RawToken(ctx context.Context) string {
+	if v := ctx.Value("raw_token"); v != nil {
+		if t, ok := v.(string); ok {
+			return t
+		}
+	}
+	return ""
+}
+
 // Middleware returns an Echo middleware that validates JWT tokens,
 // skipping the given public paths.
 func Middleware(v *Verifier, publicPaths map[string]bool) echo.MiddlewareFunc {
@@ -113,6 +123,7 @@ func Middleware(v *Verifier, publicPaths map[string]bool) echo.MiddlewareFunc {
 				return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid token"})
 			}
 			ctx := context.WithValue(c.Request().Context(), "user_id", claims.Subject)
+			ctx = context.WithValue(ctx, "raw_token", parts[1])
 			c.SetRequest(c.Request().WithContext(ctx))
 			return next(c)
 		}
