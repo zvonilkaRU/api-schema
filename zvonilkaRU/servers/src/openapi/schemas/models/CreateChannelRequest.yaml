@@ -1,0 +1,11 @@
+name: CreateChannelRequest
+description: Request to create a channel.
+type: object
+required:
+  - name
+properties:
+  name:
+    type: string
+    description: Channel name.
+    x-validations: ["Size >=1", "Size <=64"]
+additionalProperties: false

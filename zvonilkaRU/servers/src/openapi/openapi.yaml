@@ -1,0 +1,59 @@
+openapi: 3.1.0
+info:
+  title: Zvonilka Servers API
+  description: Discord-like servers with persistent channel templates and ephemeral LiveKit voice rooms.
+  version: 1.0.0
+servers:
+  - url: https://servers.zvonilka.space
+    description: Production
+  - url: http://localhost:8080
+    description: Local dev
+paths:
+  /servers/v1/servers:
+    $ref: "./resources/v1/servers/servers.yaml"
+  /servers/v1/servers/{id}:
+    $ref: "./resources/v1/servers/server.yaml"
+  /servers/v1/servers/{id}/members:
+    $ref: "./resources/v1/servers/server-members.yaml"
+  /servers/v1/servers/{id}/members/{uid}:
+    $ref: "./resources/v1/servers/server-member.yaml"
+  /servers/v1/servers/{id}/transfer:
+    $ref: "./resources/v1/servers/transfer.yaml"
+  /servers/v1/servers/{id}/channels:
+    $ref: "./resources/v1/servers/channels.yaml"
+  /servers/v1/servers/{id}/channels/{cid}:
+    $ref: "./resources/v1/servers/channel.yaml"
+  /servers/v1/channels/{id}/join:
+    $ref: "./resources/v1/join.yaml"
+  /servers/v1/health:
+    $ref: "./resources/v1/service/health.yaml"
+components:
+  schemas:
+    Server:
+      $ref: "./schemas/models/Server.yaml"
+    CreateServerRequest:
+      $ref: "./schemas/models/CreateServerRequest.yaml"
+    UpdateServerRequest:
+      $ref: "./schemas/models/UpdateServerRequest.yaml"
+    ServerMember:
+      $ref: "./schemas/models/ServerMember.yaml"
+    UpdateMemberRequest:
+      $ref: "./schemas/models/UpdateMemberRequest.yaml"
+    TransferOwnershipRequest:
+      $ref: "./schemas/models/TransferOwnershipRequest.yaml"
+    Channel:
+      $ref: "./schemas/models/Channel.yaml"
+    CreateChannelRequest:
+      $ref: "./schemas/models/CreateChannelRequest.yaml"
+    UpdateChannelRequest:
+      $ref: "./schemas/models/UpdateChannelRequest.yaml"
+    Error:
+      $ref: "./schemas/errors/Error.yaml"
+    Timestamp:
+      $ref: "./schemas/time/Timestamp.yaml"
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT access token (ES256) from Users/Auth service.

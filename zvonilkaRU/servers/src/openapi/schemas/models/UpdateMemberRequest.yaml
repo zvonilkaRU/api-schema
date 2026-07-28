@@ -1,0 +1,11 @@
+name: UpdateMemberRequest
+description: Request to update a member's role.
+type: object
+required:
+  - role
+properties:
+  role:
+    type: string
+    description: New role (admin, member). Cannot set to owner via this endpoint.
+    enum: ["admin", "member"]
+additionalProperties: false

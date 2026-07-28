@@ -1,0 +1,14 @@
+name: CreateServerRequest
+description: Request to create a server.
+type: object
+required:
+  - name
+properties:
+  name:
+    type: string
+    description: Server name.
+    x-validations: ["Size >=1", "Size <=128"]
+  icon_url:
+    type: string
+    description: Server icon URL.
+additionalProperties: false

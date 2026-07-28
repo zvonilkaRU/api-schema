@@ -1,0 +1,30 @@
+name: Server
+description: Server (Discord-like server).
+type: object
+required:
+  - id
+  - name
+  - owner_id
+  - created_at
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Server UUID.
+    readOnly: true
+  name:
+    type: string
+    description: Server name.
+    x-validations: ["Size >=1", "Size <=128"]
+  icon_url:
+    type: string
+    description: Server icon URL.
+  owner_id:
+    type: string
+    format: uuid
+    description: Owner user ID.
+    readOnly: true
+  created_at:
+    $ref: "../../schemas/time/Timestamp.yaml"
+    readOnly: true
+additionalProperties: false

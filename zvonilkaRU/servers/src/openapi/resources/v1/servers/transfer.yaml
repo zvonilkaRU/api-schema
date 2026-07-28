@@ -1,0 +1,36 @@
+post:
+  tags:
+    - servers
+  summary: Transfer server ownership
+  operationId: transferOwnership
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Server ID.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/models/TransferOwnershipRequest.yaml"
+  responses:
+    "204":
+      description: Ownership transferred.
+    "403":
+      description: Forbidden (owner only).
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "404":
+      description: Server or target user not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"

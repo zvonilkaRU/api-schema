@@ -1,0 +1,12 @@
+name: UpdateServerRequest
+description: Request to update a server.
+type: object
+properties:
+  name:
+    type: string
+    description: New server name.
+    x-validations: ["Size >=1", "Size <=128"]
+  icon_url:
+    type: string
+    description: New server icon URL.
+additionalProperties: false

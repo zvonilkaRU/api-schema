@@ -1,0 +1,12 @@
+name: UpdateChannelRequest
+description: Request to update a channel.
+type: object
+properties:
+  name:
+    type: string
+    description: New channel name.
+    x-validations: ["Size >=1", "Size <=64"]
+  position:
+    type: integer
+    description: New display order position.
+additionalProperties: false

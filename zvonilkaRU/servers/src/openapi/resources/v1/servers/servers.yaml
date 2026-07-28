@@ -1,0 +1,50 @@
+post:
+  tags:
+    - servers
+  summary: Create server
+  operationId: createServer
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/models/CreateServerRequest.yaml"
+  responses:
+    "201":
+      description: Server created.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/models/Server.yaml"
+    "400":
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+
+get:
+  tags:
+    - servers
+  summary: List servers
+  description: Returns servers the authenticated user is a member of.
+  operationId: listServers
+  security:
+    - bearerAuth: []
+  responses:
+    "200":
+      description: List of servers.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../../schemas/models/Server.yaml"

@@ -1,0 +1,11 @@
+name: TransferOwnershipRequest
+description: Request to transfer server ownership.
+type: object
+required:
+  - user_id
+properties:
+  user_id:
+    type: string
+    format: uuid
+    description: ID of the user to transfer ownership to.
+additionalProperties: false

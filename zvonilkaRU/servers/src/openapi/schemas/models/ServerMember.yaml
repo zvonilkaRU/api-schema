@@ -1,0 +1,29 @@
+name: ServerMember
+description: Member of a server.
+type: object
+required:
+  - user_id
+  - role
+  - joined_at
+properties:
+  user_id:
+    type: string
+    format: uuid
+    description: User ID.
+    readOnly: true
+  nickname:
+    type: string
+    description: User nickname.
+    readOnly: true
+  tag:
+    type: string
+    description: User tag.
+    readOnly: true
+  role:
+    type: string
+    description: Member role (owner, admin, member).
+    enum: ["owner", "admin", "member"]
+  joined_at:
+    $ref: "../../schemas/time/Timestamp.yaml"
+    readOnly: true
+additionalProperties: false

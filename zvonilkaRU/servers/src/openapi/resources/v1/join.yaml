@@ -1,0 +1,50 @@
+post:
+  tags:
+    - channels
+  summary: Join channel
+  description: Returns a LiveKit join token for connecting to the channel's voice room.
+  operationId: joinChannel
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Channel ID.
+  responses:
+    "200":
+      description: Join token.
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - token
+              - url
+              - room
+            properties:
+              token:
+                type: string
+                description: LiveKit access token (JWT HS256).
+              url:
+                type: string
+                description: LiveKit WebSocket URL.
+              room:
+                type: string
+                description: LiveKit room name.
+            additionalProperties: false
+    "403":
+      description: Forbidden (not a server member).
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/errors/Error.yaml"
+    "404":
+      description: Channel not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/errors/Error.yaml"

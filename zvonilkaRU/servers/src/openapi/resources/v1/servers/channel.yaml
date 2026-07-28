@@ -1,0 +1,85 @@
+patch:
+  tags:
+    - channels
+  summary: Update channel
+  operationId: updateChannel
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Server ID.
+    - name: cid
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Channel ID.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/models/UpdateChannelRequest.yaml"
+  responses:
+    "200":
+      description: Channel updated.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/models/Channel.yaml"
+    "403":
+      description: Forbidden (admin+ required).
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "404":
+      description: Channel not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+
+delete:
+  tags:
+    - channels
+  summary: Delete channel
+  operationId: deleteChannel
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Server ID.
+    - name: cid
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Channel ID.
+  responses:
+    "204":
+      description: Channel deleted.
+    "403":
+      description: Forbidden (admin+ required).
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "404":
+      description: Channel not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"

@@ -1,0 +1,40 @@
+post:
+  tags:
+    - channels
+  summary: Create channel
+  operationId: createChannel
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Server ID.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/models/CreateChannelRequest.yaml"
+  responses:
+    "201":
+      description: Channel created.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/models/Channel.yaml"
+    "403":
+      description: Forbidden (admin+ required).
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"

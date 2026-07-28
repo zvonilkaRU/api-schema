@@ -1,0 +1,81 @@
+patch:
+  tags:
+    - servers
+  summary: Update member role
+  operationId: updateMember
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Server ID.
+    - name: uid
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: User ID to update.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/models/UpdateMemberRequest.yaml"
+  responses:
+    "204":
+      description: Member updated.
+    "403":
+      description: Forbidden (admin+ required, cannot demote owner).
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "404":
+      description: Member not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+
+delete:
+  tags:
+    - servers
+  summary: Kick member
+  operationId: kickMember
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Server ID.
+    - name: uid
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: User ID to kick.
+  responses:
+    "204":
+      description: Member kicked.
+    "403":
+      description: Forbidden (admin+ required, cannot kick owner/admin).
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "404":
+      description: Member not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"

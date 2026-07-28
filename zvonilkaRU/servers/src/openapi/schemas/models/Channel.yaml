@@ -1,0 +1,37 @@
+name: Channel
+description: Channel template within a server.
+type: object
+required:
+  - id
+  - name
+  - type
+  - position
+  - created_by
+  - created_at
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Channel UUID.
+    readOnly: true
+  name:
+    type: string
+    description: Channel name.
+    x-validations: ["Size >=1", "Size <=64"]
+  type:
+    type: string
+    description: Channel type.
+    enum: ["voice"]
+    readOnly: true
+  position:
+    type: integer
+    description: Display order position.
+  created_by:
+    type: string
+    format: uuid
+    description: Creator user ID.
+    readOnly: true
+  created_at:
+    $ref: "../../schemas/time/Timestamp.yaml"
+    readOnly: true
+additionalProperties: false

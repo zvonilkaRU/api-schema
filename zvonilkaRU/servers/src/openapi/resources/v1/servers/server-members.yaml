@@ -1,0 +1,30 @@
+get:
+  tags:
+    - servers
+  summary: List server members
+  operationId: listMembers
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Server ID.
+  responses:
+    "200":
+      description: List of members.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../../schemas/models/ServerMember.yaml"
+    "404":
+      description: Server not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"

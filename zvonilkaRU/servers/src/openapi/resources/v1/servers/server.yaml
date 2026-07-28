@@ -1,0 +1,97 @@
+get:
+  tags:
+    - servers
+  summary: Get server by ID
+  operationId: getServer
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    "200":
+      description: Server with channels.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/models/Server.yaml"
+    "404":
+      description: Server not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+
+patch:
+  tags:
+    - servers
+  summary: Update server
+  operationId: updateServer
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/models/UpdateServerRequest.yaml"
+  responses:
+    "200":
+      description: Server updated.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/models/Server.yaml"
+    "403":
+      description: Forbidden (not admin or owner).
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "404":
+      description: Server not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+
+delete:
+  tags:
+    - servers
+  summary: Delete server
+  operationId: deleteServer
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    "204":
+      description: Server deleted.
+    "403":
+      description: Forbidden (owner only).
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "404":
+      description: Server not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
