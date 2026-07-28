@@ -69,9 +69,19 @@ func NewVerifierFromKey(key *ecdsa.PublicKey, issuer string) *Verifier {
 	return &Verifier{key: key, issuer: issuer}
 }
 
+// TokenClaims holds the verified JWT claims we care about.
+type TokenClaims struct {
+	Subject  string
+	Nickname string
+}
+
 // Verify checks a JWT token and returns the claims.
-func (v *Verifier) Verify(tokenString string) (*jwt.RegisteredClaims, error) {
-	token, err := jwt.ParseWithClaims(tokenString, &jwt.RegisteredClaims{},
+func (v *Verifier) Verify(tokenString string) (*TokenClaims, error) {
+	var claims struct {
+		jwt.RegisteredClaims
+		Nickname string `json:"nickname,omitempty"`
+	}
+	token, err := jwt.ParseWithClaims(tokenString, &claims,
 		func(t *jwt.Token) (any, error) {
 			if _, ok := t.Method.(*jwt.SigningMethodECDSA); !ok {
 				return nil, fmt.Errorf("auth: unexpected signing method")
@@ -85,7 +95,7 @@ func (v *Verifier) Verify(tokenString string) (*jwt.RegisteredClaims, error) {
 	if err != nil || !token.Valid {
 		return nil, fmt.Errorf("auth: invalid token")
 	}
-	return token.Claims.(*jwt.RegisteredClaims), nil
+	return &TokenClaims{Subject: claims.Subject, Nickname: claims.Nickname}, nil
 }
 
 // UserID extracts the user ID from a request context (set by Middleware).
@@ -93,6 +103,16 @@ func UserID(ctx context.Context) string {
 	if v := ctx.Value("user_id"); v != nil {
 		if id, ok := v.(string); ok {
 			return id
+		}
+	}
+	return ""
+}
+
+// Nickname extracts the user nickname from a request context (set by Middleware).
+func Nickname(ctx context.Context) string {
+	if v := ctx.Value("nickname"); v != nil {
+		if n, ok := v.(string); ok {
+			return n
 		}
 	}
 	return ""
@@ -129,6 +149,7 @@ func Middleware(v *Verifier, publicPaths map[string]bool) echo.MiddlewareFunc {
 				return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid token"})
 			}
 			ctx := context.WithValue(c.Request().Context(), "user_id", claims.Subject)
+			ctx = context.WithValue(ctx, "nickname", claims.Nickname)
 			ctx = context.WithValue(ctx, "raw_token", parts[1])
 			c.SetRequest(c.Request().WithContext(ctx))
 			return next(c)
