@@ -48,6 +48,14 @@ func (s *ServerHTTP) Register(e *echo.Echo) {
 	e.GET("/users/v1/users/:id", s.getUserByID)
 	e.GET("/users/v1/sessions", s.listSessions)
 	e.DELETE("/users/v1/sessions/:id", s.deleteSession)
+	e.POST("/users/v1/friends/requests", s.sendFriendRequest)
+	e.GET("/users/v1/friends/requests", s.listIncomingRequests)
+	e.POST("/users/v1/friends/requests/:id/accept", s.acceptFriendRequest)
+	e.POST("/users/v1/friends/requests/:id/decline", s.declineFriendRequest)
+	e.GET("/users/v1/friends/friends", s.listFriends)
+	e.DELETE("/users/v1/friends/friends/:id", s.removeFriend)
+	e.GET("/users/v1/friends/outgoing", s.listOutgoingRequests)
+	e.DELETE("/users/v1/friends/outgoing/:id", s.cancelFriendRequest)
 	e.GET("/users/v1/.well-known/jwks.json", s.getJwks)
 	e.GET("/users/v1/health", s.healthCheck)
 }
@@ -297,6 +305,192 @@ func (s *ServerHTTP) deleteSession(c echo.Context) error {
 	}
 	if resp.Response500 != nil {
 		return c.JSON(500, resp.Response500)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) sendFriendRequest(c echo.Context) error {
+	req := &apiclient.SendFriendRequestRequest{}
+	if err := bindBody(c, &req.Body); err != nil {
+		return err
+	}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.SendFriendRequest(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response201 != nil {
+		return c.JSON(201, resp.Response201)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response403 != nil {
+		return c.JSON(403, resp.Response403)
+	}
+	if resp.Response404 != nil {
+		return c.JSON(404, resp.Response404)
+	}
+	if resp.Response409 != nil {
+		return c.JSON(409, resp.Response409)
+	}
+	if resp.Response422 != nil {
+		return c.JSON(422, resp.Response422)
+	}
+	if resp.Response429 != nil {
+		return c.JSON(429, resp.Response429)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) listIncomingRequests(c echo.Context) error {
+	req := &apiclient.ListIncomingRequestsRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.ListIncomingRequests(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) acceptFriendRequest(c echo.Context) error {
+	req := &apiclient.AcceptFriendRequestRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.AcceptFriendRequest(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response403 != nil {
+		return c.JSON(403, resp.Response403)
+	}
+	if resp.Response422 != nil {
+		return c.JSON(422, resp.Response422)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) declineFriendRequest(c echo.Context) error {
+	req := &apiclient.DeclineFriendRequestRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.DeclineFriendRequest(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response204 {
+		return c.NoContent(204)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response403 != nil {
+		return c.JSON(403, resp.Response403)
+	}
+	if resp.Response422 != nil {
+		return c.JSON(422, resp.Response422)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) listFriends(c echo.Context) error {
+	req := &apiclient.ListFriendsRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.ListFriends(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) removeFriend(c echo.Context) error {
+	req := &apiclient.RemoveFriendRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.RemoveFriend(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response204 {
+		return c.NoContent(204)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response404 != nil {
+		return c.JSON(404, resp.Response404)
+	}
+	if resp.Response422 != nil {
+		return c.JSON(422, resp.Response422)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) listOutgoingRequests(c echo.Context) error {
+	req := &apiclient.ListOutgoingRequestsRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.ListOutgoingRequests(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) cancelFriendRequest(c echo.Context) error {
+	req := &apiclient.CancelFriendRequestRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	resp, err := s.impl.CancelFriendRequest(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response204 {
+		return c.NoContent(204)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response403 != nil {
+		return c.JSON(403, resp.Response403)
+	}
+	if resp.Response422 != nil {
+		return c.JSON(422, resp.Response422)
 	}
 	return c.NoContent(resp.Code)
 }

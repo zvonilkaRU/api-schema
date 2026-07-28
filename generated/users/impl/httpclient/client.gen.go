@@ -499,6 +499,345 @@ func (c *Client) DeleteSession(ctx context.Context, req *apiclient.DeleteSession
 	return result, nil
 }
 
+func (c *Client) SendFriendRequest(ctx context.Context, req *apiclient.SendFriendRequestRequest) (*apiclient.SendFriendRequestResponse, error) {
+	path := "/users/v1/friends/requests"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	body, err := json.Marshal(req.Body)
+	if err != nil {
+		return nil, fmt.Errorf("encode body: %w", err)
+	}
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", u.String(), bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+	httpReq.Header.Set("Content-Type", "application/json")
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.SendFriendRequestResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 201:
+		var v any
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 201: %w", err)
+		}
+		result.Response201 = &v
+	case 401:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 403:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 403: %w", err)
+		}
+		result.Response403 = &v
+	case 404:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 404: %w", err)
+		}
+		result.Response404 = &v
+	case 409:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 409: %w", err)
+		}
+		result.Response409 = &v
+	case 422:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 422: %w", err)
+		}
+		result.Response422 = &v
+	case 429:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 429: %w", err)
+		}
+		result.Response429 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) ListIncomingRequests(ctx context.Context, req *apiclient.ListIncomingRequestsRequest) (*apiclient.ListIncomingRequestsResponse, error) {
+	path := "/users/v1/friends/requests"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.ListIncomingRequestsResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v any
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 401:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) AcceptFriendRequest(ctx context.Context, req *apiclient.AcceptFriendRequestRequest) (*apiclient.AcceptFriendRequestResponse, error) {
+	path := "/users/v1/friends/requests/{id}/accept"
+	path = strings.Replace(path, "{id}", url.PathEscape(fmt.Sprint(req.ID)), 1)
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.AcceptFriendRequestResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v any
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 401:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 403:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 403: %w", err)
+		}
+		result.Response403 = &v
+	case 422:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 422: %w", err)
+		}
+		result.Response422 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) DeclineFriendRequest(ctx context.Context, req *apiclient.DeclineFriendRequestRequest) (*apiclient.DeclineFriendRequestResponse, error) {
+	path := "/users/v1/friends/requests/{id}/decline"
+	path = strings.Replace(path, "{id}", url.PathEscape(fmt.Sprint(req.ID)), 1)
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.DeclineFriendRequestResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 204:
+		result.Response204 = true
+	case 401:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 403:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 403: %w", err)
+		}
+		result.Response403 = &v
+	case 422:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 422: %w", err)
+		}
+		result.Response422 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) ListFriends(ctx context.Context, req *apiclient.ListFriendsRequest) (*apiclient.ListFriendsResponse, error) {
+	path := "/users/v1/friends/friends"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.ListFriendsResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v any
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 401:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) RemoveFriend(ctx context.Context, req *apiclient.RemoveFriendRequest) (*apiclient.RemoveFriendResponse, error) {
+	path := "/users/v1/friends/friends/{id}"
+	path = strings.Replace(path, "{id}", url.PathEscape(fmt.Sprint(req.ID)), 1)
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "DELETE", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.RemoveFriendResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 204:
+		result.Response204 = true
+	case 401:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 404:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 404: %w", err)
+		}
+		result.Response404 = &v
+	case 422:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 422: %w", err)
+		}
+		result.Response422 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) ListOutgoingRequests(ctx context.Context, req *apiclient.ListOutgoingRequestsRequest) (*apiclient.ListOutgoingRequestsResponse, error) {
+	path := "/users/v1/friends/outgoing"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.ListOutgoingRequestsResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v any
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 401:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) CancelFriendRequest(ctx context.Context, req *apiclient.CancelFriendRequestRequest) (*apiclient.CancelFriendRequestResponse, error) {
+	path := "/users/v1/friends/outgoing/{id}"
+	path = strings.Replace(path, "{id}", url.PathEscape(fmt.Sprint(req.ID)), 1)
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "DELETE", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.CancelFriendRequestResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 204:
+		result.Response204 = true
+	case 401:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 403:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 403: %w", err)
+		}
+		result.Response403 = &v
+	case 422:
+		var v errors.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 422: %w", err)
+		}
+		result.Response422 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
 func (c *Client) GetJwks(ctx context.Context, req *apiclient.GetJwksRequest) (*apiclient.GetJwksResponse, error) {
 	path := "/users/v1/.well-known/jwks.json"
 	u := *c.http.ServerURL()

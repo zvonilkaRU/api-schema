@@ -116,6 +116,94 @@ func (x *ClientSugared) DeleteSession(ctx context.Context, req *DeleteSessionReq
 	return fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
+func (x *ClientSugared) SendFriendRequest(ctx context.Context, req *SendFriendRequestRequest) (*any, error) {
+	resp, err := x.impl.SendFriendRequest(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response201 != nil {
+		return resp.Response201, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) ListIncomingRequests(ctx context.Context, req *ListIncomingRequestsRequest) (*any, error) {
+	resp, err := x.impl.ListIncomingRequests(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) AcceptFriendRequest(ctx context.Context, req *AcceptFriendRequestRequest) (*any, error) {
+	resp, err := x.impl.AcceptFriendRequest(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) DeclineFriendRequest(ctx context.Context, req *DeclineFriendRequestRequest) error {
+	resp, err := x.impl.DeclineFriendRequest(ctx, req)
+	if err != nil {
+		return err
+	}
+	if resp.Response204 {
+		return nil
+	}
+	return fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) ListFriends(ctx context.Context, req *ListFriendsRequest) (*any, error) {
+	resp, err := x.impl.ListFriends(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) RemoveFriend(ctx context.Context, req *RemoveFriendRequest) error {
+	resp, err := x.impl.RemoveFriend(ctx, req)
+	if err != nil {
+		return err
+	}
+	if resp.Response204 {
+		return nil
+	}
+	return fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) ListOutgoingRequests(ctx context.Context, req *ListOutgoingRequestsRequest) (*any, error) {
+	resp, err := x.impl.ListOutgoingRequests(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) CancelFriendRequest(ctx context.Context, req *CancelFriendRequestRequest) error {
+	resp, err := x.impl.CancelFriendRequest(ctx, req)
+	if err != nil {
+		return err
+	}
+	if resp.Response204 {
+		return nil
+	}
+	return fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
 func (x *ClientSugared) GetJwks(ctx context.Context, req *GetJwksRequest) (*any, error) {
 	resp, err := x.impl.GetJwks(ctx, req)
 	if err != nil {

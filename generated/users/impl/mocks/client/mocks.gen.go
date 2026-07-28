@@ -147,6 +147,110 @@ func (mr *MockClientMockRecorder) DeleteSession(arg0, arg1 any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteSession", reflect.TypeOf((*MockClient)(nil).DeleteSession), arg0, arg1)
 }
 
+func (m *MockClient) SendFriendRequest(arg0 context.Context, arg1 *apiclient.SendFriendRequestRequest) (*apiclient.SendFriendRequestResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SendFriendRequest", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.SendFriendRequestResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockClientMockRecorder) SendFriendRequest(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendFriendRequest", reflect.TypeOf((*MockClient)(nil).SendFriendRequest), arg0, arg1)
+}
+
+func (m *MockClient) ListIncomingRequests(arg0 context.Context, arg1 *apiclient.ListIncomingRequestsRequest) (*apiclient.ListIncomingRequestsResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListIncomingRequests", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.ListIncomingRequestsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockClientMockRecorder) ListIncomingRequests(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListIncomingRequests", reflect.TypeOf((*MockClient)(nil).ListIncomingRequests), arg0, arg1)
+}
+
+func (m *MockClient) AcceptFriendRequest(arg0 context.Context, arg1 *apiclient.AcceptFriendRequestRequest) (*apiclient.AcceptFriendRequestResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AcceptFriendRequest", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.AcceptFriendRequestResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockClientMockRecorder) AcceptFriendRequest(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AcceptFriendRequest", reflect.TypeOf((*MockClient)(nil).AcceptFriendRequest), arg0, arg1)
+}
+
+func (m *MockClient) DeclineFriendRequest(arg0 context.Context, arg1 *apiclient.DeclineFriendRequestRequest) (*apiclient.DeclineFriendRequestResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeclineFriendRequest", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.DeclineFriendRequestResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockClientMockRecorder) DeclineFriendRequest(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeclineFriendRequest", reflect.TypeOf((*MockClient)(nil).DeclineFriendRequest), arg0, arg1)
+}
+
+func (m *MockClient) ListFriends(arg0 context.Context, arg1 *apiclient.ListFriendsRequest) (*apiclient.ListFriendsResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListFriends", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.ListFriendsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockClientMockRecorder) ListFriends(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListFriends", reflect.TypeOf((*MockClient)(nil).ListFriends), arg0, arg1)
+}
+
+func (m *MockClient) RemoveFriend(arg0 context.Context, arg1 *apiclient.RemoveFriendRequest) (*apiclient.RemoveFriendResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RemoveFriend", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.RemoveFriendResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockClientMockRecorder) RemoveFriend(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveFriend", reflect.TypeOf((*MockClient)(nil).RemoveFriend), arg0, arg1)
+}
+
+func (m *MockClient) ListOutgoingRequests(arg0 context.Context, arg1 *apiclient.ListOutgoingRequestsRequest) (*apiclient.ListOutgoingRequestsResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListOutgoingRequests", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.ListOutgoingRequestsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockClientMockRecorder) ListOutgoingRequests(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListOutgoingRequests", reflect.TypeOf((*MockClient)(nil).ListOutgoingRequests), arg0, arg1)
+}
+
+func (m *MockClient) CancelFriendRequest(arg0 context.Context, arg1 *apiclient.CancelFriendRequestRequest) (*apiclient.CancelFriendRequestResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CancelFriendRequest", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.CancelFriendRequestResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockClientMockRecorder) CancelFriendRequest(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CancelFriendRequest", reflect.TypeOf((*MockClient)(nil).CancelFriendRequest), arg0, arg1)
+}
+
 func (m *MockClient) GetJwks(arg0 context.Context, arg1 *apiclient.GetJwksRequest) (*apiclient.GetJwksResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetJwks", arg0, arg1)

@@ -42,6 +42,20 @@ paths:
     $ref: "./resources/v1/sessions/sessions.yaml"
   /users/v1/sessions/{id}:
     $ref: "./resources/v1/sessions/session.yaml"
+  /users/v1/friends/requests:
+    $ref: "./resources/v1/friends/requests.yaml"
+  /users/v1/friends/requests/{id}/accept:
+    $ref: "./resources/v1/friends/request-accept.yaml"
+  /users/v1/friends/requests/{id}/decline:
+    $ref: "./resources/v1/friends/request-decline.yaml"
+  /users/v1/friends/friends:
+    $ref: "./resources/v1/friends/friends.yaml"
+  /users/v1/friends/friends/{id}:
+    $ref: "./resources/v1/friends/friend.yaml"
+  /users/v1/friends/outgoing:
+    $ref: "./resources/v1/friends/outgoing.yaml"
+  /users/v1/friends/outgoing/{id}:
+    $ref: "./resources/v1/friends/outgoing-cancel.yaml"
   /users/v1/.well-known/jwks.json:
     $ref: "./resources/v1/service/jwks.yaml"
   /users/v1/health:
@@ -74,6 +88,8 @@ components:
       $ref: "./schemas/auth/LogoutRequest.yaml"
     UpdateUserRequest:
       $ref: "./schemas/profile/UpdateUserRequest.yaml"
+    SendFriendRequest:
+      $ref: "./schemas/friends/SendFriendRequest.yaml"
   securitySchemes:
     bearerAuth:
       type: http

@@ -6,6 +6,7 @@ import (
 	"context"
 	auth "github.com/zvonilkaRU/api-schema/generated/users/model/auth"
 	errors "github.com/zvonilkaRU/api-schema/generated/users/model/errors"
+	friends "github.com/zvonilkaRU/api-schema/generated/users/model/friends"
 	models "github.com/zvonilkaRU/api-schema/generated/users/model/models"
 	profile "github.com/zvonilkaRU/api-schema/generated/users/model/profile"
 )
@@ -20,6 +21,14 @@ type Client interface {
 	GetUserByID(ctx context.Context, req *GetUserByIDRequest) (*GetUserByIDResponse, error)
 	ListSessions(ctx context.Context, req *ListSessionsRequest) (*ListSessionsResponse, error)
 	DeleteSession(ctx context.Context, req *DeleteSessionRequest) (*DeleteSessionResponse, error)
+	SendFriendRequest(ctx context.Context, req *SendFriendRequestRequest) (*SendFriendRequestResponse, error)
+	ListIncomingRequests(ctx context.Context, req *ListIncomingRequestsRequest) (*ListIncomingRequestsResponse, error)
+	AcceptFriendRequest(ctx context.Context, req *AcceptFriendRequestRequest) (*AcceptFriendRequestResponse, error)
+	DeclineFriendRequest(ctx context.Context, req *DeclineFriendRequestRequest) (*DeclineFriendRequestResponse, error)
+	ListFriends(ctx context.Context, req *ListFriendsRequest) (*ListFriendsResponse, error)
+	RemoveFriend(ctx context.Context, req *RemoveFriendRequest) (*RemoveFriendResponse, error)
+	ListOutgoingRequests(ctx context.Context, req *ListOutgoingRequestsRequest) (*ListOutgoingRequestsResponse, error)
+	CancelFriendRequest(ctx context.Context, req *CancelFriendRequestRequest) (*CancelFriendRequestResponse, error)
 	GetJwks(ctx context.Context, req *GetJwksRequest) (*GetJwksResponse, error)
 	HealthCheck(ctx context.Context, req *HealthCheckRequest) (*HealthCheckResponse, error)
 }
@@ -136,6 +145,96 @@ type DeleteSessionResponse struct {
 	Response404 *errors.ErrorResponse
 	Response422 *errors.ErrorResponse
 	Response500 *errors.ErrorResponse
+}
+
+type SendFriendRequestRequest struct {
+	Body friends.SendFriendRequestRequest `json:"-"`
+}
+
+type SendFriendRequestResponse struct {
+	Code        int
+	Response201 *any
+	Response401 *errors.ErrorResponse
+	Response403 *errors.ErrorResponse
+	Response404 *errors.ErrorResponse
+	Response409 *errors.ErrorResponse
+	Response422 *errors.ErrorResponse
+	Response429 *errors.ErrorResponse
+}
+
+type ListIncomingRequestsRequest struct {
+}
+
+type ListIncomingRequestsResponse struct {
+	Code        int
+	Response200 *any
+	Response401 *errors.ErrorResponse
+}
+
+type AcceptFriendRequestRequest struct {
+	ID string `param:"id"`
+}
+
+type AcceptFriendRequestResponse struct {
+	Code        int
+	Response200 *any
+	Response401 *errors.ErrorResponse
+	Response403 *errors.ErrorResponse
+	Response422 *errors.ErrorResponse
+}
+
+type DeclineFriendRequestRequest struct {
+	ID string `param:"id"`
+}
+
+type DeclineFriendRequestResponse struct {
+	Code        int
+	Response204 bool
+	Response401 *errors.ErrorResponse
+	Response403 *errors.ErrorResponse
+	Response422 *errors.ErrorResponse
+}
+
+type ListFriendsRequest struct {
+}
+
+type ListFriendsResponse struct {
+	Code        int
+	Response200 *any
+	Response401 *errors.ErrorResponse
+}
+
+type RemoveFriendRequest struct {
+	ID string `param:"id"`
+}
+
+type RemoveFriendResponse struct {
+	Code        int
+	Response204 bool
+	Response401 *errors.ErrorResponse
+	Response404 *errors.ErrorResponse
+	Response422 *errors.ErrorResponse
+}
+
+type ListOutgoingRequestsRequest struct {
+}
+
+type ListOutgoingRequestsResponse struct {
+	Code        int
+	Response200 *any
+	Response401 *errors.ErrorResponse
+}
+
+type CancelFriendRequestRequest struct {
+	ID string `param:"id"`
+}
+
+type CancelFriendRequestResponse struct {
+	Code        int
+	Response204 bool
+	Response401 *errors.ErrorResponse
+	Response403 *errors.ErrorResponse
+	Response422 *errors.ErrorResponse
 }
 
 type GetJwksRequest struct {

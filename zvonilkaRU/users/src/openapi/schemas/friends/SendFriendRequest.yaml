@@ -1,0 +1,11 @@
+name: SendFriendRequest
+description: Тело запроса на отправку заявки в друзья.
+type: object
+required:
+  - tag
+properties:
+  tag:
+    type: string
+    description: Tag пользователя, которому отправляется заявка.
+    x-validations: ["Size ==7", "app.TagFormat"]
+additionalProperties: false

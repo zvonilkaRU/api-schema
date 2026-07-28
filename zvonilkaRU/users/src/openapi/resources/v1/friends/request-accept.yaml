@@ -1,0 +1,39 @@
+post:
+  tags:
+    - friends
+  summary: Accept friend request
+  description: Принимает входящую заявку в друзья. Только receiver может принять.
+  operationId: acceptFriendRequest
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: ID заявки (friendship row).
+  responses:
+    "200":
+      description: Request accepted.
+      content:
+        application/json:
+          schema: {}
+    "401":
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "403":
+      description: Only the receiver can accept.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "422":
+      description: Invalid request ID.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"

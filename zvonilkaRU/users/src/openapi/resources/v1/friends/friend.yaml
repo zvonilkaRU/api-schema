@@ -1,0 +1,36 @@
+delete:
+  tags:
+    - friends
+  summary: Remove friend
+  description: Удаляет друга из списка. Любая из сторон может удалить.
+  operationId: removeFriend
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: ID дружбы (friendship row).
+  responses:
+    "204":
+      description: Friend removed.
+    "401":
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "404":
+      description: Friendship not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "422":
+      description: Invalid friendship ID.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"

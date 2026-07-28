@@ -1,0 +1,36 @@
+post:
+  tags:
+    - friends
+  summary: Decline friend request
+  description: Отклоняет входящую заявку в друзья. Только receiver может отклонить.
+  operationId: declineFriendRequest
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: ID заявки (friendship row).
+  responses:
+    "204":
+      description: Request declined (deleted).
+    "401":
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "403":
+      description: Only the receiver can decline.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "422":
+      description: Invalid request ID.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"

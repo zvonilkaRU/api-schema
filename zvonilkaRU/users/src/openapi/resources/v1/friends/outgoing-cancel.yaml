@@ -1,0 +1,36 @@
+delete:
+  tags:
+    - friends
+  summary: Cancel outgoing friend request
+  description: Отменяет исходящую заявку в друзья. Только sender может отменить.
+  operationId: cancelFriendRequest
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: ID заявки (friendship row).
+  responses:
+    "204":
+      description: Request cancelled (deleted).
+    "401":
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "403":
+      description: Only the sender can cancel.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
+    "422":
+      description: Invalid request ID.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"

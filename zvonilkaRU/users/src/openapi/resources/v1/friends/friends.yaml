@@ -1,0 +1,20 @@
+get:
+  tags:
+    - friends
+  summary: List friends
+  description: Возвращает список друзей (accepted). UserRef[].
+  operationId: listFriends
+  security:
+    - bearerAuth: []
+  responses:
+    "200":
+      description: List of friends.
+      content:
+        application/json:
+          schema: {}
+    "401":
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/errors/Error.yaml"
