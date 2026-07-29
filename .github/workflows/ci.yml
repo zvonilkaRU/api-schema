@@ -1,0 +1,40 @@
+name: CI — Verify Codegen
+
+# On PR: regenerate code and check it matches committed state.
+# If git diff is non-empty → PR author forgot to regenerate → FAIL.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    name: Verify codegen
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+
+      - name: Regenerate code
+        env:
+          GOPRIVATE: github.com/zvonilkaRU,github.com/ilovepitsa
+        run: |
+          go run github.com/ilovepitsa/oapicodegen/cmd/oapigen@v1.1.7 \
+            -input ./zvonilkaRU \
+            -output ./generated \
+            -import-prefix github.com/zvonilkaRU/api-schema/generated \
+            -generation-flags-config-path ./generation_flags.yaml
+
+      - name: Check diff
+        run: |
+          if ! git diff --exit-code; then
+            echo "::error::Generated code is out of sync. Run codegen locally and commit the changes."
+            exit 1
+          fi

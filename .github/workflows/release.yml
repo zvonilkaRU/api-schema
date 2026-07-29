@@ -1,0 +1,66 @@
+name: Release — Permanent Tag
+
+# On push to main: run codegen, commit generated code, bump version, create permanent tag.
+# Skips commits from the bot itself to avoid infinite loops.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Codegen + Release
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+
+      - name: Run codegen
+        env:
+          GOPRIVATE: github.com/zvonilkaRU,github.com/ilovepitsa
+        run: |
+          go run github.com/ilovepitsa/oapicodegen/cmd/oapigen@v1.1.7 \
+            -input ./zvonilkaRU \
+            -output ./generated \
+            -import-prefix github.com/zvonilkaRU/api-schema/generated \
+            -generation-flags-config-path ./generation_flags.yaml
+
+      - name: Commit regenerated code
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add generated/
+          if git diff --staged --quiet; then
+            echo "No codegen changes — skipping commit."
+          else
+            git commit -m "chore: regenerate code [skip ci]"
+            git push
+          fi
+
+      - name: Bump version and tag
+        run: |
+          # Find latest non-prerelease version tag
+          LATEST=$(git tag -l 'v[0-9]*' --sort=-v:refname | grep -v '\-pr\.' | head -1 || true)
+          if [ -z "${LATEST}" ]; then
+            NEW="v0.0.1"
+          else
+            BASE="${LATEST#v}"
+            MAJOR="${BASE%%.*}"
+            REST="${BASE#*.}"
+            MINOR="${REST%%.*}"
+            PATCH="${REST#*.}"
+            PATCH="${PATCH%%-*}"
+            NEW="v${MAJOR}.${MINOR}.$((PATCH + 1))"
+          fi
+          echo "Latest: ${LATEST:-none} → New: ${NEW}"
+          git tag -a "${NEW}" -m "Release ${NEW}"
+          git push origin "${NEW}"

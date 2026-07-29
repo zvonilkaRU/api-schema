@@ -1,0 +1,25 @@
+name: PR — Delete Temporary Tag
+
+# When a PR is closed (merged or not), delete its temporary pre-release tag.
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  delete-tag:
+    name: Delete pr- tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete temporary PR tag via API
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: v0.0.0-pr.${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          # Delete the Git ref for the temporary tag
+          gh api "repos/${REPO}/git/refs/tags/${TAG}" -X DELETE 2>/dev/null || \
+            echo "Tag ${TAG} not found or already deleted — nothing to do."

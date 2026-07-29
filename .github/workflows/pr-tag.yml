@@ -1,0 +1,43 @@
+name: PR — Temporary Tag
+
+# On PR open/update: run codegen, create temporary pre-release tag
+# so other services can test against this PR's API changes.
+#
+# Tag format: v0.0.0-pr.{PR_NUMBER} (valid Go pre-release version)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    name: Codegen + Tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+
+      - name: Run codegen
+        env:
+          GOPRIVATE: github.com/zvonilkaRU,github.com/ilovepitsa
+        run: |
+          go run github.com/ilovepitsa/oapicodegen/cmd/oapigen@v1.1.7 \
+            -input ./zvonilkaRU \
+            -output ./generated \
+            -import-prefix github.com/zvonilkaRU/api-schema/generated \
+            -generation-flags-config-path ./generation_flags.yaml
+
+      - name: Create temporary PR tag
+        env:
+          TAG: v0.0.0-pr.${{ github.event.pull_request.number }}
+        run: |
+          git tag -f -a "${TAG}" -m "Temporary tag for PR #${{ github.event.pull_request.number }}"
+          git push -f origin "${TAG}"
