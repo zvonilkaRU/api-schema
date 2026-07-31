@@ -21,6 +21,27 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// APIError is the standard error envelope matching the OpenAPI Error schema.
+// All non-2xx responses use this structure.
+type APIError struct {
+	Code    string           `json:"code"`              // Machine-readable error code (e.g. "UNAUTHORIZED").
+	Message string           `json:"message"`           // Human-readable description.
+	Details []map[string]any `json:"details,omitempty"` // Optional structured details.
+	// RequestID is optional; set from request context if tracing is enabled.
+	RequestID *string `json:"request_id,omitempty"`
+}
+
+// NewAPIError creates a standard error envelope.
+func NewAPIError(code, message string) APIError {
+	return APIError{Code: code, Message: message}
+}
+
+// WithRequestID attaches a trace/request ID.
+func (e APIError) WithRequestID(id string) APIError {
+	e.RequestID = &id
+	return e
+}
+
 // Verifier fetches JWKS from Users service and verifies JWT tokens.
 type Verifier struct {
 	mu              sync.RWMutex
@@ -257,15 +278,15 @@ func Middleware(v *Verifier, publicPaths PublicPaths, skippers ...func(c echo.Co
 			}
 			auth := c.Request().Header.Get("Authorization")
 			if auth == "" {
-				return c.JSON(http.StatusUnauthorized, map[string]string{"error": "missing token"})
+				return c.JSON(http.StatusUnauthorized, NewAPIError("UNAUTHORIZED", "missing token"))
 			}
 			parts := strings.SplitN(auth, " ", 2)
 			if len(parts) != 2 || !strings.EqualFold(parts[0], "bearer") {
-				return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid format"})
+				return c.JSON(http.StatusUnauthorized, NewAPIError("UNAUTHORIZED", "invalid format"))
 			}
 			claims, err := v.Verify(parts[1])
 			if err != nil {
-				return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid token"})
+				return c.JSON(http.StatusUnauthorized, NewAPIError("UNAUTHORIZED", "invalid token"))
 			}
 			ctx := context.WithValue(c.Request().Context(), ctxUserID, claims.Subject)
 			ctx = context.WithValue(ctx, ctxNickname, claims.Nickname)

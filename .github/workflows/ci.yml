@@ -26,7 +26,7 @@ jobs:
         env:
           GOPRIVATE: github.com/zvonilkaRU,github.com/ilovepitsa
         run: |
-          go run github.com/ilovepitsa/oapicodegen/cmd/oapigen@v1.1.7 \
+          go run github.com/ilovepitsa/oapicodegen/cmd/oapigen@v1.2.1 \
             -input ./zvonilkaRU \
             -output ./generated \
             -import-prefix github.com/zvonilkaRU/api-schema/generated \

@@ -17,7 +17,8 @@ post:
       description: Friend request sent.
       content:
         application/json:
-          schema: {}
+          schema:
+            $ref: "../../../schemas/friends/SendFriendRequest.yaml"
     "401":
       description: Unauthorized.
       content:
@@ -68,7 +69,10 @@ get:
       description: List of incoming pending requests.
       content:
         application/json:
-          schema: {}
+          schema:
+            type: array
+            items:
+              $ref: "../../../schemas/models/UserRef.yaml"
     "401":
       description: Unauthorized.
       content:

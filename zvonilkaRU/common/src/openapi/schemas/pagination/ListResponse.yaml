@@ -4,6 +4,9 @@ type: object
 required:
   - items
 properties:
+  items:
+    type: array
+    description: Элементы текущей страницы. Конкретный тип элементов определяется наследующей allOf-схемой.
   next_page_token:
     type: string
     description: Токен следующей страницы. Пустой или отсутствует — это последняя страница.

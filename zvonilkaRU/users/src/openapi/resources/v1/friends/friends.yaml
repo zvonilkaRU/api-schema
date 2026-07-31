@@ -11,7 +11,10 @@ get:
       description: List of friends.
       content:
         application/json:
-          schema: {}
+          schema:
+            type: array
+            items:
+              $ref: "../../../schemas/models/UserRef.yaml"
     "401":
       description: Unauthorized.
       content:
