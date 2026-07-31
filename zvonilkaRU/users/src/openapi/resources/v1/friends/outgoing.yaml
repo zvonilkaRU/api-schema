@@ -11,7 +11,10 @@ get:
       description: List of outgoing pending requests.
       content:
         application/json:
-          schema: {}
+          schema:
+            type: array
+            items:
+              $ref: "../../../schemas/models/UserRef.yaml"
     "401":
       description: Unauthorized.
       content:

@@ -18,7 +18,8 @@ post:
       description: Request accepted.
       content:
         application/json:
-          schema: {}
+          schema:
+            $ref: "../../../schemas/models/UserRef.yaml"
     "401":
       description: Unauthorized.
       content:

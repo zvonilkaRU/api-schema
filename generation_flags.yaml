@@ -1,3 +1,8 @@
+# Global generation flags (source of truth).
+# Priority: per-service flags > project-level flags (zvonilkaRU/) > this file.
+# See zvonilkaRU/generation_flags.yaml for project-level overrides.
+# See zvonilkaRU/{service}/generation_flags.yaml for per-service overrides.
+
 - name: GOLANG_SERVER_BODY_REQUEST_NO_AUTO_DEFAULTS
   default_value: false
   description: "Disable SetDefaults() on request body"
@@ -21,5 +26,10 @@
 - name: GOLANG_USE_OPTIONAL
   default_value: false
   description: "Use optional.Optional[T] for x-optional fields"
+  affects: [golang]
+  enabled: true
+- name: GOLANG_SCHEMA_ANY
+  defaultEnum: warn
+  description: "Control generation of Go `any` types (silent|warn|error)"
   affects: [golang]
   enabled: true
