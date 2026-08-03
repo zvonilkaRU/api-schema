@@ -3,7 +3,7 @@
 package model
 
 type RoomListRequestAuditData struct {
-	Items []any `json:"items" yaml:"items"`
+	Items []RoomRequest `json:"items" yaml:"items"`
 }
 
 func (m RoomListRequest) GetAuditData() any {
@@ -13,7 +13,7 @@ func (m RoomListRequest) GetAuditData() any {
 }
 
 type RoomListResponseAuditData struct {
-	Items []any `json:"items" yaml:"items"`
+	Items []RoomResponse `json:"items" yaml:"items"`
 }
 
 func (m RoomListResponse) GetAuditData() any {

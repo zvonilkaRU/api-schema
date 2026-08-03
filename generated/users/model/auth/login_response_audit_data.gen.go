@@ -2,11 +2,15 @@
 
 package model
 
+import (
+	models "github.com/zvonilkaRU/api-schema/generated/users/model/models"
+)
+
 type LoginResponseRequestAuditData struct {
-	User         any    `json:"user" yaml:"user"`
-	AccessToken  string `json:"access_token" yaml:"access_token"`
-	RefreshToken string `json:"refresh_token" yaml:"refresh_token"`
-	ExpiresIn    int64  `json:"expires_in" yaml:"expires_in"`
+	User         models.UserRequest `json:"user" yaml:"user"`
+	AccessToken  string             `json:"access_token" yaml:"access_token"`
+	RefreshToken string             `json:"refresh_token" yaml:"refresh_token"`
+	ExpiresIn    int64              `json:"expires_in" yaml:"expires_in"`
 }
 
 func (m LoginResponseRequest) GetAuditData() any {
@@ -19,10 +23,10 @@ func (m LoginResponseRequest) GetAuditData() any {
 }
 
 type LoginResponseResponseAuditData struct {
-	User         any    `json:"user" yaml:"user"`
-	AccessToken  string `json:"access_token" yaml:"access_token"`
-	RefreshToken string `json:"refresh_token" yaml:"refresh_token"`
-	ExpiresIn    int64  `json:"expires_in" yaml:"expires_in"`
+	User         models.UserResponse `json:"user" yaml:"user"`
+	AccessToken  string              `json:"access_token" yaml:"access_token"`
+	RefreshToken string              `json:"refresh_token" yaml:"refresh_token"`
+	ExpiresIn    int64               `json:"expires_in" yaml:"expires_in"`
 }
 
 func (m LoginResponseResponse) GetAuditData() any {

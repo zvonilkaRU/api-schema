@@ -2,10 +2,14 @@
 
 package model
 
+import (
+	model "github.com/zvonilkaRU/api-schema/generated/servers/model"
+)
+
 type ChannelRequestAuditData struct {
-	Name      string `json:"name" yaml:"name"`
-	Position  int    `json:"position" yaml:"position"`
-	CreatedAt any    `json:"created_at" yaml:"created_at"`
+	Name      string        `json:"name" yaml:"name"`
+	Position  int           `json:"position" yaml:"position"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 }
 
 func (m ChannelRequest) GetAuditData() any {
@@ -17,12 +21,12 @@ func (m ChannelRequest) GetAuditData() any {
 }
 
 type ChannelResponseAuditData struct {
-	ID        string `json:"id" yaml:"id"`
-	Name      string `json:"name" yaml:"name"`
-	Type      string `json:"type" yaml:"type"`
-	Position  int    `json:"position" yaml:"position"`
-	CreatedBy string `json:"created_by" yaml:"created_by"`
-	CreatedAt any    `json:"created_at" yaml:"created_at"`
+	ID        string        `json:"id" yaml:"id"`
+	Name      string        `json:"name" yaml:"name"`
+	Type      string        `json:"type" yaml:"type"`
+	Position  int           `json:"position" yaml:"position"`
+	CreatedBy string        `json:"created_by" yaml:"created_by"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 }
 
 func (m ChannelResponse) GetAuditData() any {

@@ -4,6 +4,9 @@ package model
 
 func RoomListRequestToResponse(req RoomListRequest) RoomListResponse {
 	var resp RoomListResponse
-	resp.Items = req.Items
+	resp.Items = make([]RoomResponse, len(req.Items))
+	for i, v := range req.Items {
+		resp.Items[i] = RoomRequestToResponse(v)
+	}
 	return resp
 }

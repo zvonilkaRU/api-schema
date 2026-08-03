@@ -5,6 +5,7 @@ package model
 import (
 	"fmt"
 	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
+	model "github.com/zvonilkaRU/api-schema/generated/servers/model"
 )
 
 // Channel template within a server.
@@ -14,7 +15,7 @@ type ChannelRequest struct {
 	// Display order position.
 	Position int `json:"position" yaml:"position"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	CreatedAt any `json:"created_at" yaml:"created_at"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 }
 
 type ChannelResponse struct {
@@ -29,7 +30,7 @@ type ChannelResponse struct {
 	// Creator user ID.
 	CreatedBy string `json:"created_by" yaml:"created_by"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	CreatedAt any `json:"created_at" yaml:"created_at"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 }
 
 func (x ChannelRequest) ValidateOwn(reg *validator.Registry) error {

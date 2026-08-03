@@ -2,6 +2,10 @@
 
 package model
 
+import (
+	optional "github.com/ilovepitsa/oapicodegen/pkg/optional"
+)
+
 // Request to update a member's role.
 type UpdateMemberRequestRequest struct {
 	// New role (admin, member). Cannot set to owner via this endpoint.
@@ -11,4 +15,24 @@ type UpdateMemberRequestRequest struct {
 type UpdateMemberRequestResponse struct {
 	// New role (admin, member). Cannot set to owner via this endpoint.
 	Role string `json:"role" yaml:"role"`
+}
+
+// UpdateUpdateMemberRequest — PATCH/PUT variant of UpdateMemberRequest.
+type UpdateUpdateMemberRequest struct {
+	// New role (admin, member). Cannot set to owner via this endpoint.
+	Role optional.Optional[string] `json:"role" yaml:"role"`
+}
+
+// GetRole возвращает значение поля Role и флаг presence.
+// Семантика: (nil, false) — поле не задано; (nil, true) — задано как null;
+// (&value, true) — задано значением.
+func (u *UpdateUpdateMemberRequest) GetRole() (*string, bool) {
+	if !u.Role.IsSet() {
+		return nil, false
+	}
+	if u.Role.IsNil() {
+		return nil, true
+	}
+	v := u.Role.Value()
+	return &v, true
 }

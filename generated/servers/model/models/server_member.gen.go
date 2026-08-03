@@ -5,6 +5,7 @@ package model
 import (
 	"fmt"
 	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
+	model "github.com/zvonilkaRU/api-schema/generated/servers/model"
 )
 
 // Member of a server.
@@ -12,7 +13,7 @@ type ServerMemberRequest struct {
 	// Member role (owner, admin, member).
 	Role string `json:"role" yaml:"role"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	JoinedAt any `json:"joined_at" yaml:"joined_at"`
+	JoinedAt model.UTCTime `json:"joined_at" yaml:"joined_at"`
 }
 
 type ServerMemberResponse struct {
@@ -25,7 +26,7 @@ type ServerMemberResponse struct {
 	// Member role (owner, admin, member).
 	Role string `json:"role" yaml:"role"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	JoinedAt any `json:"joined_at" yaml:"joined_at"`
+	JoinedAt model.UTCTime `json:"joined_at" yaml:"joined_at"`
 }
 
 func (x ServerMemberRequest) ValidateOwn(reg *validator.Registry) error {

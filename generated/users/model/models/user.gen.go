@@ -18,7 +18,7 @@ type UserRequest struct {
 	// Отображаемое имя. 1-32 Unicode-символа. Может повторяться.
 	Nickname string `json:"nickname" yaml:"nickname"`
 	// Статус учётной записи пользователя.
-	Status any `json:"status" yaml:"status"`
+	Status UserStatus `json:"status" yaml:"status"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
 	CreatedAt any `json:"created_at" yaml:"created_at"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
@@ -37,7 +37,7 @@ type UserResponse struct {
 	// 7 символов A-Z0-9, генерируется сервером. Глобально уникальный. Для disambiguation при совпадении nickname.
 	Tag string `json:"tag" yaml:"tag"`
 	// Статус учётной записи пользователя.
-	Status any `json:"status" yaml:"status"`
+	Status UserStatus `json:"status" yaml:"status"`
 	// Подтверждён ли email. В MVP всегда false (верификация —
 	EmailVerified bool `json:"email_verified" yaml:"email_verified"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.

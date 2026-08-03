@@ -4,9 +4,9 @@ package model
 
 // Список комнат.
 type RoomListRequest struct {
-	Items []any `json:"items" yaml:"items"`
+	Items []RoomRequest `json:"items" yaml:"items"`
 }
 
 type RoomListResponse struct {
-	Items []any `json:"items" yaml:"items"`
+	Items []RoomResponse `json:"items" yaml:"items"`
 }
