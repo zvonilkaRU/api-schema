@@ -24,37 +24,37 @@ post:
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "403":
       description: User is not accepting friend requests.
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "404":
       description: User not found by tag.
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "409":
       description: Already friends or request already pending.
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "422":
       description: Cannot send to self or validation error.
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "429":
       description: Daily request limit reached.
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
 
 get:
   tags:
@@ -78,4 +78,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

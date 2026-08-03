@@ -32,6 +32,6 @@ properties:
     description: Creator user ID.
     readOnly: true
   created_at:
-    $ref: "../../schemas/time/Timestamp.yaml"
+    $ref: "../../../../../common/src/openapi/schemas/time/Timestamp.yaml"
     readOnly: true
 additionalProperties: false

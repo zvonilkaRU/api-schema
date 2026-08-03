@@ -9,7 +9,7 @@ import (
 	"fmt"
 	httpclient "github.com/ilovepitsa/oapicodegen/pkg/httpclient"
 	apiclient "github.com/zvonilkaRU/api-schema/generated/rooms/interfaces/client"
-	errors "github.com/zvonilkaRU/api-schema/generated/rooms/model/errors"
+	model "github.com/zvonilkaRU/api-schema/generated/rooms/model"
 	models "github.com/zvonilkaRU/api-schema/generated/rooms/model/models"
 	"net/http"
 	"net/url"
@@ -57,13 +57,13 @@ func (c *Client) CreateRoom(ctx context.Context, req *apiclient.CreateRoomReques
 		}
 		result.Response201 = &v
 	case 400:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 400: %w", err)
 		}
 		result.Response400 = &v
 	case 500:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
@@ -124,7 +124,7 @@ func (c *Client) GetRoomByID(ctx context.Context, req *apiclient.GetRoomByIDRequ
 		}
 		result.Response200 = &v
 	case 404:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
@@ -154,7 +154,7 @@ func (c *Client) DeleteRoom(ctx context.Context, req *apiclient.DeleteRoomReques
 	case 204:
 		result.Response204 = true
 	case 404:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
@@ -188,7 +188,7 @@ func (c *Client) JoinRoom(ctx context.Context, req *apiclient.JoinRoomRequest) (
 		}
 		result.Response200 = &v
 	case 404:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}

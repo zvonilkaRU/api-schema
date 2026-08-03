@@ -9,7 +9,7 @@ import (
 	"fmt"
 	httpclient "github.com/ilovepitsa/oapicodegen/pkg/httpclient"
 	apiclient "github.com/zvonilkaRU/api-schema/generated/servers/interfaces/client"
-	errors "github.com/zvonilkaRU/api-schema/generated/servers/model/errors"
+	model "github.com/zvonilkaRU/api-schema/generated/servers/model"
 	models "github.com/zvonilkaRU/api-schema/generated/servers/model/models"
 	"net/http"
 	"net/url"
@@ -57,13 +57,13 @@ func (c *Client) CreateServer(ctx context.Context, req *apiclient.CreateServerRe
 		}
 		result.Response201 = &v
 	case 400:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 400: %w", err)
 		}
 		result.Response400 = &v
 	case 500:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
@@ -124,7 +124,7 @@ func (c *Client) GetServer(ctx context.Context, req *apiclient.GetServerRequest)
 		}
 		result.Response200 = &v
 	case 404:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
@@ -163,13 +163,13 @@ func (c *Client) UpdateServer(ctx context.Context, req *apiclient.UpdateServerRe
 		}
 		result.Response200 = &v
 	case 403:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 403: %w", err)
 		}
 		result.Response403 = &v
 	case 404:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
@@ -199,13 +199,13 @@ func (c *Client) DeleteServer(ctx context.Context, req *apiclient.DeleteServerRe
 	case 204:
 		result.Response204 = true
 	case 403:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 403: %w", err)
 		}
 		result.Response403 = &v
 	case 404:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
@@ -239,7 +239,7 @@ func (c *Client) ListMembers(ctx context.Context, req *apiclient.ListMembersRequ
 		}
 		result.Response200 = &v
 	case 404:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
@@ -275,13 +275,13 @@ func (c *Client) UpdateMember(ctx context.Context, req *apiclient.UpdateMemberRe
 	case 204:
 		result.Response204 = true
 	case 403:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 403: %w", err)
 		}
 		result.Response403 = &v
 	case 404:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
@@ -312,13 +312,13 @@ func (c *Client) KickMember(ctx context.Context, req *apiclient.KickMemberReques
 	case 204:
 		result.Response204 = true
 	case 403:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 403: %w", err)
 		}
 		result.Response403 = &v
 	case 404:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
@@ -353,13 +353,13 @@ func (c *Client) TransferOwnership(ctx context.Context, req *apiclient.TransferO
 	case 204:
 		result.Response204 = true
 	case 403:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 403: %w", err)
 		}
 		result.Response403 = &v
 	case 404:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
@@ -398,13 +398,13 @@ func (c *Client) CreateChannel(ctx context.Context, req *apiclient.CreateChannel
 		}
 		result.Response201 = &v
 	case 403:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 403: %w", err)
 		}
 		result.Response403 = &v
 	case 500:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
@@ -444,13 +444,13 @@ func (c *Client) UpdateChannel(ctx context.Context, req *apiclient.UpdateChannel
 		}
 		result.Response200 = &v
 	case 403:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 403: %w", err)
 		}
 		result.Response403 = &v
 	case 404:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
@@ -481,13 +481,13 @@ func (c *Client) DeleteChannel(ctx context.Context, req *apiclient.DeleteChannel
 	case 204:
 		result.Response204 = true
 	case 403:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 403: %w", err)
 		}
 		result.Response403 = &v
 	case 404:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
@@ -521,13 +521,13 @@ func (c *Client) JoinChannel(ctx context.Context, req *apiclient.JoinChannelRequ
 		}
 		result.Response200 = &v
 	case 403:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 403: %w", err)
 		}
 		result.Response403 = &v
 	case 404:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}

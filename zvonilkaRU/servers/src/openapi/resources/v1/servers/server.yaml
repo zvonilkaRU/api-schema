@@ -24,7 +24,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
 
 patch:
   tags:
@@ -58,13 +58,13 @@ patch:
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "404":
       description: Server not found.
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
 
 delete:
   tags:
@@ -88,10 +88,10 @@ delete:
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "404":
       description: Server not found.
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

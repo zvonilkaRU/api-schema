@@ -4,8 +4,8 @@ package client
 
 import (
 	"context"
+	model "github.com/zvonilkaRU/api-schema/generated/users/model"
 	auth "github.com/zvonilkaRU/api-schema/generated/users/model/auth"
-	errors "github.com/zvonilkaRU/api-schema/generated/users/model/errors"
 	friends "github.com/zvonilkaRU/api-schema/generated/users/model/friends"
 	models "github.com/zvonilkaRU/api-schema/generated/users/model/models"
 	profile "github.com/zvonilkaRU/api-schema/generated/users/model/profile"
@@ -40,10 +40,10 @@ type RegisterUserRequest struct {
 type RegisterUserResponse struct {
 	Code        int
 	Response201 *auth.RegisterResponseResponse
-	Response400 *errors.ErrorResponse
-	Response409 *errors.ErrorResponse
-	Response422 *errors.ErrorResponse
-	Response500 *errors.ErrorResponse
+	Response400 *model.ErrorResponse
+	Response409 *model.ErrorResponse
+	Response422 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type LoginUserRequest struct {
@@ -53,10 +53,10 @@ type LoginUserRequest struct {
 type LoginUserResponse struct {
 	Code        int
 	Response200 *auth.LoginResponseResponse
-	Response400 *errors.ErrorResponse
-	Response401 *errors.ErrorResponse
-	Response422 *errors.ErrorResponse
-	Response500 *errors.ErrorResponse
+	Response400 *model.ErrorResponse
+	Response401 *model.ErrorResponse
+	Response422 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type RefreshTokenRequest struct {
@@ -66,10 +66,10 @@ type RefreshTokenRequest struct {
 type RefreshTokenResponse struct {
 	Code        int
 	Response200 *auth.RefreshResponseResponse
-	Response401 *errors.ErrorResponse
-	Response409 *errors.ErrorResponse
-	Response422 *errors.ErrorResponse
-	Response500 *errors.ErrorResponse
+	Response401 *model.ErrorResponse
+	Response409 *model.ErrorResponse
+	Response422 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type LogoutUserRequest struct {
@@ -79,9 +79,9 @@ type LogoutUserRequest struct {
 type LogoutUserResponse struct {
 	Code        int
 	Response204 bool
-	Response401 *errors.ErrorResponse
-	Response422 *errors.ErrorResponse
-	Response500 *errors.ErrorResponse
+	Response401 *model.ErrorResponse
+	Response422 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type GetCurrentUserRequest struct {
@@ -90,8 +90,8 @@ type GetCurrentUserRequest struct {
 type GetCurrentUserResponse struct {
 	Code        int
 	Response200 *models.UserResponse
-	Response401 *errors.ErrorResponse
-	Response500 *errors.ErrorResponse
+	Response401 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type UpdateCurrentUserRequest struct {
@@ -101,11 +101,11 @@ type UpdateCurrentUserRequest struct {
 type UpdateCurrentUserResponse struct {
 	Code        int
 	Response200 *models.UserResponse
-	Response400 *errors.ErrorResponse
-	Response401 *errors.ErrorResponse
-	Response409 *errors.ErrorResponse
-	Response422 *errors.ErrorResponse
-	Response500 *errors.ErrorResponse
+	Response400 *model.ErrorResponse
+	Response401 *model.ErrorResponse
+	Response409 *model.ErrorResponse
+	Response422 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type GetUserByIDRequest struct {
@@ -115,10 +115,10 @@ type GetUserByIDRequest struct {
 type GetUserByIDResponse struct {
 	Code        int
 	Response200 *models.UserRefResponse
-	Response401 *errors.ErrorResponse
-	Response404 *errors.ErrorResponse
-	Response422 *errors.ErrorResponse
-	Response500 *errors.ErrorResponse
+	Response401 *model.ErrorResponse
+	Response404 *model.ErrorResponse
+	Response422 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type ListSessionsRequest struct {
@@ -129,8 +129,8 @@ type ListSessionsRequest struct {
 type ListSessionsResponse struct {
 	Code        int
 	Response200 *any
-	Response401 *errors.ErrorResponse
-	Response500 *errors.ErrorResponse
+	Response401 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type DeleteSessionRequest struct {
@@ -140,11 +140,11 @@ type DeleteSessionRequest struct {
 type DeleteSessionResponse struct {
 	Code        int
 	Response204 bool
-	Response401 *errors.ErrorResponse
-	Response403 *errors.ErrorResponse
-	Response404 *errors.ErrorResponse
-	Response422 *errors.ErrorResponse
-	Response500 *errors.ErrorResponse
+	Response401 *model.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
+	Response422 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type SendFriendRequestRequest struct {
@@ -154,12 +154,12 @@ type SendFriendRequestRequest struct {
 type SendFriendRequestResponse struct {
 	Code        int
 	Response201 *friends.SendFriendRequestResponse
-	Response401 *errors.ErrorResponse
-	Response403 *errors.ErrorResponse
-	Response404 *errors.ErrorResponse
-	Response409 *errors.ErrorResponse
-	Response422 *errors.ErrorResponse
-	Response429 *errors.ErrorResponse
+	Response401 *model.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
+	Response409 *model.ErrorResponse
+	Response422 *model.ErrorResponse
+	Response429 *model.ErrorResponse
 }
 
 type ListIncomingRequestsRequest struct {
@@ -168,7 +168,7 @@ type ListIncomingRequestsRequest struct {
 type ListIncomingRequestsResponse struct {
 	Code        int
 	Response200 *[]models.UserRefResponse
-	Response401 *errors.ErrorResponse
+	Response401 *model.ErrorResponse
 }
 
 type AcceptFriendRequestRequest struct {
@@ -178,9 +178,9 @@ type AcceptFriendRequestRequest struct {
 type AcceptFriendRequestResponse struct {
 	Code        int
 	Response200 *models.UserRefResponse
-	Response401 *errors.ErrorResponse
-	Response403 *errors.ErrorResponse
-	Response422 *errors.ErrorResponse
+	Response401 *model.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response422 *model.ErrorResponse
 }
 
 type DeclineFriendRequestRequest struct {
@@ -190,9 +190,9 @@ type DeclineFriendRequestRequest struct {
 type DeclineFriendRequestResponse struct {
 	Code        int
 	Response204 bool
-	Response401 *errors.ErrorResponse
-	Response403 *errors.ErrorResponse
-	Response422 *errors.ErrorResponse
+	Response401 *model.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response422 *model.ErrorResponse
 }
 
 type ListFriendsRequest struct {
@@ -201,7 +201,7 @@ type ListFriendsRequest struct {
 type ListFriendsResponse struct {
 	Code        int
 	Response200 *[]models.UserRefResponse
-	Response401 *errors.ErrorResponse
+	Response401 *model.ErrorResponse
 }
 
 type RemoveFriendRequest struct {
@@ -211,9 +211,9 @@ type RemoveFriendRequest struct {
 type RemoveFriendResponse struct {
 	Code        int
 	Response204 bool
-	Response401 *errors.ErrorResponse
-	Response404 *errors.ErrorResponse
-	Response422 *errors.ErrorResponse
+	Response401 *model.ErrorResponse
+	Response404 *model.ErrorResponse
+	Response422 *model.ErrorResponse
 }
 
 type ListOutgoingRequestsRequest struct {
@@ -222,7 +222,7 @@ type ListOutgoingRequestsRequest struct {
 type ListOutgoingRequestsResponse struct {
 	Code        int
 	Response200 *[]models.UserRefResponse
-	Response401 *errors.ErrorResponse
+	Response401 *model.ErrorResponse
 }
 
 type CancelFriendRequestRequest struct {
@@ -232,9 +232,9 @@ type CancelFriendRequestRequest struct {
 type CancelFriendRequestResponse struct {
 	Code        int
 	Response204 bool
-	Response401 *errors.ErrorResponse
-	Response403 *errors.ErrorResponse
-	Response422 *errors.ErrorResponse
+	Response401 *model.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response422 *model.ErrorResponse
 }
 
 type GetJwksRequest struct {
@@ -243,7 +243,7 @@ type GetJwksRequest struct {
 type GetJwksResponse struct {
 	Code        int
 	Response200 *any
-	Response500 *errors.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type HealthCheckRequest struct {
