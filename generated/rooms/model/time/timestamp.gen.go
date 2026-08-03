@@ -2,4 +2,9 @@
 
 package model
 
+import (
+	model "github.com/zvonilkaRU/api-schema/generated/rooms/model"
+)
+
 // RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
+type Timestamp model.UTCTime

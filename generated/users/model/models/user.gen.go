@@ -5,12 +5,14 @@ package model
 import (
 	"fmt"
 	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
+	identifiers "github.com/zvonilkaRU/api-schema/generated/common/model/identifiers"
+	model "github.com/zvonilkaRU/api-schema/generated/users/model"
 )
 
 // Полный профиль пользователя. Возвращается ТОЛЬКО из /users/me (владельцу). login и email скрыты от других пользователей.
 type UserRequest struct {
 	// UUID v7 (time-ordered). Используется для всех primary keys в zvonilka.
-	ID any `json:"id" yaml:"id"`
+	ID identifiers.UUIDv7 `json:"id" yaml:"id"`
 	// Уникальный скрытый идентификатор для аутентификации. 3-32 символа, a-z0-9._-, lowercased.
 	Login string `json:"login" yaml:"login"`
 	// Email пользователя. Скрытый (видит только владелец).
@@ -20,14 +22,14 @@ type UserRequest struct {
 	// Статус учётной записи пользователя.
 	Status UserStatus `json:"status" yaml:"status"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	CreatedAt any `json:"created_at" yaml:"created_at"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	UpdatedAt any `json:"updated_at" yaml:"updated_at"`
+	UpdatedAt model.UTCTime `json:"updated_at" yaml:"updated_at"`
 }
 
 type UserResponse struct {
 	// UUID v7 (time-ordered). Используется для всех primary keys в zvonilka.
-	ID any `json:"id" yaml:"id"`
+	ID identifiers.UUIDv7 `json:"id" yaml:"id"`
 	// Уникальный скрытый идентификатор для аутентификации. 3-32 символа, a-z0-9._-, lowercased.
 	Login string `json:"login" yaml:"login"`
 	// Email пользователя. Скрытый (видит только владелец).
@@ -41,9 +43,9 @@ type UserResponse struct {
 	// Подтверждён ли email. В MVP всегда false (верификация —
 	EmailVerified bool `json:"email_verified" yaml:"email_verified"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	CreatedAt any `json:"created_at" yaml:"created_at"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	UpdatedAt any `json:"updated_at" yaml:"updated_at"`
+	UpdatedAt model.UTCTime `json:"updated_at" yaml:"updated_at"`
 }
 
 func (x UserRequest) ValidateOwn(reg *validator.Registry) error {
