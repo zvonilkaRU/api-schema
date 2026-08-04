@@ -18,13 +18,13 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "500":
       description: Internal error.
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
 
 patch:
   tags:
@@ -52,28 +52,28 @@ patch:
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "401":
       description: Invalid or expired access token.
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "409":
       description: Login already taken.
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "422":
       description: Validation error.
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "500":
       description: Internal error.
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

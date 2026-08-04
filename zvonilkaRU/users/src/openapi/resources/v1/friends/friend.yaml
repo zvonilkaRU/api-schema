@@ -21,16 +21,16 @@ delete:
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "404":
       description: Friendship not found.
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "422":
       description: Invalid friendship ID.
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

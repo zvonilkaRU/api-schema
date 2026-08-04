@@ -27,10 +27,10 @@ post:
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "404":
       description: Server or target user not found.
       content:
         application/json:
           schema:
-            $ref: "../../../schemas/errors/Error.yaml"
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

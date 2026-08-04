@@ -3,3 +3,4 @@
 package model
 
 // UUID v7 (time-ordered). Используется для всех primary keys в zvonilka.
+type UUIDv7 string

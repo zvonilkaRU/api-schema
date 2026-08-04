@@ -36,4 +36,4 @@ post:
       content:
         application/json:
           schema:
-            $ref: "../../schemas/errors/Error.yaml"
+            $ref: "../../../../../common/src/openapi/schemas/errors/Error.yaml"

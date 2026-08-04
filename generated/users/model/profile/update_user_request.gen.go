@@ -4,6 +4,7 @@ package model
 
 import (
 	"fmt"
+	optional "github.com/ilovepitsa/oapicodegen/pkg/optional"
 	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
 )
 
@@ -91,6 +92,80 @@ func (x UpdateUserRequestResponse) ValidateOwn(reg *validator.Registry) error {
 				return fmt.Errorf("validator %q not registered", "app.LoginFormat")
 			}
 			if err := v.Validate(*x.Login); err != nil {
+				return fmt.Errorf("field Login: %w", err)
+			}
+		}
+	}
+	return nil
+}
+
+// UpdateUpdateUserRequest — PATCH/PUT variant of UpdateUserRequest.
+type UpdateUpdateUserRequest struct {
+	// Новое отображаемое имя.
+	Nickname optional.Optional[string] `json:"nickname" yaml:"nickname"`
+	// Новый login. В MVP разрешена смена без подтверждения.
+	Login optional.Optional[string] `json:"login" yaml:"login"`
+}
+
+// GetNickname возвращает значение поля Nickname и флаг presence.
+// Семантика: (nil, false) — поле не задано; (nil, true) — задано как null;
+// (&value, true) — задано значением.
+func (u *UpdateUpdateUserRequest) GetNickname() (*string, bool) {
+	if !u.Nickname.IsSet() {
+		return nil, false
+	}
+	if u.Nickname.IsNil() {
+		return nil, true
+	}
+	v := u.Nickname.Value()
+	return &v, true
+}
+
+// GetLogin возвращает значение поля Login и флаг presence.
+// Семантика: (nil, false) — поле не задано; (nil, true) — задано как null;
+// (&value, true) — задано значением.
+func (u *UpdateUpdateUserRequest) GetLogin() (*string, bool) {
+	if !u.Login.IsSet() {
+		return nil, false
+	}
+	if u.Login.IsNil() {
+		return nil, true
+	}
+	v := u.Login.Value()
+	return &v, true
+}
+
+func (x UpdateUpdateUserRequest) ValidateOwn(reg *validator.Registry) error {
+	if x.Nickname.IsSet() && !x.Nickname.IsNil() && len(x.Nickname.Value()) < 1 {
+		return fmt.Errorf("field Nickname: must be >= 1")
+	}
+	if x.Nickname.IsSet() && !x.Nickname.IsNil() && len(x.Nickname.Value()) > 32 {
+		return fmt.Errorf("field Nickname: must be <= 32")
+	}
+	if x.Nickname.IsSet() && !x.Nickname.IsNil() {
+		{
+			v, ok := reg.Get("app.NoControlChars")
+			if !ok {
+				return fmt.Errorf("validator %q not registered", "app.NoControlChars")
+			}
+			if err := v.Validate(x.Nickname.Value()); err != nil {
+				return fmt.Errorf("field Nickname: %w", err)
+			}
+		}
+	}
+	if x.Login.IsSet() && !x.Login.IsNil() && len(x.Login.Value()) < 3 {
+		return fmt.Errorf("field Login: must be >= 3")
+	}
+	if x.Login.IsSet() && !x.Login.IsNil() && len(x.Login.Value()) > 32 {
+		return fmt.Errorf("field Login: must be <= 32")
+	}
+	if x.Login.IsSet() && !x.Login.IsNil() {
+		{
+			v, ok := reg.Get("app.LoginFormat")
+			if !ok {
+				return fmt.Errorf("validator %q not registered", "app.LoginFormat")
+			}
+			if err := v.Validate(x.Login.Value()); err != nil {
 				return fmt.Errorf("field Login: %w", err)
 			}
 		}

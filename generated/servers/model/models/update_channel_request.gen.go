@@ -4,6 +4,7 @@ package model
 
 import (
 	"fmt"
+	optional "github.com/ilovepitsa/oapicodegen/pkg/optional"
 	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
 )
 
@@ -37,6 +38,52 @@ func (x UpdateChannelRequestResponse) ValidateOwn(reg *validator.Registry) error
 		return fmt.Errorf("field Name: must be >= 1")
 	}
 	if x.Name != nil && len(*x.Name) > 64 {
+		return fmt.Errorf("field Name: must be <= 64")
+	}
+	return nil
+}
+
+// UpdateUpdateChannelRequest — PATCH/PUT variant of UpdateChannelRequest.
+type UpdateUpdateChannelRequest struct {
+	// New channel name.
+	Name optional.Optional[string] `json:"name" yaml:"name"`
+	// New display order position.
+	Position optional.Optional[int] `json:"position" yaml:"position"`
+}
+
+// GetName возвращает значение поля Name и флаг presence.
+// Семантика: (nil, false) — поле не задано; (nil, true) — задано как null;
+// (&value, true) — задано значением.
+func (u *UpdateUpdateChannelRequest) GetName() (*string, bool) {
+	if !u.Name.IsSet() {
+		return nil, false
+	}
+	if u.Name.IsNil() {
+		return nil, true
+	}
+	v := u.Name.Value()
+	return &v, true
+}
+
+// GetPosition возвращает значение поля Position и флаг presence.
+// Семантика: (nil, false) — поле не задано; (nil, true) — задано как null;
+// (&value, true) — задано значением.
+func (u *UpdateUpdateChannelRequest) GetPosition() (*int, bool) {
+	if !u.Position.IsSet() {
+		return nil, false
+	}
+	if u.Position.IsNil() {
+		return nil, true
+	}
+	v := u.Position.Value()
+	return &v, true
+}
+
+func (x UpdateUpdateChannelRequest) ValidateOwn(reg *validator.Registry) error {
+	if x.Name.IsSet() && !x.Name.IsNil() && len(x.Name.Value()) < 1 {
+		return fmt.Errorf("field Name: must be >= 1")
+	}
+	if x.Name.IsSet() && !x.Name.IsNil() && len(x.Name.Value()) > 64 {
 		return fmt.Errorf("field Name: must be <= 64")
 	}
 	return nil

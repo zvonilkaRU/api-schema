@@ -2,9 +2,13 @@
 
 package model
 
+import (
+	identifiers "github.com/zvonilkaRU/api-schema/generated/common/model/identifiers"
+)
+
 type UserRefRequestAuditData struct {
-	ID       any    `json:"id" yaml:"id"`
-	Nickname string `json:"nickname" yaml:"nickname"`
+	ID       identifiers.UUIDv7 `json:"id" yaml:"id"`
+	Nickname string             `json:"nickname" yaml:"nickname"`
 }
 
 func (m UserRefRequest) GetAuditData() any {
@@ -15,9 +19,9 @@ func (m UserRefRequest) GetAuditData() any {
 }
 
 type UserRefResponseAuditData struct {
-	ID       any    `json:"id" yaml:"id"`
-	Nickname string `json:"nickname" yaml:"nickname"`
-	Tag      string `json:"tag" yaml:"tag"`
+	ID       identifiers.UUIDv7 `json:"id" yaml:"id"`
+	Nickname string             `json:"nickname" yaml:"nickname"`
+	Tag      string             `json:"tag" yaml:"tag"`
 }
 
 func (m UserRefResponse) GetAuditData() any {

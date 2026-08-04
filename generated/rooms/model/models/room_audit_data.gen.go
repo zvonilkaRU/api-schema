@@ -2,9 +2,13 @@
 
 package model
 
+import (
+	model "github.com/zvonilkaRU/api-schema/generated/rooms/model"
+)
+
 type RoomRequestAuditData struct {
-	Name      string `json:"name" yaml:"name"`
-	CreatedAt any    `json:"created_at" yaml:"created_at"`
+	Name      string        `json:"name" yaml:"name"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 }
 
 func (m RoomRequest) GetAuditData() any {
@@ -15,10 +19,10 @@ func (m RoomRequest) GetAuditData() any {
 }
 
 type RoomResponseAuditData struct {
-	ID        string `json:"id" yaml:"id"`
-	Name      string `json:"name" yaml:"name"`
-	CreatedBy string `json:"created_by" yaml:"created_by"`
-	CreatedAt any    `json:"created_at" yaml:"created_at"`
+	ID        string        `json:"id" yaml:"id"`
+	Name      string        `json:"name" yaml:"name"`
+	CreatedBy string        `json:"created_by" yaml:"created_by"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 }
 
 func (m RoomResponse) GetAuditData() any {

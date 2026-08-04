@@ -2,9 +2,13 @@
 
 package model
 
+import (
+	models "github.com/zvonilkaRU/api-schema/generated/users/model/models"
+)
+
 func RegisterResponseRequestToResponse(req RegisterResponseRequest) RegisterResponseResponse {
 	var resp RegisterResponseResponse
-	resp.User = req.User
+	resp.User = models.UserRequestToResponse(req.User)
 	resp.AccessToken = req.AccessToken
 	resp.RefreshToken = req.RefreshToken
 	resp.ExpiresIn = req.ExpiresIn

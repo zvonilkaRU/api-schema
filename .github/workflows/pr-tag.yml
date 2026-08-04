@@ -16,6 +16,7 @@ jobs:
   tag:
     name: Codegen + Tag
     runs-on: ubuntu-latest
+    if: false  # temporarily disabled — tag generation paused
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,7 +30,7 @@ jobs:
         env:
           GOPRIVATE: github.com/zvonilkaRU,github.com/ilovepitsa
         run: |
-          go run github.com/ilovepitsa/oapicodegen/cmd/oapigen@v1.2.1 \
+          go run github.com/ilovepitsa/oapicodegen/cmd/oapigen@v1.3.6 \
             -input ./zvonilkaRU \
             -output ./generated \
             -import-prefix github.com/zvonilkaRU/api-schema/generated \

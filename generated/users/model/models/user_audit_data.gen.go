@@ -2,14 +2,19 @@
 
 package model
 
+import (
+	identifiers "github.com/zvonilkaRU/api-schema/generated/common/model/identifiers"
+	model "github.com/zvonilkaRU/api-schema/generated/users/model"
+)
+
 type UserRequestAuditData struct {
-	ID        any    `json:"id" yaml:"id"`
-	Login     string `json:"login" yaml:"login"`
-	Email     string `json:"email" yaml:"email"`
-	Nickname  string `json:"nickname" yaml:"nickname"`
-	Status    any    `json:"status" yaml:"status"`
-	CreatedAt any    `json:"created_at" yaml:"created_at"`
-	UpdatedAt any    `json:"updated_at" yaml:"updated_at"`
+	ID        identifiers.UUIDv7 `json:"id" yaml:"id"`
+	Login     string             `json:"login" yaml:"login"`
+	Email     string             `json:"email" yaml:"email"`
+	Nickname  string             `json:"nickname" yaml:"nickname"`
+	Status    UserStatus         `json:"status" yaml:"status"`
+	CreatedAt model.UTCTime      `json:"created_at" yaml:"created_at"`
+	UpdatedAt model.UTCTime      `json:"updated_at" yaml:"updated_at"`
 }
 
 func (m UserRequest) GetAuditData() any {
@@ -25,15 +30,15 @@ func (m UserRequest) GetAuditData() any {
 }
 
 type UserResponseAuditData struct {
-	ID            any    `json:"id" yaml:"id"`
-	Login         string `json:"login" yaml:"login"`
-	Email         string `json:"email" yaml:"email"`
-	Nickname      string `json:"nickname" yaml:"nickname"`
-	Tag           string `json:"tag" yaml:"tag"`
-	Status        any    `json:"status" yaml:"status"`
-	EmailVerified bool   `json:"email_verified" yaml:"email_verified"`
-	CreatedAt     any    `json:"created_at" yaml:"created_at"`
-	UpdatedAt     any    `json:"updated_at" yaml:"updated_at"`
+	ID            identifiers.UUIDv7 `json:"id" yaml:"id"`
+	Login         string             `json:"login" yaml:"login"`
+	Email         string             `json:"email" yaml:"email"`
+	Nickname      string             `json:"nickname" yaml:"nickname"`
+	Tag           string             `json:"tag" yaml:"tag"`
+	Status        UserStatus         `json:"status" yaml:"status"`
+	EmailVerified bool               `json:"email_verified" yaml:"email_verified"`
+	CreatedAt     model.UTCTime      `json:"created_at" yaml:"created_at"`
+	UpdatedAt     model.UTCTime      `json:"updated_at" yaml:"updated_at"`
 }
 
 func (m UserResponse) GetAuditData() any {

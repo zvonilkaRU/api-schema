@@ -21,7 +21,7 @@ paths:
 components:
   schemas:
     Error:
-      $ref: "./schemas/errors/Error.yaml"
+      $ref: "./../../../common/src/openapi/schemas/errors/Error.yaml"
     TupleRequest:
       $ref: "./schemas/models/TupleRequest.yaml"
     Tuple:

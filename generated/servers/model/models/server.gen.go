@@ -5,6 +5,7 @@ package model
 import (
 	"fmt"
 	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
+	model "github.com/zvonilkaRU/api-schema/generated/servers/model"
 )
 
 // Server (Discord-like server).
@@ -14,7 +15,7 @@ type ServerRequest struct {
 	// Server icon URL.
 	IconURL *string `json:"icon_url,omitempty" yaml:"icon_url,omitempty"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	CreatedAt any `json:"created_at" yaml:"created_at"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 }
 
 type ServerResponse struct {
@@ -27,7 +28,7 @@ type ServerResponse struct {
 	// Owner user ID.
 	OwnerID string `json:"owner_id" yaml:"owner_id"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	CreatedAt any `json:"created_at" yaml:"created_at"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 }
 
 func (x ServerRequest) ValidateOwn(reg *validator.Registry) error {

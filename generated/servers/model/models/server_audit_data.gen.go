@@ -2,10 +2,14 @@
 
 package model
 
+import (
+	model "github.com/zvonilkaRU/api-schema/generated/servers/model"
+)
+
 type ServerRequestAuditData struct {
-	Name      string  `json:"name" yaml:"name"`
-	IconURL   *string `json:"icon_url,omitempty" yaml:"icon_url,omitempty"`
-	CreatedAt any     `json:"created_at" yaml:"created_at"`
+	Name      string        `json:"name" yaml:"name"`
+	IconURL   *string       `json:"icon_url,omitempty" yaml:"icon_url,omitempty"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 }
 
 func (m ServerRequest) GetAuditData() any {
@@ -17,11 +21,11 @@ func (m ServerRequest) GetAuditData() any {
 }
 
 type ServerResponseAuditData struct {
-	ID        string  `json:"id" yaml:"id"`
-	Name      string  `json:"name" yaml:"name"`
-	IconURL   *string `json:"icon_url,omitempty" yaml:"icon_url,omitempty"`
-	OwnerID   string  `json:"owner_id" yaml:"owner_id"`
-	CreatedAt any     `json:"created_at" yaml:"created_at"`
+	ID        string        `json:"id" yaml:"id"`
+	Name      string        `json:"name" yaml:"name"`
+	IconURL   *string       `json:"icon_url,omitempty" yaml:"icon_url,omitempty"`
+	OwnerID   string        `json:"owner_id" yaml:"owner_id"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 }
 
 func (m ServerResponse) GetAuditData() any {

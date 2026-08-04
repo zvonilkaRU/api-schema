@@ -4,7 +4,7 @@ go 1.26
 
 require (
 	github.com/golang-jwt/jwt/v5 v5.3.1
-	github.com/ilovepitsa/oapicodegen v1.2.1
+	github.com/ilovepitsa/oapicodegen v1.3.6
 	github.com/labstack/echo/v4 v4.15.4
 	github.com/prometheus/client_golang v1.24.1
 	go.uber.org/mock v0.6.0

@@ -5,35 +5,37 @@ package model
 import (
 	"fmt"
 	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
+	identifiers "github.com/zvonilkaRU/api-schema/generated/common/model/identifiers"
+	model "github.com/zvonilkaRU/api-schema/generated/users/model"
 )
 
 // Активная сессия пользователя (refresh token entry).
 type SessionRequest struct {
 	// UUID v7 (time-ordered). Используется для всех primary keys в zvonilka.
-	ID any `json:"id" yaml:"id"`
+	ID identifiers.UUIDv7 `json:"id" yaml:"id"`
 	// User-Agent клиента при создании сессии.
 	UserAgent string `json:"user_agent" yaml:"user_agent"`
 	// IP-адрес клиента при создании сессии.
 	IP string `json:"ip" yaml:"ip"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	CreatedAt any `json:"created_at" yaml:"created_at"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	ExpiresAt any `json:"expires_at" yaml:"expires_at"`
+	ExpiresAt model.UTCTime `json:"expires_at" yaml:"expires_at"`
 	// true если это сессия текущего запроса (по JWT).
 	Current bool `json:"current" yaml:"current"`
 }
 
 type SessionResponse struct {
 	// UUID v7 (time-ordered). Используется для всех primary keys в zvonilka.
-	ID any `json:"id" yaml:"id"`
+	ID identifiers.UUIDv7 `json:"id" yaml:"id"`
 	// User-Agent клиента при создании сессии.
 	UserAgent string `json:"user_agent" yaml:"user_agent"`
 	// IP-адрес клиента при создании сессии.
 	IP string `json:"ip" yaml:"ip"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	CreatedAt any `json:"created_at" yaml:"created_at"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	ExpiresAt any `json:"expires_at" yaml:"expires_at"`
+	ExpiresAt model.UTCTime `json:"expires_at" yaml:"expires_at"`
 	// true если это сессия текущего запроса (по JWT).
 	Current bool `json:"current" yaml:"current"`
 }

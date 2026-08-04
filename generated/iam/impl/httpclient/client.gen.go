@@ -9,7 +9,7 @@ import (
 	"fmt"
 	httpclient "github.com/ilovepitsa/oapicodegen/pkg/httpclient"
 	apiclient "github.com/zvonilkaRU/api-schema/generated/iam/interfaces/client"
-	errors "github.com/zvonilkaRU/api-schema/generated/iam/model/errors"
+	model "github.com/zvonilkaRU/api-schema/generated/iam/model"
 	models "github.com/zvonilkaRU/api-schema/generated/iam/model/models"
 	"net/http"
 	"strings"
@@ -56,13 +56,13 @@ func (c *Client) WriteTuple(ctx context.Context, req *apiclient.WriteTupleReques
 		}
 		result.Response201 = &v
 	case 400:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 400: %w", err)
 		}
 		result.Response400 = &v
 	case 500:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}
@@ -96,7 +96,7 @@ func (c *Client) DeleteTuple(ctx context.Context, req *apiclient.DeleteTupleRequ
 	case 204:
 		result.Response204 = true
 	case 404:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
@@ -134,13 +134,13 @@ func (c *Client) CheckPermission(ctx context.Context, req *apiclient.CheckPermis
 		}
 		result.Response200 = &v
 	case 400:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 400: %w", err)
 		}
 		result.Response400 = &v
 	case 500:
-		var v errors.ErrorResponse
+		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 500: %w", err)
 		}

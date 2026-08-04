@@ -4,6 +4,7 @@ package model
 
 import (
 	"fmt"
+	optional "github.com/ilovepitsa/oapicodegen/pkg/optional"
 	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
 )
 
@@ -37,6 +38,52 @@ func (x UpdateServerRequestResponse) ValidateOwn(reg *validator.Registry) error 
 		return fmt.Errorf("field Name: must be >= 1")
 	}
 	if x.Name != nil && len(*x.Name) > 128 {
+		return fmt.Errorf("field Name: must be <= 128")
+	}
+	return nil
+}
+
+// UpdateUpdateServerRequest — PATCH/PUT variant of UpdateServerRequest.
+type UpdateUpdateServerRequest struct {
+	// New server name.
+	Name optional.Optional[string] `json:"name" yaml:"name"`
+	// New server icon URL.
+	IconURL optional.Optional[string] `json:"icon_url" yaml:"icon_url"`
+}
+
+// GetName возвращает значение поля Name и флаг presence.
+// Семантика: (nil, false) — поле не задано; (nil, true) — задано как null;
+// (&value, true) — задано значением.
+func (u *UpdateUpdateServerRequest) GetName() (*string, bool) {
+	if !u.Name.IsSet() {
+		return nil, false
+	}
+	if u.Name.IsNil() {
+		return nil, true
+	}
+	v := u.Name.Value()
+	return &v, true
+}
+
+// GetIconURL возвращает значение поля IconURL и флаг presence.
+// Семантика: (nil, false) — поле не задано; (nil, true) — задано как null;
+// (&value, true) — задано значением.
+func (u *UpdateUpdateServerRequest) GetIconURL() (*string, bool) {
+	if !u.IconURL.IsSet() {
+		return nil, false
+	}
+	if u.IconURL.IsNil() {
+		return nil, true
+	}
+	v := u.IconURL.Value()
+	return &v, true
+}
+
+func (x UpdateUpdateServerRequest) ValidateOwn(reg *validator.Registry) error {
+	if x.Name.IsSet() && !x.Name.IsNil() && len(x.Name.Value()) < 1 {
+		return fmt.Errorf("field Name: must be >= 1")
+	}
+	if x.Name.IsSet() && !x.Name.IsNil() && len(x.Name.Value()) > 128 {
 		return fmt.Errorf("field Name: must be <= 128")
 	}
 	return nil

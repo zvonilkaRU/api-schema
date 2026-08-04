@@ -14,7 +14,7 @@ jobs:
   release:
     name: Codegen + Release
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    if: false  # temporarily disabled — tag generation paused
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,7 +31,7 @@ jobs:
         env:
           GOPRIVATE: github.com/zvonilkaRU,github.com/ilovepitsa
         run: |
-          go run github.com/ilovepitsa/oapicodegen/cmd/oapigen@v1.2.1 \
+          go run github.com/ilovepitsa/oapicodegen/cmd/oapigen@v1.3.6 \
             -input ./zvonilkaRU \
             -output ./generated \
             -import-prefix github.com/zvonilkaRU/api-schema/generated \

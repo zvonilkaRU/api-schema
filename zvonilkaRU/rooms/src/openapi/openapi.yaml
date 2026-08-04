@@ -29,9 +29,9 @@ components:
     RoomList:
       $ref: "./schemas/models/RoomList.yaml"
     Error:
-      $ref: "./schemas/errors/Error.yaml"
+      $ref: "./../../../common/src/openapi/schemas/errors/Error.yaml"
     Timestamp:
-      $ref: "./schemas/time/Timestamp.yaml"
+      $ref: "./../../../common/src/openapi/schemas/time/Timestamp.yaml"
   securitySchemes:
     bearerAuth:
       type: http

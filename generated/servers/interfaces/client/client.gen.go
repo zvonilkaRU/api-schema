@@ -4,7 +4,7 @@ package client
 
 import (
 	"context"
-	errors "github.com/zvonilkaRU/api-schema/generated/servers/model/errors"
+	model "github.com/zvonilkaRU/api-schema/generated/servers/model"
 	models "github.com/zvonilkaRU/api-schema/generated/servers/model/models"
 )
 
@@ -32,8 +32,8 @@ type CreateServerRequest struct {
 type CreateServerResponse struct {
 	Code        int
 	Response201 *models.ServerResponse
-	Response400 *errors.ErrorResponse
-	Response500 *errors.ErrorResponse
+	Response400 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type ListServersRequest struct {
@@ -51,7 +51,7 @@ type GetServerRequest struct {
 type GetServerResponse struct {
 	Code        int
 	Response200 *models.ServerResponse
-	Response404 *errors.ErrorResponse
+	Response404 *model.ErrorResponse
 }
 
 type UpdateServerRequest struct {
@@ -62,8 +62,8 @@ type UpdateServerRequest struct {
 type UpdateServerResponse struct {
 	Code        int
 	Response200 *models.ServerResponse
-	Response403 *errors.ErrorResponse
-	Response404 *errors.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
 }
 
 type DeleteServerRequest struct {
@@ -73,8 +73,8 @@ type DeleteServerRequest struct {
 type DeleteServerResponse struct {
 	Code        int
 	Response204 bool
-	Response403 *errors.ErrorResponse
-	Response404 *errors.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
 }
 
 type ListMembersRequest struct {
@@ -84,7 +84,7 @@ type ListMembersRequest struct {
 type ListMembersResponse struct {
 	Code        int
 	Response200 *[]models.ServerMemberResponse
-	Response404 *errors.ErrorResponse
+	Response404 *model.ErrorResponse
 }
 
 type UpdateMemberRequest struct {
@@ -96,8 +96,8 @@ type UpdateMemberRequest struct {
 type UpdateMemberResponse struct {
 	Code        int
 	Response204 bool
-	Response403 *errors.ErrorResponse
-	Response404 *errors.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
 }
 
 type KickMemberRequest struct {
@@ -108,8 +108,8 @@ type KickMemberRequest struct {
 type KickMemberResponse struct {
 	Code        int
 	Response204 bool
-	Response403 *errors.ErrorResponse
-	Response404 *errors.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
 }
 
 type TransferOwnershipRequest struct {
@@ -120,8 +120,8 @@ type TransferOwnershipRequest struct {
 type TransferOwnershipResponse struct {
 	Code        int
 	Response204 bool
-	Response403 *errors.ErrorResponse
-	Response404 *errors.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
 }
 
 type CreateChannelRequest struct {
@@ -132,8 +132,8 @@ type CreateChannelRequest struct {
 type CreateChannelResponse struct {
 	Code        int
 	Response201 *models.ChannelResponse
-	Response403 *errors.ErrorResponse
-	Response500 *errors.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type UpdateChannelRequest struct {
@@ -145,8 +145,8 @@ type UpdateChannelRequest struct {
 type UpdateChannelResponse struct {
 	Code        int
 	Response200 *models.ChannelResponse
-	Response403 *errors.ErrorResponse
-	Response404 *errors.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
 }
 
 type DeleteChannelRequest struct {
@@ -157,8 +157,8 @@ type DeleteChannelRequest struct {
 type DeleteChannelResponse struct {
 	Code        int
 	Response204 bool
-	Response403 *errors.ErrorResponse
-	Response404 *errors.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
 }
 
 type JoinChannelRequest struct {
@@ -168,8 +168,8 @@ type JoinChannelRequest struct {
 type JoinChannelResponse struct {
 	Code        int
 	Response200 *any
-	Response403 *errors.ErrorResponse
-	Response404 *errors.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
 }
 
 type HealthCheckRequest struct {

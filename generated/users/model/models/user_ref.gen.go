@@ -5,19 +5,20 @@ package model
 import (
 	"fmt"
 	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
+	identifiers "github.com/zvonilkaRU/api-schema/generated/common/model/identifiers"
 )
 
 // Публичный профиль пользователя. Без login и email. Возвращается из /users/{id} другим пользователям/сервисам.
 type UserRefRequest struct {
 	// UUID v7 (time-ordered). Используется для всех primary keys в zvonilka.
-	ID any `json:"id" yaml:"id"`
+	ID identifiers.UUIDv7 `json:"id" yaml:"id"`
 	// Отображаемое имя.
 	Nickname string `json:"nickname" yaml:"nickname"`
 }
 
 type UserRefResponse struct {
 	// UUID v7 (time-ordered). Используется для всех primary keys в zvonilka.
-	ID any `json:"id" yaml:"id"`
+	ID identifiers.UUIDv7 `json:"id" yaml:"id"`
 	// Отображаемое имя.
 	Nickname string `json:"nickname" yaml:"nickname"`
 	// 7 символов A-Z0-9. Для disambiguation.

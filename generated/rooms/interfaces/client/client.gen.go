@@ -4,7 +4,7 @@ package client
 
 import (
 	"context"
-	errors "github.com/zvonilkaRU/api-schema/generated/rooms/model/errors"
+	model "github.com/zvonilkaRU/api-schema/generated/rooms/model"
 	models "github.com/zvonilkaRU/api-schema/generated/rooms/model/models"
 )
 
@@ -24,8 +24,8 @@ type CreateRoomRequest struct {
 type CreateRoomResponse struct {
 	Code        int
 	Response201 *models.RoomResponse
-	Response400 *errors.ErrorResponse
-	Response500 *errors.ErrorResponse
+	Response400 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type ListRoomsRequest struct {
@@ -43,7 +43,7 @@ type GetRoomByIDRequest struct {
 type GetRoomByIDResponse struct {
 	Code        int
 	Response200 *models.RoomResponse
-	Response404 *errors.ErrorResponse
+	Response404 *model.ErrorResponse
 }
 
 type DeleteRoomRequest struct {
@@ -53,7 +53,7 @@ type DeleteRoomRequest struct {
 type DeleteRoomResponse struct {
 	Code        int
 	Response204 bool
-	Response404 *errors.ErrorResponse
+	Response404 *model.ErrorResponse
 }
 
 type JoinRoomRequest struct {
@@ -63,7 +63,7 @@ type JoinRoomRequest struct {
 type JoinRoomResponse struct {
 	Code        int
 	Response200 *any
-	Response404 *errors.ErrorResponse
+	Response404 *model.ErrorResponse
 }
 
 type HealthCheckRequest struct {

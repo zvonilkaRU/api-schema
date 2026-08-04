@@ -4,7 +4,7 @@ package client
 
 import (
 	"context"
-	errors "github.com/zvonilkaRU/api-schema/generated/iam/model/errors"
+	model "github.com/zvonilkaRU/api-schema/generated/iam/model"
 	models "github.com/zvonilkaRU/api-schema/generated/iam/model/models"
 )
 
@@ -22,8 +22,8 @@ type WriteTupleRequest struct {
 type WriteTupleResponse struct {
 	Code        int
 	Response201 *models.TupleResponse
-	Response400 *errors.ErrorResponse
-	Response500 *errors.ErrorResponse
+	Response400 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type DeleteTupleRequest struct {
@@ -33,7 +33,7 @@ type DeleteTupleRequest struct {
 type DeleteTupleResponse struct {
 	Code        int
 	Response204 bool
-	Response404 *errors.ErrorResponse
+	Response404 *model.ErrorResponse
 }
 
 type CheckPermissionRequest struct {
@@ -43,8 +43,8 @@ type CheckPermissionRequest struct {
 type CheckPermissionResponse struct {
 	Code        int
 	Response200 *models.CheckResponseResponse
-	Response400 *errors.ErrorResponse
-	Response500 *errors.ErrorResponse
+	Response400 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type HealthCheckRequest struct {

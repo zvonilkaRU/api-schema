@@ -5,23 +5,24 @@ package model
 import (
 	"fmt"
 	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
+	models "github.com/zvonilkaRU/api-schema/generated/users/model/models"
 )
 
 // Ответ POST /auth/register. Возвращает полный профиль + токены.
 type RegisterResponseRequest struct {
 	// Полный профиль пользователя. Возвращается ТОЛЬКО из /users/me (владельцу). login и email скрыты от других пользователей.
-	User         any    `json:"user" yaml:"user"`
-	AccessToken  string `json:"access_token" yaml:"access_token"`
-	RefreshToken string `json:"refresh_token" yaml:"refresh_token"`
-	ExpiresIn    int64  `json:"expires_in" yaml:"expires_in"`
+	User         models.UserRequest `json:"user" yaml:"user"`
+	AccessToken  string             `json:"access_token" yaml:"access_token"`
+	RefreshToken string             `json:"refresh_token" yaml:"refresh_token"`
+	ExpiresIn    int64              `json:"expires_in" yaml:"expires_in"`
 }
 
 type RegisterResponseResponse struct {
 	// Полный профиль пользователя. Возвращается ТОЛЬКО из /users/me (владельцу). login и email скрыты от других пользователей.
-	User         any    `json:"user" yaml:"user"`
-	AccessToken  string `json:"access_token" yaml:"access_token"`
-	RefreshToken string `json:"refresh_token" yaml:"refresh_token"`
-	ExpiresIn    int64  `json:"expires_in" yaml:"expires_in"`
+	User         models.UserResponse `json:"user" yaml:"user"`
+	AccessToken  string              `json:"access_token" yaml:"access_token"`
+	RefreshToken string              `json:"refresh_token" yaml:"refresh_token"`
+	ExpiresIn    int64               `json:"expires_in" yaml:"expires_in"`
 }
 
 func (x RegisterResponseRequest) ValidateOwn(reg *validator.Registry) error {

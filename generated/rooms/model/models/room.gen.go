@@ -5,6 +5,7 @@ package model
 import (
 	"fmt"
 	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
+	model "github.com/zvonilkaRU/api-schema/generated/rooms/model"
 )
 
 // Комната (аудио/видео).
@@ -12,7 +13,7 @@ type RoomRequest struct {
 	// Название комнаты.
 	Name string `json:"name" yaml:"name"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	CreatedAt any `json:"created_at" yaml:"created_at"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 }
 
 type RoomResponse struct {
@@ -23,7 +24,7 @@ type RoomResponse struct {
 	// ID создателя.
 	CreatedBy string `json:"created_by" yaml:"created_by"`
 	// RFC3339 timestamp в UTC. С USE_UTC_FOR_DATE_TIME флагом генерируется как model.UTCTime.
-	CreatedAt any `json:"created_at" yaml:"created_at"`
+	CreatedAt model.UTCTime `json:"created_at" yaml:"created_at"`
 }
 
 func (x RoomRequest) ValidateOwn(reg *validator.Registry) error {
