@@ -1,0 +1,41 @@
+name: JsonWebKey
+description: JSON Web Key (RFC 7517) — публичный EC-ключ для верификации JWT.
+type: object
+required:
+  - kty
+  - kid
+  - use
+  - alg
+  - crv
+  - x
+  - y
+properties:
+  kty:
+    type: string
+    enum: ["EC"]
+    description: Тип ключа.
+  kid:
+    type: string
+    description: Key ID. Совпадает с kid в JWT header.
+    x-validations: ["Size >=1"]
+  use:
+    type: string
+    enum: ["sig"]
+    description: Назначение ключа.
+  alg:
+    type: string
+    enum: ["ES256"]
+    description: Алгоритм.
+  crv:
+    type: string
+    enum: ["P-256"]
+    description: Кривая.
+  x:
+    type: string
+    description: Base64url-encoded X coordinate.
+    x-validations: ["Size >=1"]
+  y:
+    type: string
+    description: Base64url-encoded Y coordinate.
+    x-validations: ["Size >=1"]
+additionalProperties: false

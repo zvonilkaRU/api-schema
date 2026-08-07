@@ -115,3 +115,15 @@ func (resp *CheckPermissionResponse) Response500AuditData() CheckPermissionRespo
 	}
 	return am
 }
+
+type HealthCheckResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *HealthCheckResponse) Response200AuditData() HealthCheckResponse200AuditData {
+	am := HealthCheckResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
+	}
+	return am
+}

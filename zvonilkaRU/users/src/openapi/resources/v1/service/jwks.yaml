@@ -11,46 +11,7 @@ get:
       content:
         application/json:
           schema:
-            type: object
-            required:
-              - keys
-            properties:
-              keys:
-                type: array
-                items:
-                  type: object
-                  required:
-                    - kty
-                    - kid
-                    - use
-                    - alg
-                    - crv
-                    - x
-                    - y
-                  properties:
-                    kty:
-                      type: string
-                      enum: ["EC"]
-                    kid:
-                      type: string
-                      description: Key ID. Совпадает с kid в JWT header.
-                    use:
-                      type: string
-                      enum: ["sig"]
-                    alg:
-                      type: string
-                      enum: ["ES256"]
-                    crv:
-                      type: string
-                      enum: ["P-256"]
-                    x:
-                      type: string
-                      description: Base64url-encoded X coordinate.
-                    y:
-                      type: string
-                      description: Base64url-encoded Y coordinate.
-                  additionalProperties: false
-            additionalProperties: false
+            $ref: "../../../schemas/models/JwkSet.yaml"
     "500":
       description: Internal error.
       content:

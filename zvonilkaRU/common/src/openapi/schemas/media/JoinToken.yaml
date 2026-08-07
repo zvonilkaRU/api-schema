@@ -1,0 +1,21 @@
+name: JoinToken
+description: LiveKit join-токен с URL и именем комнаты. Возвращается rooms (JoinRoom) и servers (JoinChannel).
+type: object
+required:
+  - token
+  - url
+  - room
+properties:
+  token:
+    type: string
+    description: LiveKit access token (JWT HS256).
+    x-validations: ["Size >=1"]
+  url:
+    type: string
+    description: WebSocket URL для подключения к LiveKit.
+    x-validations: ["Size >=1"]
+  room:
+    type: string
+    description: Имя комнаты в LiveKit (e.g., "room:<uuid>", "channel:<uuid>").
+    x-validations: ["Size >=1"]
+additionalProperties: false

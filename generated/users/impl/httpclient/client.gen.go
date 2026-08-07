@@ -423,7 +423,7 @@ func (c *Client) ListSessions(ctx context.Context, req *apiclient.ListSessionsRe
 	result := &apiclient.ListSessionsResponse{Code: resp.StatusCode}
 	switch resp.StatusCode {
 	case 200:
-		var v any
+		var v models.SessionListResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 200: %w", err)
 		}
@@ -855,7 +855,7 @@ func (c *Client) GetJwks(ctx context.Context, req *apiclient.GetJwksRequest) (*a
 	result := &apiclient.GetJwksResponse{Code: resp.StatusCode}
 	switch resp.StatusCode {
 	case 200:
-		var v any
+		var v models.JwkSetResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 200: %w", err)
 		}
@@ -888,13 +888,13 @@ func (c *Client) HealthCheck(ctx context.Context, req *apiclient.HealthCheckRequ
 	result := &apiclient.HealthCheckResponse{Code: resp.StatusCode}
 	switch resp.StatusCode {
 	case 200:
-		var v any
+		var v model.HealthStatusResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 200: %w", err)
 		}
 		result.Response200 = &v
 	case 503:
-		var v any
+		var v model.DegradedStatusResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 503: %w", err)
 		}

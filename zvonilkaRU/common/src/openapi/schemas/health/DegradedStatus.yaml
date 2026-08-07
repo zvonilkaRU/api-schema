@@ -1,0 +1,16 @@
+name: DegradedStatus
+description: Нездоровый ответ health-check (HTTP 503).
+type: object
+required:
+  - status
+  - error
+properties:
+  status:
+    type: string
+    enum: ["degraded"]
+    description: Состояние сервиса.
+  error:
+    type: string
+    description: Описание проблемы.
+    x-validations: ["Size <=256"]
+additionalProperties: false

@@ -10,11 +10,4 @@ get:
       content:
         application/json:
           schema:
-            type: object
-            required:
-              - status
-            properties:
-              status:
-                type: string
-                enum: ["ok"]
-            additionalProperties: false
+            $ref: "../../../../../../common/src/openapi/schemas/health/HealthStatus.yaml"

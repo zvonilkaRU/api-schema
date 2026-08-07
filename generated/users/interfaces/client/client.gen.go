@@ -128,7 +128,7 @@ type ListSessionsRequest struct {
 
 type ListSessionsResponse struct {
 	Code        int
-	Response200 *any
+	Response200 *models.SessionListResponse
 	Response401 *model.ErrorResponse
 	Response500 *model.ErrorResponse
 }
@@ -242,7 +242,7 @@ type GetJwksRequest struct {
 
 type GetJwksResponse struct {
 	Code        int
-	Response200 *any
+	Response200 *models.JwkSetResponse
 	Response500 *model.ErrorResponse
 }
 
@@ -251,6 +251,6 @@ type HealthCheckRequest struct {
 
 type HealthCheckResponse struct {
 	Code        int
-	Response200 *any
-	Response503 *any
+	Response200 *model.HealthStatusResponse
+	Response503 *model.DegradedStatusResponse
 }

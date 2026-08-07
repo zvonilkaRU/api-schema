@@ -11,30 +11,10 @@ get:
       content:
         application/json:
           schema:
-            type: object
-            required:
-              - status
-            properties:
-              status:
-                type: string
-                enum: ["ok"]
-              version:
-                type: string
-                x-validations: ["Size <=64"]
-            additionalProperties: false
+            $ref: "../../../../../../common/src/openapi/schemas/health/HealthStatus.yaml"
     "503":
       description: Service is unhealthy.
       content:
         application/json:
           schema:
-            type: object
-            required:
-              - status
-            properties:
-              status:
-                type: string
-                enum: ["degraded"]
-              error:
-                type: string
-                x-validations: ["Size <=256"]
-            additionalProperties: false
+            $ref: "../../../../../../common/src/openapi/schemas/health/DegradedStatus.yaml"

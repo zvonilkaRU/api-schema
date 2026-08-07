@@ -129,6 +129,18 @@ func (resp *DeleteRoomResponse) Response404AuditData() DeleteRoomResponse404Audi
 	return am
 }
 
+type JoinRoomResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *JoinRoomResponse) Response200AuditData() JoinRoomResponse200AuditData {
+	am := JoinRoomResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
+	}
+	return am
+}
+
 type JoinRoomResponse404AuditData struct {
 	Payload any
 }
@@ -137,6 +149,18 @@ func (resp *JoinRoomResponse) Response404AuditData() JoinRoomResponse404AuditDat
 	am := JoinRoomResponse404AuditData{}
 	if resp.Response404 != nil {
 		am.Payload = resp.Response404.GetAuditData()
+	}
+	return am
+}
+
+type HealthCheckResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *HealthCheckResponse) Response200AuditData() HealthCheckResponse200AuditData {
+	am := HealthCheckResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
 	}
 	return am
 }

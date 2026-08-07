@@ -22,6 +22,12 @@ components:
       $ref: "./schemas/identifiers/UUIDv7.yaml"
     TokenPair:
       $ref: "./schemas/auth/TokenPair.yaml"
+    JoinToken:
+      $ref: "./schemas/media/JoinToken.yaml"
+    HealthStatus:
+      $ref: "./schemas/health/HealthStatus.yaml"
+    DegradedStatus:
+      $ref: "./schemas/health/DegradedStatus.yaml"
   parameters:
     pageSizeParam:
       $ref: "./parameters/list.yaml#/pageSizeParam"

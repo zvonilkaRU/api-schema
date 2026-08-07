@@ -1,0 +1,15 @@
+name: HealthStatus
+description: Здоровый ответ health-check (HTTP 200).
+type: object
+required:
+  - status
+properties:
+  status:
+    type: string
+    enum: ["ok"]
+    description: Состояние сервиса.
+  version:
+    type: string
+    description: Версия сервиса (опционально).
+    x-validations: ["Size <=64"]
+additionalProperties: false

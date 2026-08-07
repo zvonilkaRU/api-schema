@@ -167,7 +167,7 @@ func (c *Client) HealthCheck(ctx context.Context, req *apiclient.HealthCheckRequ
 	result := &apiclient.HealthCheckResponse{Code: resp.StatusCode}
 	switch resp.StatusCode {
 	case 200:
-		var v any
+		var v model.HealthStatusResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 200: %w", err)
 		}
