@@ -90,6 +90,16 @@ components:
       $ref: "./schemas/profile/UpdateUserRequest.yaml"
     SendFriendRequest:
       $ref: "./schemas/friends/SendFriendRequest.yaml"
+    SessionList:
+      $ref: "./schemas/models/SessionList.yaml"
+    JsonWebKey:
+      $ref: "./schemas/models/JsonWebKey.yaml"
+    JwkSet:
+      $ref: "./schemas/models/JwkSet.yaml"
+    HealthStatus:
+      $ref: "./../../../common/src/openapi/schemas/health/HealthStatus.yaml"
+    DegradedStatus:
+      $ref: "./../../../common/src/openapi/schemas/health/DegradedStatus.yaml"
   securitySchemes:
     bearerAuth:
       type: http

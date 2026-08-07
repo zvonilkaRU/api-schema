@@ -15,18 +15,7 @@ get:
       content:
         application/json:
           schema:
-            type: object
-            required:
-              - items
-            properties:
-              items:
-                type: array
-                items:
-                  $ref: "../../../schemas/models/Session.yaml"
-              next_page_token:
-                type: string
-                x-validations: ["Size <=256"]
-            additionalProperties: false
+            $ref: "../../../schemas/models/SessionList.yaml"
     "401":
       description: Invalid or expired access token.
       content:

@@ -30,6 +30,8 @@ components:
       $ref: "./schemas/models/CheckRequest.yaml"
     CheckResponse:
       $ref: "./schemas/models/CheckResponse.yaml"
+    HealthStatus:
+      $ref: "./../../../common/src/openapi/schemas/health/HealthStatus.yaml"
   securitySchemes:
     bearerAuth:
       type: http

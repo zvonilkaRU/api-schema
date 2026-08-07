@@ -167,7 +167,7 @@ type JoinChannelRequest struct {
 
 type JoinChannelResponse struct {
 	Code        int
-	Response200 *any
+	Response200 *model.JoinTokenResponse
 	Response403 *model.ErrorResponse
 	Response404 *model.ErrorResponse
 }
@@ -177,5 +177,5 @@ type HealthCheckRequest struct {
 
 type HealthCheckResponse struct {
 	Code        int
-	Response200 *any
+	Response200 *model.HealthStatusResponse
 }

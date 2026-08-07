@@ -19,18 +19,7 @@ post:
       content:
         application/json:
           schema:
-            type: object
-            required:
-              - token
-              - url
-            properties:
-              token:
-                type: string
-                description: LiveKit access token.
-              url:
-                type: string
-                description: WebSocket URL для подключения.
-            additionalProperties: false
+            $ref: "../../../../../common/src/openapi/schemas/media/JoinToken.yaml"
     "404":
       description: Room not found.
       content:

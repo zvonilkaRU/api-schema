@@ -52,5 +52,5 @@ type HealthCheckRequest struct {
 
 type HealthCheckResponse struct {
 	Code        int
-	Response200 *any
+	Response200 *model.HealthStatusResponse
 }

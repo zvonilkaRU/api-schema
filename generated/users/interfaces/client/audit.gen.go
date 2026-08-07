@@ -525,6 +525,18 @@ func (resp *GetUserByIDResponse) Response500AuditData() GetUserByIDResponse500Au
 	return am
 }
 
+type ListSessionsResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *ListSessionsResponse) Response200AuditData() ListSessionsResponse200AuditData {
+	am := ListSessionsResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
+	}
+	return am
+}
+
 type ListSessionsResponse401AuditData struct {
 	Payload any
 }
@@ -885,6 +897,18 @@ func (resp *CancelFriendRequestResponse) Response422AuditData() CancelFriendRequ
 	return am
 }
 
+type GetJwksResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *GetJwksResponse) Response200AuditData() GetJwksResponse200AuditData {
+	am := GetJwksResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
+	}
+	return am
+}
+
 type GetJwksResponse500AuditData struct {
 	Payload any
 }
@@ -893,6 +917,30 @@ func (resp *GetJwksResponse) Response500AuditData() GetJwksResponse500AuditData 
 	am := GetJwksResponse500AuditData{}
 	if resp.Response500 != nil {
 		am.Payload = resp.Response500.GetAuditData()
+	}
+	return am
+}
+
+type HealthCheckResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *HealthCheckResponse) Response200AuditData() HealthCheckResponse200AuditData {
+	am := HealthCheckResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
+	}
+	return am
+}
+
+type HealthCheckResponse503AuditData struct {
+	Payload any
+}
+
+func (resp *HealthCheckResponse) Response503AuditData() HealthCheckResponse503AuditData {
+	am := HealthCheckResponse503AuditData{}
+	if resp.Response503 != nil {
+		am.Payload = resp.Response503.GetAuditData()
 	}
 	return am
 }

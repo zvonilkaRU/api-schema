@@ -51,6 +51,10 @@ components:
       $ref: "./../../../common/src/openapi/schemas/errors/Error.yaml"
     Timestamp:
       $ref: "./../../../common/src/openapi/schemas/time/Timestamp.yaml"
+    JoinToken:
+      $ref: "./../../../common/src/openapi/schemas/media/JoinToken.yaml"
+    HealthStatus:
+      $ref: "./../../../common/src/openapi/schemas/health/HealthStatus.yaml"
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,0 +1,12 @@
+name: JwkSet
+description: JWKS (RFC 7517) — набор публичных ключей для верификации JWT.
+type: object
+required:
+  - keys
+properties:
+  keys:
+    type: array
+    description: Публичные ключи.
+    items:
+      $ref: "./JsonWebKey.yaml"
+additionalProperties: false

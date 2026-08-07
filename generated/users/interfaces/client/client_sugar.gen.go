@@ -5,6 +5,7 @@ package client
 import (
 	"context"
 	"fmt"
+	model "github.com/zvonilkaRU/api-schema/generated/users/model"
 	auth "github.com/zvonilkaRU/api-schema/generated/users/model/auth"
 	friends "github.com/zvonilkaRU/api-schema/generated/users/model/friends"
 	models "github.com/zvonilkaRU/api-schema/generated/users/model/models"
@@ -95,7 +96,7 @@ func (x *ClientSugared) GetUserByID(ctx context.Context, req *GetUserByIDRequest
 	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
-func (x *ClientSugared) ListSessions(ctx context.Context, req *ListSessionsRequest) (*any, error) {
+func (x *ClientSugared) ListSessions(ctx context.Context, req *ListSessionsRequest) (*models.SessionListResponse, error) {
 	resp, err := x.impl.ListSessions(ctx, req)
 	if err != nil {
 		return nil, err
@@ -205,7 +206,7 @@ func (x *ClientSugared) CancelFriendRequest(ctx context.Context, req *CancelFrie
 	return fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
-func (x *ClientSugared) GetJwks(ctx context.Context, req *GetJwksRequest) (*any, error) {
+func (x *ClientSugared) GetJwks(ctx context.Context, req *GetJwksRequest) (*models.JwkSetResponse, error) {
 	resp, err := x.impl.GetJwks(ctx, req)
 	if err != nil {
 		return nil, err
@@ -216,7 +217,7 @@ func (x *ClientSugared) GetJwks(ctx context.Context, req *GetJwksRequest) (*any,
 	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
-func (x *ClientSugared) HealthCheck(ctx context.Context, req *HealthCheckRequest) (*any, error) {
+func (x *ClientSugared) HealthCheck(ctx context.Context, req *HealthCheckRequest) (*model.HealthStatusResponse, error) {
 	resp, err := x.impl.HealthCheck(ctx, req)
 	if err != nil {
 		return nil, err

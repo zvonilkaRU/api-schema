@@ -5,6 +5,7 @@ package client
 import (
 	"context"
 	"fmt"
+	model "github.com/zvonilkaRU/api-schema/generated/rooms/model"
 	models "github.com/zvonilkaRU/api-schema/generated/rooms/model/models"
 )
 
@@ -60,7 +61,7 @@ func (x *ClientSugared) DeleteRoom(ctx context.Context, req *DeleteRoomRequest) 
 	return fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
-func (x *ClientSugared) JoinRoom(ctx context.Context, req *JoinRoomRequest) (*any, error) {
+func (x *ClientSugared) JoinRoom(ctx context.Context, req *JoinRoomRequest) (*model.JoinTokenResponse, error) {
 	resp, err := x.impl.JoinRoom(ctx, req)
 	if err != nil {
 		return nil, err
@@ -71,7 +72,7 @@ func (x *ClientSugared) JoinRoom(ctx context.Context, req *JoinRoomRequest) (*an
 	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
-func (x *ClientSugared) HealthCheck(ctx context.Context, req *HealthCheckRequest) (*any, error) {
+func (x *ClientSugared) HealthCheck(ctx context.Context, req *HealthCheckRequest) (*model.HealthStatusResponse, error) {
 	resp, err := x.impl.HealthCheck(ctx, req)
 	if err != nil {
 		return nil, err

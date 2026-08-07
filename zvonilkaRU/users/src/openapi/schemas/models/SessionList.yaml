@@ -1,0 +1,16 @@
+name: SessionList
+description: Список активных сессий пользователя с пагинацией.
+type: object
+required:
+  - items
+properties:
+  items:
+    type: array
+    description: Активные сессии пользователя.
+    items:
+      $ref: "./Session.yaml"
+  next_page_token:
+    type: string
+    description: Токен следующей страницы. Пустой или отсутствует — это последняя страница.
+    x-validations: ["Size <=256"]
+additionalProperties: false

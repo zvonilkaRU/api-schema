@@ -62,7 +62,7 @@ type JoinRoomRequest struct {
 
 type JoinRoomResponse struct {
 	Code        int
-	Response200 *any
+	Response200 *model.JoinTokenResponse
 	Response404 *model.ErrorResponse
 }
 
@@ -71,5 +71,5 @@ type HealthCheckRequest struct {
 
 type HealthCheckResponse struct {
 	Code        int
-	Response200 *any
+	Response200 *model.HealthStatusResponse
 }

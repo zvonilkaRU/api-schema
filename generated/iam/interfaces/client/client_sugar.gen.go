@@ -5,6 +5,7 @@ package client
 import (
 	"context"
 	"fmt"
+	model "github.com/zvonilkaRU/api-schema/generated/iam/model"
 	models "github.com/zvonilkaRU/api-schema/generated/iam/model/models"
 )
 
@@ -49,7 +50,7 @@ func (x *ClientSugared) CheckPermission(ctx context.Context, req *CheckPermissio
 	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
-func (x *ClientSugared) HealthCheck(ctx context.Context, req *HealthCheckRequest) (*any, error) {
+func (x *ClientSugared) HealthCheck(ctx context.Context, req *HealthCheckRequest) (*model.HealthStatusResponse, error) {
 	resp, err := x.impl.HealthCheck(ctx, req)
 	if err != nil {
 		return nil, err
