@@ -14,7 +14,7 @@ get:
         format: uuid
   responses:
     "200":
-      description: Server with channels.
+      description: Server.
       content:
         application/json:
           schema:

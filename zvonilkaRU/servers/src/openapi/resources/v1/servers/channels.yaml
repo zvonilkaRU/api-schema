@@ -1,3 +1,40 @@
+get:
+  tags:
+    - channels
+  summary: List server channels
+  operationId: listChannels
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Server ID.
+  responses:
+    "200":
+      description: List of channels ordered by position.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../../schemas/models/Channel.yaml"
+    "403":
+      description: Forbidden (not a server member).
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "404":
+      description: Server not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+
 post:
   tags:
     - channels

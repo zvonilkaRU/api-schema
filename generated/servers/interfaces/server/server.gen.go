@@ -17,6 +17,7 @@ type Server interface {
 	UpdateMember(ctx context.Context, req *client.UpdateMemberRequest) (*client.UpdateMemberResponse, error)
 	KickMember(ctx context.Context, req *client.KickMemberRequest) (*client.KickMemberResponse, error)
 	TransferOwnership(ctx context.Context, req *client.TransferOwnershipRequest) (*client.TransferOwnershipResponse, error)
+	ListChannels(ctx context.Context, req *client.ListChannelsRequest) (*client.ListChannelsResponse, error)
 	CreateChannel(ctx context.Context, req *client.CreateChannelRequest) (*client.CreateChannelResponse, error)
 	UpdateChannel(ctx context.Context, req *client.UpdateChannelRequest) (*client.UpdateChannelResponse, error)
 	DeleteChannel(ctx context.Context, req *client.DeleteChannelRequest) (*client.DeleteChannelResponse, error)

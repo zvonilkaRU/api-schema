@@ -370,6 +370,46 @@ func (c *Client) TransferOwnership(ctx context.Context, req *apiclient.TransferO
 	return result, nil
 }
 
+func (c *Client) ListChannels(ctx context.Context, req *apiclient.ListChannelsRequest) (*apiclient.ListChannelsResponse, error) {
+	path := "/servers/v1/servers/{id}/channels"
+	path = strings.Replace(path, "{id}", url.PathEscape(fmt.Sprint(req.ID)), 1)
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.ListChannelsResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v []models.ChannelResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 403:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 403: %w", err)
+		}
+		result.Response403 = &v
+	case 404:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 404: %w", err)
+		}
+		result.Response404 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
 func (c *Client) CreateChannel(ctx context.Context, req *apiclient.CreateChannelRequest) (*apiclient.CreateChannelResponse, error) {
 	path := "/servers/v1/servers/{id}/channels"
 	path = strings.Replace(path, "{id}", url.PathEscape(fmt.Sprint(req.ID)), 1)
