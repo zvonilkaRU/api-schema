@@ -63,6 +63,28 @@ func (x *ClientSugared) LogoutUser(ctx context.Context, req *LogoutUserRequest) 
 	return fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
+func (x *ClientSugared) ConfirmEmail(ctx context.Context, req *ConfirmEmailRequest) (*auth.EmailConfirmResponseResponse, error) {
+	resp, err := x.impl.ConfirmEmail(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) ResendEmailConfirmation(ctx context.Context, req *ResendEmailConfirmationRequest) error {
+	resp, err := x.impl.ResendEmailConfirmation(ctx, req)
+	if err != nil {
+		return err
+	}
+	if resp.Response202 {
+		return nil
+	}
+	return fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
 func (x *ClientSugared) GetCurrentUser(ctx context.Context, req *GetCurrentUserRequest) (*models.UserResponse, error) {
 	resp, err := x.impl.GetCurrentUser(ctx, req)
 	if err != nil {

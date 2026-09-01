@@ -9,8 +9,5 @@ import (
 func RegisterResponseRequestToResponse(req RegisterResponseRequest) RegisterResponseResponse {
 	var resp RegisterResponseResponse
 	resp.User = models.UserRequestToResponse(req.User)
-	resp.AccessToken = req.AccessToken
-	resp.RefreshToken = req.RefreshToken
-	resp.ExpiresIn = req.ExpiresIn
 	return resp
 }

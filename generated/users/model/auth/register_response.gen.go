@@ -3,50 +3,16 @@
 package model
 
 import (
-	"fmt"
-	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
 	models "github.com/zvonilkaRU/api-schema/generated/users/model/models"
 )
 
-// Ответ POST /auth/register. Возвращает полный профиль + токены.
+// Ответ POST /auth/register. Аккаунт создан, вход закрыт до подтверждения email.
 type RegisterResponseRequest struct {
 	// Полный профиль пользователя. Возвращается ТОЛЬКО из /users/me (владельцу). login и email скрыты от других пользователей.
-	User         models.UserRequest `json:"user" yaml:"user"`
-	AccessToken  string             `json:"access_token" yaml:"access_token"`
-	RefreshToken string             `json:"refresh_token" yaml:"refresh_token"`
-	ExpiresIn    int64              `json:"expires_in" yaml:"expires_in"`
+	User models.UserRequest `json:"user" yaml:"user"`
 }
 
 type RegisterResponseResponse struct {
 	// Полный профиль пользователя. Возвращается ТОЛЬКО из /users/me (владельцу). login и email скрыты от других пользователей.
-	User         models.UserResponse `json:"user" yaml:"user"`
-	AccessToken  string              `json:"access_token" yaml:"access_token"`
-	RefreshToken string              `json:"refresh_token" yaml:"refresh_token"`
-	ExpiresIn    int64               `json:"expires_in" yaml:"expires_in"`
-}
-
-func (x RegisterResponseRequest) ValidateOwn(reg *validator.Registry) error {
-	if len(x.AccessToken) < 1 {
-		return fmt.Errorf("field AccessToken: must be >= 1")
-	}
-	if len(x.RefreshToken) < 1 {
-		return fmt.Errorf("field RefreshToken: must be >= 1")
-	}
-	if x.ExpiresIn <= 0 {
-		return fmt.Errorf("field ExpiresIn: must be > 0")
-	}
-	return nil
-}
-
-func (x RegisterResponseResponse) ValidateOwn(reg *validator.Registry) error {
-	if len(x.AccessToken) < 1 {
-		return fmt.Errorf("field AccessToken: must be >= 1")
-	}
-	if len(x.RefreshToken) < 1 {
-		return fmt.Errorf("field RefreshToken: must be >= 1")
-	}
-	if x.ExpiresIn <= 0 {
-		return fmt.Errorf("field ExpiresIn: must be > 0")
-	}
-	return nil
+	User models.UserResponse `json:"user" yaml:"user"`
 }

@@ -93,6 +93,8 @@ func (s *ServerHTTP) Register(e *echo.Echo) {
 	e.POST("/users/v1/auth/login", s.loginUser)
 	e.POST("/users/v1/auth/refresh", s.refreshToken)
 	e.POST("/users/v1/auth/logout", s.logoutUser)
+	e.POST("/users/v1/auth/email/confirm", s.confirmEmail)
+	e.POST("/users/v1/auth/email/resend", s.resendEmailConfirmation)
 	e.GET("/users/v1/users/me", s.getCurrentUser)
 	e.PATCH("/users/v1/users/me", s.updateCurrentUser)
 	e.GET("/users/v1/users/:id", s.getUserByID)
@@ -167,6 +169,9 @@ func (s *ServerHTTP) loginUser(c echo.Context) error {
 	if resp.Response401 != nil {
 		return c.JSON(401, resp.Response401)
 	}
+	if resp.Response403 != nil {
+		return c.JSON(403, resp.Response403)
+	}
 	if resp.Response422 != nil {
 		return c.JSON(422, resp.Response422)
 	}
@@ -232,6 +237,63 @@ func (s *ServerHTTP) logoutUser(c echo.Context) error {
 	}
 	if resp.Response422 != nil {
 		return c.JSON(422, resp.Response422)
+	}
+	if resp.Response500 != nil {
+		return c.JSON(500, resp.Response500)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) confirmEmail(c echo.Context) error {
+	req := &apiclient.ConfirmEmailRequest{}
+	if err := bindBody(c, &req.Body); err != nil {
+		return err
+	}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	if err := validator.Validate(req, s.reg); err != nil {
+		return writeValidationError(c, err)
+	}
+	resp, err := s.impl.ConfirmEmail(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response400 != nil {
+		return c.JSON(400, resp.Response400)
+	}
+	if resp.Response500 != nil {
+		return c.JSON(500, resp.Response500)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) resendEmailConfirmation(c echo.Context) error {
+	req := &apiclient.ResendEmailConfirmationRequest{}
+	if err := bindBody(c, &req.Body); err != nil {
+		return err
+	}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	if err := validator.Validate(req, s.reg); err != nil {
+		return writeValidationError(c, err)
+	}
+	resp, err := s.impl.ResendEmailConfirmation(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response202 {
+		return c.NoContent(202)
+	}
+	if resp.Response400 != nil {
+		return c.JSON(400, resp.Response400)
+	}
+	if resp.Response429 != nil {
+		return c.JSON(429, resp.Response429)
 	}
 	if resp.Response500 != nil {
 		return c.JSON(500, resp.Response500)

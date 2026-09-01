@@ -12,6 +12,8 @@ type Server interface {
 	LoginUser(ctx context.Context, req *client.LoginUserRequest) (*client.LoginUserResponse, error)
 	RefreshToken(ctx context.Context, req *client.RefreshTokenRequest) (*client.RefreshTokenResponse, error)
 	LogoutUser(ctx context.Context, req *client.LogoutUserRequest) (*client.LogoutUserResponse, error)
+	ConfirmEmail(ctx context.Context, req *client.ConfirmEmailRequest) (*client.ConfirmEmailResponse, error)
+	ResendEmailConfirmation(ctx context.Context, req *client.ResendEmailConfirmationRequest) (*client.ResendEmailConfirmationResponse, error)
 	GetCurrentUser(ctx context.Context, req *client.GetCurrentUserRequest) (*client.GetCurrentUserResponse, error)
 	UpdateCurrentUser(ctx context.Context, req *client.UpdateCurrentUserRequest) (*client.UpdateCurrentUserResponse, error)
 	GetUserByID(ctx context.Context, req *client.GetUserByIDRequest) (*client.GetUserByIDResponse, error)

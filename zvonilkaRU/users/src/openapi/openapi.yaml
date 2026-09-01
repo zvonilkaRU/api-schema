@@ -34,6 +34,10 @@ paths:
     $ref: "./resources/v1/auth/refresh.yaml"
   /users/v1/auth/logout:
     $ref: "./resources/v1/auth/logout.yaml"
+  /users/v1/auth/email/confirm:
+    $ref: "./resources/v1/email/confirm.yaml"
+  /users/v1/auth/email/resend:
+    $ref: "./resources/v1/email/resend.yaml"
   /users/v1/users/me:
     $ref: "./resources/v1/profile/usersMe.yaml"
   /users/v1/users/{id}:
@@ -86,6 +90,12 @@ components:
       $ref: "./schemas/auth/RefreshResponse.yaml"
     LogoutRequest:
       $ref: "./schemas/auth/LogoutRequest.yaml"
+    EmailConfirmRequest:
+      $ref: "./schemas/auth/EmailConfirmRequest.yaml"
+    EmailConfirmResponse:
+      $ref: "./schemas/auth/EmailConfirmResponse.yaml"
+    EmailResendRequest:
+      $ref: "./schemas/auth/EmailResendRequest.yaml"
     UpdateUserRequest:
       $ref: "./schemas/profile/UpdateUserRequest.yaml"
     SendFriendRequest:

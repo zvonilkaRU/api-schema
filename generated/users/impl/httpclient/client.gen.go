@@ -126,6 +126,12 @@ func (c *Client) LoginUser(ctx context.Context, req *apiclient.LoginUserRequest)
 			return nil, fmt.Errorf("decode 401: %w", err)
 		}
 		result.Response401 = &v
+	case 403:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 403: %w", err)
+		}
+		result.Response403 = &v
 	case 422:
 		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
@@ -234,6 +240,96 @@ func (c *Client) LogoutUser(ctx context.Context, req *apiclient.LogoutUserReques
 			return nil, fmt.Errorf("decode 422: %w", err)
 		}
 		result.Response422 = &v
+	case 500:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 500: %w", err)
+		}
+		result.Response500 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) ConfirmEmail(ctx context.Context, req *apiclient.ConfirmEmailRequest) (*apiclient.ConfirmEmailResponse, error) {
+	path := "/users/v1/auth/email/confirm"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	body, err := json.Marshal(req.Body)
+	if err != nil {
+		return nil, fmt.Errorf("encode body: %w", err)
+	}
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", u.String(), bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+	httpReq.Header.Set("Content-Type", "application/json")
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.ConfirmEmailResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v auth.EmailConfirmResponseResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 400:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 400: %w", err)
+		}
+		result.Response400 = &v
+	case 500:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 500: %w", err)
+		}
+		result.Response500 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) ResendEmailConfirmation(ctx context.Context, req *apiclient.ResendEmailConfirmationRequest) (*apiclient.ResendEmailConfirmationResponse, error) {
+	path := "/users/v1/auth/email/resend"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	body, err := json.Marshal(req.Body)
+	if err != nil {
+		return nil, fmt.Errorf("encode body: %w", err)
+	}
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", u.String(), bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+	httpReq.Header.Set("Content-Type", "application/json")
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.ResendEmailConfirmationResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 202:
+		result.Response202 = true
+	case 400:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 400: %w", err)
+		}
+		result.Response400 = &v
+	case 429:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 429: %w", err)
+		}
+		result.Response429 = &v
 	case 500:
 		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {

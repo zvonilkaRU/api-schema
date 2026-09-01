@@ -2,7 +2,7 @@ post:
   tags:
     - auth
   summary: Register new user
-  description: Создаёт пользователя по login + email + password + nickname. Сервер генерирует tag. Возвращает access + refresh.
+  description: Создаёт пользователя по login + email + password + nickname. Сервер генерирует tag. Отправляет письмо с подтверждением email; токены не выдаются.
   operationId: registerUser
   requestBody:
     required: true
