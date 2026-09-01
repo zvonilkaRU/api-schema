@@ -7,33 +7,21 @@ import (
 )
 
 type RegisterResponseRequestAuditData struct {
-	User         models.UserRequest `json:"user" yaml:"user"`
-	AccessToken  string             `json:"access_token" yaml:"access_token"`
-	RefreshToken string             `json:"refresh_token" yaml:"refresh_token"`
-	ExpiresIn    int64              `json:"expires_in" yaml:"expires_in"`
+	User models.UserRequest `json:"user" yaml:"user"`
 }
 
 func (m RegisterResponseRequest) GetAuditData() any {
 	var am RegisterResponseRequestAuditData
 	am.User = m.User
-	am.AccessToken = m.AccessToken
-	am.RefreshToken = m.RefreshToken
-	am.ExpiresIn = m.ExpiresIn
 	return am
 }
 
 type RegisterResponseResponseAuditData struct {
-	User         models.UserResponse `json:"user" yaml:"user"`
-	AccessToken  string              `json:"access_token" yaml:"access_token"`
-	RefreshToken string              `json:"refresh_token" yaml:"refresh_token"`
-	ExpiresIn    int64               `json:"expires_in" yaml:"expires_in"`
+	User models.UserResponse `json:"user" yaml:"user"`
 }
 
 func (m RegisterResponseResponse) GetAuditData() any {
 	var am RegisterResponseResponseAuditData
 	am.User = m.User
-	am.AccessToken = m.AccessToken
-	am.RefreshToken = m.RefreshToken
-	am.ExpiresIn = m.ExpiresIn
 	return am
 }

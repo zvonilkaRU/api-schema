@@ -83,6 +83,32 @@ func (mr *MockServerMockRecorder) LogoutUser(arg0, arg1 any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LogoutUser", reflect.TypeOf((*MockServer)(nil).LogoutUser), arg0, arg1)
 }
 
+func (m *MockServer) ConfirmEmail(arg0 context.Context, arg1 *apiclient.ConfirmEmailRequest) (*apiclient.ConfirmEmailResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ConfirmEmail", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.ConfirmEmailResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) ConfirmEmail(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConfirmEmail", reflect.TypeOf((*MockServer)(nil).ConfirmEmail), arg0, arg1)
+}
+
+func (m *MockServer) ResendEmailConfirmation(arg0 context.Context, arg1 *apiclient.ResendEmailConfirmationRequest) (*apiclient.ResendEmailConfirmationResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ResendEmailConfirmation", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.ResendEmailConfirmationResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) ResendEmailConfirmation(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResendEmailConfirmation", reflect.TypeOf((*MockServer)(nil).ResendEmailConfirmation), arg0, arg1)
+}
+
 func (m *MockServer) GetCurrentUser(arg0 context.Context, arg1 *apiclient.GetCurrentUserRequest) (*apiclient.GetCurrentUserResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetCurrentUser", arg0, arg1)

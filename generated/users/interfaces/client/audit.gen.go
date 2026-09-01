@@ -42,6 +42,26 @@ func (req *LogoutUserRequest) GetAuditData() any {
 	return am
 }
 
+type ConfirmEmailRequestAuditData struct {
+	Body any
+}
+
+func (req *ConfirmEmailRequest) GetAuditData() any {
+	am := ConfirmEmailRequestAuditData{}
+	am.Body = req.Body.GetAuditData()
+	return am
+}
+
+type ResendEmailConfirmationRequestAuditData struct {
+	Body any
+}
+
+func (req *ResendEmailConfirmationRequest) GetAuditData() any {
+	am := ResendEmailConfirmationRequestAuditData{}
+	am.Body = req.Body.GetAuditData()
+	return am
+}
+
 type UpdateCurrentUserRequestAuditData struct {
 	Body any
 }
@@ -237,6 +257,18 @@ func (resp *LoginUserResponse) Response401AuditData() LoginUserResponse401AuditD
 	return am
 }
 
+type LoginUserResponse403AuditData struct {
+	Payload any
+}
+
+func (resp *LoginUserResponse) Response403AuditData() LoginUserResponse403AuditData {
+	am := LoginUserResponse403AuditData{}
+	if resp.Response403 != nil {
+		am.Payload = resp.Response403.GetAuditData()
+	}
+	return am
+}
+
 type LoginUserResponse422AuditData struct {
 	Payload any
 }
@@ -351,6 +383,78 @@ type LogoutUserResponse500AuditData struct {
 
 func (resp *LogoutUserResponse) Response500AuditData() LogoutUserResponse500AuditData {
 	am := LogoutUserResponse500AuditData{}
+	if resp.Response500 != nil {
+		am.Payload = resp.Response500.GetAuditData()
+	}
+	return am
+}
+
+type ConfirmEmailResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *ConfirmEmailResponse) Response200AuditData() ConfirmEmailResponse200AuditData {
+	am := ConfirmEmailResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
+	}
+	return am
+}
+
+type ConfirmEmailResponse400AuditData struct {
+	Payload any
+}
+
+func (resp *ConfirmEmailResponse) Response400AuditData() ConfirmEmailResponse400AuditData {
+	am := ConfirmEmailResponse400AuditData{}
+	if resp.Response400 != nil {
+		am.Payload = resp.Response400.GetAuditData()
+	}
+	return am
+}
+
+type ConfirmEmailResponse500AuditData struct {
+	Payload any
+}
+
+func (resp *ConfirmEmailResponse) Response500AuditData() ConfirmEmailResponse500AuditData {
+	am := ConfirmEmailResponse500AuditData{}
+	if resp.Response500 != nil {
+		am.Payload = resp.Response500.GetAuditData()
+	}
+	return am
+}
+
+type ResendEmailConfirmationResponse400AuditData struct {
+	Payload any
+}
+
+func (resp *ResendEmailConfirmationResponse) Response400AuditData() ResendEmailConfirmationResponse400AuditData {
+	am := ResendEmailConfirmationResponse400AuditData{}
+	if resp.Response400 != nil {
+		am.Payload = resp.Response400.GetAuditData()
+	}
+	return am
+}
+
+type ResendEmailConfirmationResponse429AuditData struct {
+	Payload any
+}
+
+func (resp *ResendEmailConfirmationResponse) Response429AuditData() ResendEmailConfirmationResponse429AuditData {
+	am := ResendEmailConfirmationResponse429AuditData{}
+	if resp.Response429 != nil {
+		am.Payload = resp.Response429.GetAuditData()
+	}
+	return am
+}
+
+type ResendEmailConfirmationResponse500AuditData struct {
+	Payload any
+}
+
+func (resp *ResendEmailConfirmationResponse) Response500AuditData() ResendEmailConfirmationResponse500AuditData {
+	am := ResendEmailConfirmationResponse500AuditData{}
 	if resp.Response500 != nil {
 		am.Payload = resp.Response500.GetAuditData()
 	}

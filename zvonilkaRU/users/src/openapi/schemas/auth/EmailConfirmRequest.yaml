@@ -1,0 +1,11 @@
+name: EmailConfirmRequest
+description: Тело запроса POST /auth/email/confirm.
+type: object
+required:
+  - token
+properties:
+  token:
+    type: string
+    description: Одноразовый токен из письма (base64url, 43 символа).
+    x-validations: ["Size == 43"]
+additionalProperties: false

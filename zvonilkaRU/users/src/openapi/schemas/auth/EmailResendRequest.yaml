@@ -1,0 +1,12 @@
+name: EmailResendRequest
+description: Тело запроса POST /auth/email/resend.
+type: object
+required:
+  - email
+properties:
+  email:
+    type: string
+    format: email
+    description: Email, указанный при регистрации.
+    x-validations: ["app.EmailFormat"]
+additionalProperties: false

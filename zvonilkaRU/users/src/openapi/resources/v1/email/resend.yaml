@@ -1,0 +1,33 @@
+post:
+  tags:
+    - auth
+  summary: Resend email confirmation
+  description: Повторно отправляет письмо с подтверждением. Всегда 202 — не раскрывает существование email.
+  operationId: resendEmailConfirmation
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/auth/EmailResendRequest.yaml"
+  responses:
+    "202":
+      description: Accepted (always).
+    "400":
+      description: Invalid request body.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "429":
+      description: Too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

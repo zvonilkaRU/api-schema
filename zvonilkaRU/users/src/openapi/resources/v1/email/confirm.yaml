@@ -1,0 +1,31 @@
+post:
+  tags:
+    - auth
+  summary: Confirm email
+  description: "Подтверждает email по одноразовому токену из письма. Завершает регистрацию: выдаёт пару токенов и открывает сессию."
+  operationId: confirmEmail
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/auth/EmailConfirmRequest.yaml"
+  responses:
+    "200":
+      description: Email confirmed, user logged in.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/auth/EmailConfirmResponse.yaml"
+    "400":
+      description: Invalid, expired or used token.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

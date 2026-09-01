@@ -16,6 +16,8 @@ type Client interface {
 	LoginUser(ctx context.Context, req *LoginUserRequest) (*LoginUserResponse, error)
 	RefreshToken(ctx context.Context, req *RefreshTokenRequest) (*RefreshTokenResponse, error)
 	LogoutUser(ctx context.Context, req *LogoutUserRequest) (*LogoutUserResponse, error)
+	ConfirmEmail(ctx context.Context, req *ConfirmEmailRequest) (*ConfirmEmailResponse, error)
+	ResendEmailConfirmation(ctx context.Context, req *ResendEmailConfirmationRequest) (*ResendEmailConfirmationResponse, error)
 	GetCurrentUser(ctx context.Context, req *GetCurrentUserRequest) (*GetCurrentUserResponse, error)
 	UpdateCurrentUser(ctx context.Context, req *UpdateCurrentUserRequest) (*UpdateCurrentUserResponse, error)
 	GetUserByID(ctx context.Context, req *GetUserByIDRequest) (*GetUserByIDResponse, error)
@@ -55,6 +57,7 @@ type LoginUserResponse struct {
 	Response200 *auth.LoginResponseResponse
 	Response400 *model.ErrorResponse
 	Response401 *model.ErrorResponse
+	Response403 *model.ErrorResponse
 	Response422 *model.ErrorResponse
 	Response500 *model.ErrorResponse
 }
@@ -81,6 +84,29 @@ type LogoutUserResponse struct {
 	Response204 bool
 	Response401 *model.ErrorResponse
 	Response422 *model.ErrorResponse
+	Response500 *model.ErrorResponse
+}
+
+type ConfirmEmailRequest struct {
+	Body auth.EmailConfirmRequestRequest `json:"-"`
+}
+
+type ConfirmEmailResponse struct {
+	Code        int
+	Response200 *auth.EmailConfirmResponseResponse
+	Response400 *model.ErrorResponse
+	Response500 *model.ErrorResponse
+}
+
+type ResendEmailConfirmationRequest struct {
+	Body auth.EmailResendRequestRequest `json:"-"`
+}
+
+type ResendEmailConfirmationResponse struct {
+	Code        int
+	Response202 bool
+	Response400 *model.ErrorResponse
+	Response429 *model.ErrorResponse
 	Response500 *model.ErrorResponse
 }
 
