@@ -116,6 +116,17 @@ func (x *ClientSugared) TransferOwnership(ctx context.Context, req *TransferOwne
 	return fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
+func (x *ClientSugared) ListChannels(ctx context.Context, req *ListChannelsRequest) (*[]models.ChannelResponse, error) {
+	resp, err := x.impl.ListChannels(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
 func (x *ClientSugared) CreateChannel(ctx context.Context, req *CreateChannelRequest) (*models.ChannelResponse, error) {
 	resp, err := x.impl.CreateChannel(ctx, req)
 	if err != nil {

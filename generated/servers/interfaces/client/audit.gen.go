@@ -99,6 +99,17 @@ func (req *TransferOwnershipRequest) GetAuditData() any {
 	return am
 }
 
+type ListChannelsRequestAuditData struct {
+	ID string
+}
+
+func (req *ListChannelsRequest) GetAuditData() any {
+	am := ListChannelsRequestAuditData{
+		ID: req.ID,
+	}
+	return am
+}
+
 type CreateChannelRequestAuditData struct {
 	ID   string
 	Body any
@@ -349,6 +360,30 @@ type TransferOwnershipResponse404AuditData struct {
 
 func (resp *TransferOwnershipResponse) Response404AuditData() TransferOwnershipResponse404AuditData {
 	am := TransferOwnershipResponse404AuditData{}
+	if resp.Response404 != nil {
+		am.Payload = resp.Response404.GetAuditData()
+	}
+	return am
+}
+
+type ListChannelsResponse403AuditData struct {
+	Payload any
+}
+
+func (resp *ListChannelsResponse) Response403AuditData() ListChannelsResponse403AuditData {
+	am := ListChannelsResponse403AuditData{}
+	if resp.Response403 != nil {
+		am.Payload = resp.Response403.GetAuditData()
+	}
+	return am
+}
+
+type ListChannelsResponse404AuditData struct {
+	Payload any
+}
+
+func (resp *ListChannelsResponse) Response404AuditData() ListChannelsResponse404AuditData {
+	am := ListChannelsResponse404AuditData{}
 	if resp.Response404 != nil {
 		am.Payload = resp.Response404.GetAuditData()
 	}

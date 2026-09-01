@@ -18,6 +18,7 @@ type Client interface {
 	UpdateMember(ctx context.Context, req *UpdateMemberRequest) (*UpdateMemberResponse, error)
 	KickMember(ctx context.Context, req *KickMemberRequest) (*KickMemberResponse, error)
 	TransferOwnership(ctx context.Context, req *TransferOwnershipRequest) (*TransferOwnershipResponse, error)
+	ListChannels(ctx context.Context, req *ListChannelsRequest) (*ListChannelsResponse, error)
 	CreateChannel(ctx context.Context, req *CreateChannelRequest) (*CreateChannelResponse, error)
 	UpdateChannel(ctx context.Context, req *UpdateChannelRequest) (*UpdateChannelResponse, error)
 	DeleteChannel(ctx context.Context, req *DeleteChannelRequest) (*DeleteChannelResponse, error)
@@ -120,6 +121,17 @@ type TransferOwnershipRequest struct {
 type TransferOwnershipResponse struct {
 	Code        int
 	Response204 bool
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
+}
+
+type ListChannelsRequest struct {
+	ID string `param:"id"`
+}
+
+type ListChannelsResponse struct {
+	Code        int
+	Response200 *[]models.ChannelResponse
 	Response403 *model.ErrorResponse
 	Response404 *model.ErrorResponse
 }

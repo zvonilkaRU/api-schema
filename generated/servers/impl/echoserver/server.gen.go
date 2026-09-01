@@ -98,6 +98,7 @@ func (s *ServerHTTP) Register(e *echo.Echo) {
 	e.PATCH("/servers/v1/servers/:id/members/:uid", s.updateMember)
 	e.DELETE("/servers/v1/servers/:id/members/:uid", s.kickMember)
 	e.POST("/servers/v1/servers/:id/transfer", s.transferOwnership)
+	e.GET("/servers/v1/servers/:id/channels", s.listChannels)
 	e.POST("/servers/v1/servers/:id/channels", s.createChannel)
 	e.PATCH("/servers/v1/servers/:id/channels/:cid", s.updateChannel)
 	e.DELETE("/servers/v1/servers/:id/channels/:cid", s.deleteChannel)
@@ -311,6 +312,30 @@ func (s *ServerHTTP) transferOwnership(c echo.Context) error {
 	}
 	if resp.Response204 {
 		return c.NoContent(204)
+	}
+	if resp.Response403 != nil {
+		return c.JSON(403, resp.Response403)
+	}
+	if resp.Response404 != nil {
+		return c.JSON(404, resp.Response404)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) listChannels(c echo.Context) error {
+	req := &apiclient.ListChannelsRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	if err := validator.Validate(req, s.reg); err != nil {
+		return writeValidationError(c, err)
+	}
+	resp, err := s.impl.ListChannels(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
 	}
 	if resp.Response403 != nil {
 		return c.JSON(403, resp.Response403)
