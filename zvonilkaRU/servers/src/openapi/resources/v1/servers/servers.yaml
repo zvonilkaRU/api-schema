@@ -24,6 +24,12 @@ post:
         application/json:
           schema:
             $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "409":
+      description: Server ownership limit reached for the user.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "500":
       description: Internal error.
       content:
