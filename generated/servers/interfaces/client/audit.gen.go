@@ -186,6 +186,18 @@ func (resp *CreateServerResponse) Response400AuditData() CreateServerResponse400
 	return am
 }
 
+type CreateServerResponse409AuditData struct {
+	Payload any
+}
+
+func (resp *CreateServerResponse) Response409AuditData() CreateServerResponse409AuditData {
+	am := CreateServerResponse409AuditData{}
+	if resp.Response409 != nil {
+		am.Payload = resp.Response409.GetAuditData()
+	}
+	return am
+}
+
 type CreateServerResponse500AuditData struct {
 	Payload any
 }
@@ -362,6 +374,18 @@ func (resp *TransferOwnershipResponse) Response404AuditData() TransferOwnershipR
 	am := TransferOwnershipResponse404AuditData{}
 	if resp.Response404 != nil {
 		am.Payload = resp.Response404.GetAuditData()
+	}
+	return am
+}
+
+type TransferOwnershipResponse409AuditData struct {
+	Payload any
+}
+
+func (resp *TransferOwnershipResponse) Response409AuditData() TransferOwnershipResponse409AuditData {
+	am := TransferOwnershipResponse409AuditData{}
+	if resp.Response409 != nil {
+		am.Payload = resp.Response409.GetAuditData()
 	}
 	return am
 }

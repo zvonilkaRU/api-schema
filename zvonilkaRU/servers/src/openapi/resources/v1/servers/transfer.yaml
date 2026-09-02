@@ -34,3 +34,9 @@ post:
         application/json:
           schema:
             $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "409":
+      description: Recipient ownership limit reached.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

@@ -62,6 +62,12 @@ func (c *Client) CreateServer(ctx context.Context, req *apiclient.CreateServerRe
 			return nil, fmt.Errorf("decode 400: %w", err)
 		}
 		result.Response400 = &v
+	case 409:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 409: %w", err)
+		}
+		result.Response409 = &v
 	case 500:
 		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
@@ -364,6 +370,12 @@ func (c *Client) TransferOwnership(ctx context.Context, req *apiclient.TransferO
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
 		result.Response404 = &v
+	case 409:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 409: %w", err)
+		}
+		result.Response409 = &v
 	default:
 		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
 	}

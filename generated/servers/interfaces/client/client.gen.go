@@ -34,6 +34,7 @@ type CreateServerResponse struct {
 	Code        int
 	Response201 *models.ServerResponse
 	Response400 *model.ErrorResponse
+	Response409 *model.ErrorResponse
 	Response500 *model.ErrorResponse
 }
 
@@ -123,6 +124,7 @@ type TransferOwnershipResponse struct {
 	Response204 bool
 	Response403 *model.ErrorResponse
 	Response404 *model.ErrorResponse
+	Response409 *model.ErrorResponse
 }
 
 type ListChannelsRequest struct {

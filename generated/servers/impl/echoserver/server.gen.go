@@ -127,6 +127,9 @@ func (s *ServerHTTP) createServer(c echo.Context) error {
 	if resp.Response400 != nil {
 		return c.JSON(400, resp.Response400)
 	}
+	if resp.Response409 != nil {
+		return c.JSON(409, resp.Response409)
+	}
 	if resp.Response500 != nil {
 		return c.JSON(500, resp.Response500)
 	}
@@ -318,6 +321,9 @@ func (s *ServerHTTP) transferOwnership(c echo.Context) error {
 	}
 	if resp.Response404 != nil {
 		return c.JSON(404, resp.Response404)
+	}
+	if resp.Response409 != nil {
+		return c.JSON(409, resp.Response409)
 	}
 	return c.NoContent(resp.Code)
 }
