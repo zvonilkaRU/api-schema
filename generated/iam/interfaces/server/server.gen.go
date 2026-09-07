@@ -8,6 +8,7 @@ import (
 )
 
 type Server interface {
+	ListTuples(ctx context.Context, req *client.ListTuplesRequest) (*client.ListTuplesResponse, error)
 	WriteTuple(ctx context.Context, req *client.WriteTupleRequest) (*client.WriteTupleResponse, error)
 	DeleteTuple(ctx context.Context, req *client.DeleteTupleRequest) (*client.DeleteTupleResponse, error)
 	CheckPermission(ctx context.Context, req *client.CheckPermissionRequest) (*client.CheckPermissionResponse, error)

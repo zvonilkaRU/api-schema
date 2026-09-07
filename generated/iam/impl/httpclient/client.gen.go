@@ -12,6 +12,7 @@ import (
 	model "github.com/zvonilkaRU/api-schema/generated/iam/model"
 	models "github.com/zvonilkaRU/api-schema/generated/iam/model/models"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -27,6 +28,56 @@ func NewClient(baseURL string, opts ...httpclient.Option) (*Client, error) {
 		return nil, err
 	}
 	return &Client{http: c}, nil
+}
+
+func (c *Client) ListTuples(ctx context.Context, req *apiclient.ListTuplesRequest) (*apiclient.ListTuplesResponse, error) {
+	path := "/iam/v1/tuples"
+	q := url.Values{}
+	if req.User != nil {
+		q.Set("user", fmt.Sprint(*req.User))
+	}
+	if req.Relation != nil {
+		q.Set("relation", fmt.Sprint(*req.Relation))
+	}
+	if req.Object != nil {
+		q.Set("object", fmt.Sprint(*req.Object))
+	}
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	u.RawQuery = q.Encode()
+	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.ListTuplesResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v models.TupleListResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 400:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 400: %w", err)
+		}
+		result.Response400 = &v
+	case 500:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 500: %w", err)
+		}
+		result.Response500 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
 }
 
 func (c *Client) WriteTuple(ctx context.Context, req *apiclient.WriteTupleRequest) (*apiclient.WriteTupleResponse, error) {

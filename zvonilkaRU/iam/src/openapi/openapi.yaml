@@ -26,6 +26,8 @@ components:
       $ref: "./schemas/models/TupleRequest.yaml"
     Tuple:
       $ref: "./schemas/models/Tuple.yaml"
+    TupleList:
+      $ref: "./schemas/models/TupleList.yaml"
     CheckRequest:
       $ref: "./schemas/models/CheckRequest.yaml"
     CheckResponse:

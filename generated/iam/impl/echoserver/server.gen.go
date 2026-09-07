@@ -89,10 +89,35 @@ func extractUnknownField(err error) string {
 }
 
 func (s *ServerHTTP) Register(e *echo.Echo) {
+	e.GET("/iam/v1/tuples", s.listTuples)
 	e.POST("/iam/v1/tuples", s.writeTuple)
 	e.DELETE("/iam/v1/tuples", s.deleteTuple)
 	e.POST("/iam/v1/check", s.checkPermission)
 	e.GET("/iam/v1/health", s.healthCheck)
+}
+
+func (s *ServerHTTP) listTuples(c echo.Context) error {
+	req := &apiclient.ListTuplesRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	if err := validator.Validate(req, s.reg); err != nil {
+		return writeValidationError(c, err)
+	}
+	resp, err := s.impl.ListTuples(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response400 != nil {
+		return c.JSON(400, resp.Response400)
+	}
+	if resp.Response500 != nil {
+		return c.JSON(500, resp.Response500)
+	}
+	return c.NoContent(resp.Code)
 }
 
 func (s *ServerHTTP) writeTuple(c echo.Context) error {

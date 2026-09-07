@@ -9,10 +9,24 @@ import (
 )
 
 type Client interface {
+	ListTuples(ctx context.Context, req *ListTuplesRequest) (*ListTuplesResponse, error)
 	WriteTuple(ctx context.Context, req *WriteTupleRequest) (*WriteTupleResponse, error)
 	DeleteTuple(ctx context.Context, req *DeleteTupleRequest) (*DeleteTupleResponse, error)
 	CheckPermission(ctx context.Context, req *CheckPermissionRequest) (*CheckPermissionResponse, error)
 	HealthCheck(ctx context.Context, req *HealthCheckRequest) (*HealthCheckResponse, error)
+}
+
+type ListTuplesRequest struct {
+	User     *string `query:"user"`
+	Relation *string `query:"relation"`
+	Object   *string `query:"object"`
+}
+
+type ListTuplesResponse struct {
+	Code        int
+	Response200 *models.TupleListResponse
+	Response400 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type WriteTupleRequest struct {
