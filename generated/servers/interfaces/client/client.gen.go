@@ -53,6 +53,7 @@ type GetServerRequest struct {
 type GetServerResponse struct {
 	Code        int
 	Response200 *models.ServerResponse
+	Response403 *model.ErrorResponse
 	Response404 *model.ErrorResponse
 }
 
@@ -86,6 +87,7 @@ type ListMembersRequest struct {
 type ListMembersResponse struct {
 	Code        int
 	Response200 *[]models.ServerMemberResponse
+	Response403 *model.ErrorResponse
 	Response404 *model.ErrorResponse
 }
 

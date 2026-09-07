@@ -19,6 +19,12 @@ get:
         application/json:
           schema:
             $ref: "../../../schemas/models/Server.yaml"
+    "403":
+      description: Forbidden (not a server member).
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "404":
       description: Server not found.
       content:

@@ -222,6 +222,18 @@ func (resp *GetServerResponse) Response200AuditData() GetServerResponse200AuditD
 	return am
 }
 
+type GetServerResponse403AuditData struct {
+	Payload any
+}
+
+func (resp *GetServerResponse) Response403AuditData() GetServerResponse403AuditData {
+	am := GetServerResponse403AuditData{}
+	if resp.Response403 != nil {
+		am.Payload = resp.Response403.GetAuditData()
+	}
+	return am
+}
+
 type GetServerResponse404AuditData struct {
 	Payload any
 }
@@ -290,6 +302,18 @@ func (resp *DeleteServerResponse) Response404AuditData() DeleteServerResponse404
 	am := DeleteServerResponse404AuditData{}
 	if resp.Response404 != nil {
 		am.Payload = resp.Response404.GetAuditData()
+	}
+	return am
+}
+
+type ListMembersResponse403AuditData struct {
+	Payload any
+}
+
+func (resp *ListMembersResponse) Response403AuditData() ListMembersResponse403AuditData {
+	am := ListMembersResponse403AuditData{}
+	if resp.Response403 != nil {
+		am.Payload = resp.Response403.GetAuditData()
 	}
 	return am
 }
