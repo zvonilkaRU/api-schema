@@ -129,6 +129,12 @@ func (c *Client) GetServer(ctx context.Context, req *apiclient.GetServerRequest)
 			return nil, fmt.Errorf("decode 200: %w", err)
 		}
 		result.Response200 = &v
+	case 403:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 403: %w", err)
+		}
+		result.Response403 = &v
 	case 404:
 		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
@@ -244,6 +250,12 @@ func (c *Client) ListMembers(ctx context.Context, req *apiclient.ListMembersRequ
 			return nil, fmt.Errorf("decode 200: %w", err)
 		}
 		result.Response200 = &v
+	case 403:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 403: %w", err)
+		}
+		result.Response403 = &v
 	case 404:
 		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {

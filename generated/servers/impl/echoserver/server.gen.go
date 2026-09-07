@@ -169,6 +169,9 @@ func (s *ServerHTTP) getServer(c echo.Context) error {
 	if resp.Response200 != nil {
 		return c.JSON(200, resp.Response200)
 	}
+	if resp.Response403 != nil {
+		return c.JSON(403, resp.Response403)
+	}
 	if resp.Response404 != nil {
 		return c.JSON(404, resp.Response404)
 	}
@@ -240,6 +243,9 @@ func (s *ServerHTTP) listMembers(c echo.Context) error {
 	}
 	if resp.Response200 != nil {
 		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response403 != nil {
+		return c.JSON(403, resp.Response403)
 	}
 	if resp.Response404 != nil {
 		return c.JSON(404, resp.Response404)
