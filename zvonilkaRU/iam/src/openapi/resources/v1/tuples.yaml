@@ -1,3 +1,55 @@
+get:
+  tags:
+    - tuples
+  summary: List relationship tuples
+  description: |
+    Чтение кортежей с фильтром (iam#6). Поля фильтра опциональны и
+    комбинируются по И: пустое поле не фильтрует. Пагинация OpenFGA
+    (continuation tokens) обходится внутри сервиса — ответ всегда полный
+    список. Эндпоинт внутренний: internal-auth по X-Internal-Api-Key
+    (как writeTuple/deleteTuple).
+  operationId: listTuples
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: user
+      in: query
+      required: false
+      description: Субъект в формате "type:id".
+      schema:
+        type: string
+    - name: relation
+      in: query
+      required: false
+      description: Отношение.
+      schema:
+        type: string
+    - name: object
+      in: query
+      required: false
+      description: Объект в формате "type:id".
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Список кортежей (может быть пустым).
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/models/TupleList.yaml"
+    "400":
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../common/src/openapi/schemas/errors/Error.yaml"
+
 post:
   tags:
     - tuples

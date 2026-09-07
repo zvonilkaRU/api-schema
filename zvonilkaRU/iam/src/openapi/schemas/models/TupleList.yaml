@@ -1,0 +1,11 @@
+name: TupleList
+description: Список кортежей отношений.
+type: object
+required:
+  - items
+properties:
+  items:
+    type: array
+    items:
+      $ref: "./Tuple.yaml"
+additionalProperties: false

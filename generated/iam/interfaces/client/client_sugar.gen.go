@@ -17,6 +17,17 @@ func NewClientSugared(impl Client) *ClientSugared {
 	return &ClientSugared{impl: impl}
 }
 
+func (x *ClientSugared) ListTuples(ctx context.Context, req *ListTuplesRequest) (*models.TupleListResponse, error) {
+	resp, err := x.impl.ListTuples(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
 func (x *ClientSugared) WriteTuple(ctx context.Context, req *WriteTupleRequest) (*models.TupleResponse, error) {
 	resp, err := x.impl.WriteTuple(ctx, req)
 	if err != nil {

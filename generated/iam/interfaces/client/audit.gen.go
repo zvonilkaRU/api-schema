@@ -2,6 +2,21 @@
 
 package client
 
+type ListTuplesRequestAuditData struct {
+	User     *string
+	Relation *string
+	Object   *string
+}
+
+func (req *ListTuplesRequest) GetAuditData() any {
+	am := ListTuplesRequestAuditData{
+		User:     req.User,
+		Relation: req.Relation,
+		Object:   req.Object,
+	}
+	return am
+}
+
 type WriteTupleRequestAuditData struct {
 	Body any
 }
@@ -29,6 +44,42 @@ type CheckPermissionRequestAuditData struct {
 func (req *CheckPermissionRequest) GetAuditData() any {
 	am := CheckPermissionRequestAuditData{}
 	am.Body = req.Body.GetAuditData()
+	return am
+}
+
+type ListTuplesResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *ListTuplesResponse) Response200AuditData() ListTuplesResponse200AuditData {
+	am := ListTuplesResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
+	}
+	return am
+}
+
+type ListTuplesResponse400AuditData struct {
+	Payload any
+}
+
+func (resp *ListTuplesResponse) Response400AuditData() ListTuplesResponse400AuditData {
+	am := ListTuplesResponse400AuditData{}
+	if resp.Response400 != nil {
+		am.Payload = resp.Response400.GetAuditData()
+	}
+	return am
+}
+
+type ListTuplesResponse500AuditData struct {
+	Payload any
+}
+
+func (resp *ListTuplesResponse) Response500AuditData() ListTuplesResponse500AuditData {
+	am := ListTuplesResponse500AuditData{}
+	if resp.Response500 != nil {
+		am.Payload = resp.Response500.GetAuditData()
+	}
 	return am
 }
 
