@@ -1,0 +1,30 @@
+post:
+  tags:
+    - rooms
+  summary: Issue one-time WebSocket ticket
+  description: Выпуск одноразового билета на подключение к WebSocket-каналу
+    событий, чтобы JWT не светился в query/логах (ci#4). Билет короткоживущий
+    (порядка секунд), гасится первым же подключением; повторное использование —
+    отказ.
+  operationId: createWsTicket
+  security:
+    - bearerAuth: []
+  responses:
+    "200":
+      description: Билет выдан.
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/models/WsTicketResponse.yaml"
+    "401":
+      description: Неверный или просроченный access-токен.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "500":
+      description: Internal error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../common/src/openapi/schemas/errors/Error.yaml"

@@ -15,10 +15,12 @@ paths:
     $ref: "./resources/v1/room.yaml"
   /rooms/v1/rooms/{id}/join:
     $ref: "./resources/v1/join.yaml"
+  /rooms/v1/ws-tickets:
+    $ref: "./resources/v1/ws-tickets.yaml"
   /rooms/v1/health:
     $ref: "./resources/v1/health.yaml"
   # WebSocket endpoint (not expressible in OpenAPI 3.1 — see main.go):
-  #   GET /rooms/v1/rooms/{id}/events?token=<jwt>
+  #   POST /rooms/v1/ws-tickets (Bearer) → GET /rooms/v1/rooms/{id}/events?ticket=<one-time>
   #   Events: participant.joined, participant.left, call.ended
 components:
   schemas:
@@ -34,6 +36,8 @@ components:
       $ref: "./../../../common/src/openapi/schemas/time/Timestamp.yaml"
     JoinToken:
       $ref: "./../../../common/src/openapi/schemas/media/JoinToken.yaml"
+    WsTicketResponse:
+      $ref: "./schemas/models/WsTicketResponse.yaml"
     HealthStatus:
       $ref: "./../../../common/src/openapi/schemas/health/HealthStatus.yaml"
   securitySchemes:

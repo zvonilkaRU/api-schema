@@ -7,26 +7,26 @@ import (
 	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
 )
 
-// Тело запроса POST /auth/refresh.
+// Тело запроса POST /auth/refresh. Основной путь — httpOnly cookie zvonilka_refresh; поле в теле — откат на время миграции (ci#4).
 type RefreshRequestRequest struct {
 	// Ранее выданный refresh токен.
-	RefreshToken string `json:"refresh_token" yaml:"refresh_token"`
+	RefreshToken *string `json:"refresh_token,omitempty" yaml:"refresh_token,omitempty"`
 }
 
 type RefreshRequestResponse struct {
 	// Ранее выданный refresh токен.
-	RefreshToken string `json:"refresh_token" yaml:"refresh_token"`
+	RefreshToken *string `json:"refresh_token,omitempty" yaml:"refresh_token,omitempty"`
 }
 
 func (x RefreshRequestRequest) ValidateOwn(reg *validator.Registry) error {
-	if len(x.RefreshToken) < 1 {
+	if x.RefreshToken != nil && len(*x.RefreshToken) < 1 {
 		return fmt.Errorf("field RefreshToken: must be >= 1")
 	}
 	return nil
 }
 
 func (x RefreshRequestResponse) ValidateOwn(reg *validator.Registry) error {
-	if len(x.RefreshToken) < 1 {
+	if x.RefreshToken != nil && len(*x.RefreshToken) < 1 {
 		return fmt.Errorf("field RefreshToken: must be >= 1")
 	}
 	return nil

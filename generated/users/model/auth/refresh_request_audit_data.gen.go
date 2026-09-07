@@ -3,7 +3,7 @@
 package model
 
 type RefreshRequestRequestAuditData struct {
-	RefreshToken string `json:"refresh_token" yaml:"refresh_token"`
+	RefreshToken *string `json:"refresh_token,omitempty" yaml:"refresh_token,omitempty"`
 }
 
 func (m RefreshRequestRequest) GetAuditData() any {
@@ -13,7 +13,7 @@ func (m RefreshRequestRequest) GetAuditData() any {
 }
 
 type RefreshRequestResponseAuditData struct {
-	RefreshToken string `json:"refresh_token" yaml:"refresh_token"`
+	RefreshToken *string `json:"refresh_token,omitempty" yaml:"refresh_token,omitempty"`
 }
 
 func (m RefreshRequestResponse) GetAuditData() any {

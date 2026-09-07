@@ -28,7 +28,9 @@ type RefreshTokenRequestAuditData struct {
 
 func (req *RefreshTokenRequest) GetAuditData() any {
 	am := RefreshTokenRequestAuditData{}
-	am.Body = req.Body.GetAuditData()
+	if req.Body != nil {
+		am.Body = req.Body.GetAuditData()
+	}
 	return am
 }
 
@@ -38,7 +40,9 @@ type LogoutUserRequestAuditData struct {
 
 func (req *LogoutUserRequest) GetAuditData() any {
 	am := LogoutUserRequestAuditData{}
-	am.Body = req.Body.GetAuditData()
+	if req.Body != nil {
+		am.Body = req.Body.GetAuditData()
+	}
 	return am
 }
 

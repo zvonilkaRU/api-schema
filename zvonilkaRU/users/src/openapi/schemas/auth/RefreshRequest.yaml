@@ -1,8 +1,7 @@
 name: RefreshRequest
-description: Тело запроса POST /auth/refresh.
+description: Тело запроса POST /auth/refresh. Основной путь — httpOnly
+  cookie zvonilka_refresh; поле в теле — откат на время миграции (ci#4).
 type: object
-required:
-  - refresh_token
 properties:
   refresh_token:
     type: string
