@@ -14,6 +14,7 @@ type Client interface {
 	GetRoomByID(ctx context.Context, req *GetRoomByIDRequest) (*GetRoomByIDResponse, error)
 	DeleteRoom(ctx context.Context, req *DeleteRoomRequest) (*DeleteRoomResponse, error)
 	JoinRoom(ctx context.Context, req *JoinRoomRequest) (*JoinRoomResponse, error)
+	CreateWsTicket(ctx context.Context, req *CreateWsTicketRequest) (*CreateWsTicketResponse, error)
 	HealthCheck(ctx context.Context, req *HealthCheckRequest) (*HealthCheckResponse, error)
 }
 
@@ -64,6 +65,16 @@ type JoinRoomResponse struct {
 	Code        int
 	Response200 *model.JoinTokenResponse
 	Response404 *model.ErrorResponse
+}
+
+type CreateWsTicketRequest struct {
+}
+
+type CreateWsTicketResponse struct {
+	Code        int
+	Response200 *models.WsTicketResponseResponse
+	Response401 *model.ErrorResponse
+	Response500 *model.ErrorResponse
 }
 
 type HealthCheckRequest struct {

@@ -199,6 +199,45 @@ func (c *Client) JoinRoom(ctx context.Context, req *apiclient.JoinRoomRequest) (
 	return result, nil
 }
 
+func (c *Client) CreateWsTicket(ctx context.Context, req *apiclient.CreateWsTicketRequest) (*apiclient.CreateWsTicketResponse, error) {
+	path := "/rooms/v1/ws-tickets"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.CreateWsTicketResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v models.WsTicketResponseResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 401:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 500:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 500: %w", err)
+		}
+		result.Response500 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
 func (c *Client) HealthCheck(ctx context.Context, req *apiclient.HealthCheckRequest) (*apiclient.HealthCheckResponse, error) {
 	path := "/rooms/v1/health"
 	u := *c.http.ServerURL()

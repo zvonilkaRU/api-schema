@@ -2,10 +2,10 @@ post:
   tags:
     - auth
   summary: Refresh access token
-  description: Принимает refresh токен, выдаёт новый access + новый refresh. Старый refresh инвалидируется. При reuse отозванного токена — инвалидация всей цепочки (409).
+  description: Принимает refresh токен (httpOnly cookie zvonilka_refresh; на время миграции — также в теле), выдаёт новый access + новый refresh. Ротация — новый refresh выставляется cookie, старый инвалидируется. При reuse отозванного токена — инвалидация всей цепочки (409).
   operationId: refreshToken
   requestBody:
-    required: true
+    required: false
     content:
       application/json:
         schema:

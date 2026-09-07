@@ -7,26 +7,26 @@ import (
 	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
 )
 
-// Тело запроса POST /auth/logout. Инвалидирует refresh-цепочку.
+// Тело запроса POST /auth/logout. Инвалидирует refresh-цепочку. Основной путь — httpOnly cookie zvonilka_refresh; поле в теле — откат на время миграции (ci#4).
 type LogoutRequestRequest struct {
 	// Refresh токен, который нужно инвалидировать (вместе со всей цепочкой).
-	RefreshToken string `json:"refresh_token" yaml:"refresh_token"`
+	RefreshToken *string `json:"refresh_token,omitempty" yaml:"refresh_token,omitempty"`
 }
 
 type LogoutRequestResponse struct {
 	// Refresh токен, который нужно инвалидировать (вместе со всей цепочкой).
-	RefreshToken string `json:"refresh_token" yaml:"refresh_token"`
+	RefreshToken *string `json:"refresh_token,omitempty" yaml:"refresh_token,omitempty"`
 }
 
 func (x LogoutRequestRequest) ValidateOwn(reg *validator.Registry) error {
-	if len(x.RefreshToken) < 1 {
+	if x.RefreshToken != nil && len(*x.RefreshToken) < 1 {
 		return fmt.Errorf("field RefreshToken: must be >= 1")
 	}
 	return nil
 }
 
 func (x LogoutRequestResponse) ValidateOwn(reg *validator.Registry) error {
-	if len(x.RefreshToken) < 1 {
+	if x.RefreshToken != nil && len(*x.RefreshToken) < 1 {
 		return fmt.Errorf("field RefreshToken: must be >= 1")
 	}
 	return nil

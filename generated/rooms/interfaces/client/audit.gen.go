@@ -153,6 +153,42 @@ func (resp *JoinRoomResponse) Response404AuditData() JoinRoomResponse404AuditDat
 	return am
 }
 
+type CreateWsTicketResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *CreateWsTicketResponse) Response200AuditData() CreateWsTicketResponse200AuditData {
+	am := CreateWsTicketResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
+	}
+	return am
+}
+
+type CreateWsTicketResponse401AuditData struct {
+	Payload any
+}
+
+func (resp *CreateWsTicketResponse) Response401AuditData() CreateWsTicketResponse401AuditData {
+	am := CreateWsTicketResponse401AuditData{}
+	if resp.Response401 != nil {
+		am.Payload = resp.Response401.GetAuditData()
+	}
+	return am
+}
+
+type CreateWsTicketResponse500AuditData struct {
+	Payload any
+}
+
+func (resp *CreateWsTicketResponse) Response500AuditData() CreateWsTicketResponse500AuditData {
+	am := CreateWsTicketResponse500AuditData{}
+	if resp.Response500 != nil {
+		am.Payload = resp.Response500.GetAuditData()
+	}
+	return am
+}
+
 type HealthCheckResponse200AuditData struct {
 	Payload any
 }

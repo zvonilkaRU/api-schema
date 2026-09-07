@@ -1,0 +1,17 @@
+name: WsTicketResponse
+description: Одноразовый билет для аутентификации WebSocket-подключения
+  (взамен JWT в query; ci#4). Погашается первым подключением.
+type: object
+required:
+  - ticket
+  - expires_in
+properties:
+  ticket:
+    type: string
+    description: Непрозрачная строка; передаётся в query WS-подключения как ticket.
+    x-validations: ["Size >=32"]
+  expires_in:
+    type: integer
+    format: int32
+    description: Срок жизни билета в секундах.
+additionalProperties: false

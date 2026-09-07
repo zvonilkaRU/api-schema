@@ -94,6 +94,7 @@ func (s *ServerHTTP) Register(e *echo.Echo) {
 	e.GET("/rooms/v1/rooms/:id", s.getRoomByID)
 	e.DELETE("/rooms/v1/rooms/:id", s.deleteRoom)
 	e.POST("/rooms/v1/rooms/:id/join", s.joinRoom)
+	e.POST("/rooms/v1/ws-tickets", s.createWsTicket)
 	e.GET("/rooms/v1/health", s.healthCheck)
 }
 
@@ -201,6 +202,30 @@ func (s *ServerHTTP) joinRoom(c echo.Context) error {
 	}
 	if resp.Response404 != nil {
 		return c.JSON(404, resp.Response404)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) createWsTicket(c echo.Context) error {
+	req := &apiclient.CreateWsTicketRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	if err := validator.Validate(req, s.reg); err != nil {
+		return writeValidationError(c, err)
+	}
+	resp, err := s.impl.CreateWsTicket(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response500 != nil {
+		return c.JSON(500, resp.Response500)
 	}
 	return c.NoContent(resp.Code)
 }

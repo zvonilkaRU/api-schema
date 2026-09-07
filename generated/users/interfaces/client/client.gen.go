@@ -63,7 +63,7 @@ type LoginUserResponse struct {
 }
 
 type RefreshTokenRequest struct {
-	Body auth.RefreshRequestRequest `json:"-"`
+	Body *auth.RefreshRequestRequest `json:"-"`
 }
 
 type RefreshTokenResponse struct {
@@ -76,7 +76,7 @@ type RefreshTokenResponse struct {
 }
 
 type LogoutUserRequest struct {
-	Body auth.LogoutRequestRequest `json:"-"`
+	Body *auth.LogoutRequestRequest `json:"-"`
 }
 
 type LogoutUserResponse struct {
