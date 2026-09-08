@@ -1,0 +1,23 @@
+get:
+  tags:
+    - invites
+  summary: List incoming invites
+  description: Direct invites addressed to the current user.
+  operationId: listIncomingInvites
+  security:
+    - bearerAuth: []
+  responses:
+    "200":
+      description: Incoming invites.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../../schemas/models/IncomingInvite.yaml"
+    "401":
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

@@ -1,0 +1,39 @@
+post:
+  tags:
+    - invites
+  summary: Decline invite
+  description: Marks a direct invite addressed to the caller as declined.
+  operationId: declineInvite
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: code
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 8
+        maxLength: 8
+        pattern: "^[A-HJ-NP-Z2-9]{8}$"
+      description: Invite code.
+  responses:
+    "204":
+      description: Declined.
+    "401":
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "403":
+      description: Invite is not addressed to the caller.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "404":
+      description: Invite not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

@@ -1,0 +1,32 @@
+name: InvitePreview
+description: Public invite info for the preview screen.
+type: object
+required:
+  - code
+  - state
+  - targeted_to_me
+  - server_id
+  - server_name
+  - member_count
+properties:
+  code:
+    type: string
+    readOnly: true
+  state:
+    type: string
+    enum: [active, expired, revoked, declined, exhausted]
+    readOnly: true
+  targeted_to_me:
+    type: boolean
+    readOnly: true
+  server_id:
+    type: string
+    format: uuid
+    readOnly: true
+  server_name:
+    type: string
+    readOnly: true
+  member_count:
+    type: integer
+    readOnly: true
+additionalProperties: false
