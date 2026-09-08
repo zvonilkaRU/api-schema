@@ -394,6 +394,115 @@ func (c *Client) TransferOwnership(ctx context.Context, req *apiclient.TransferO
 	return result, nil
 }
 
+func (c *Client) CreateInvite(ctx context.Context, req *apiclient.CreateInviteRequest) (*apiclient.CreateInviteResponse, error) {
+	path := "/servers/v1/servers/{id}/invites"
+	path = strings.Replace(path, "{id}", url.PathEscape(fmt.Sprint(req.ID)), 1)
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	body, err := json.Marshal(req.Body)
+	if err != nil {
+		return nil, fmt.Errorf("encode body: %w", err)
+	}
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", u.String(), bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+	httpReq.Header.Set("Content-Type", "application/json")
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.CreateInviteResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 201:
+		var v models.InviteResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 201: %w", err)
+		}
+		result.Response201 = &v
+	case 401:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 403:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 403: %w", err)
+		}
+		result.Response403 = &v
+	case 404:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 404: %w", err)
+		}
+		result.Response404 = &v
+	case 409:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 409: %w", err)
+		}
+		result.Response409 = &v
+	case 422:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 422: %w", err)
+		}
+		result.Response422 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) ListServerInvites(ctx context.Context, req *apiclient.ListServerInvitesRequest) (*apiclient.ListServerInvitesResponse, error) {
+	path := "/servers/v1/servers/{id}/invites"
+	path = strings.Replace(path, "{id}", url.PathEscape(fmt.Sprint(req.ID)), 1)
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.ListServerInvitesResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v []models.InviteResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 401:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 403:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 403: %w", err)
+		}
+		result.Response403 = &v
+	case 404:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 404: %w", err)
+		}
+		result.Response404 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
 func (c *Client) ListChannels(ctx context.Context, req *apiclient.ListChannelsRequest) (*apiclient.ListChannelsResponse, error) {
 	path := "/servers/v1/servers/{id}/channels"
 	path = strings.Replace(path, "{id}", url.PathEscape(fmt.Sprint(req.ID)), 1)
@@ -596,6 +705,221 @@ func (c *Client) JoinChannel(ctx context.Context, req *apiclient.JoinChannelRequ
 			return nil, fmt.Errorf("decode 404: %w", err)
 		}
 		result.Response404 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) GetInvite(ctx context.Context, req *apiclient.GetInviteRequest) (*apiclient.GetInviteResponse, error) {
+	path := "/servers/v1/invites/{code}"
+	path = strings.Replace(path, "{code}", url.PathEscape(fmt.Sprint(req.Code)), 1)
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.GetInviteResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v models.InvitePreviewResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 401:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 404:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 404: %w", err)
+		}
+		result.Response404 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) RevokeInvite(ctx context.Context, req *apiclient.RevokeInviteRequest) (*apiclient.RevokeInviteResponse, error) {
+	path := "/servers/v1/invites/{code}"
+	path = strings.Replace(path, "{code}", url.PathEscape(fmt.Sprint(req.Code)), 1)
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "DELETE", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.RevokeInviteResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 204:
+		result.Response204 = true
+	case 401:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 403:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 403: %w", err)
+		}
+		result.Response403 = &v
+	case 404:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 404: %w", err)
+		}
+		result.Response404 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) JoinServerByInvite(ctx context.Context, req *apiclient.JoinServerByInviteRequest) (*apiclient.JoinServerByInviteResponse, error) {
+	path := "/servers/v1/invites/{code}/join"
+	path = strings.Replace(path, "{code}", url.PathEscape(fmt.Sprint(req.Code)), 1)
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.JoinServerByInviteResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v models.ServerResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 401:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 403:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 403: %w", err)
+		}
+		result.Response403 = &v
+	case 404:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 404: %w", err)
+		}
+		result.Response404 = &v
+	case 409:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 409: %w", err)
+		}
+		result.Response409 = &v
+	case 410:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 410: %w", err)
+		}
+		result.Response410 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) DeclineInvite(ctx context.Context, req *apiclient.DeclineInviteRequest) (*apiclient.DeclineInviteResponse, error) {
+	path := "/servers/v1/invites/{code}/decline"
+	path = strings.Replace(path, "{code}", url.PathEscape(fmt.Sprint(req.Code)), 1)
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.DeclineInviteResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 204:
+		result.Response204 = true
+	case 401:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 403:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 403: %w", err)
+		}
+		result.Response403 = &v
+	case 404:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 404: %w", err)
+		}
+		result.Response404 = &v
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return result, nil
+}
+
+func (c *Client) ListIncomingInvites(ctx context.Context, req *apiclient.ListIncomingInvitesRequest) (*apiclient.ListIncomingInvitesResponse, error) {
+	path := "/servers/v1/invites/incoming"
+	u := *c.http.ServerURL()
+	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.http.Do(ctx, httpReq)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	result := &apiclient.ListIncomingInvitesResponse{Code: resp.StatusCode}
+	switch resp.StatusCode {
+	case 200:
+		var v []models.IncomingInviteResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 200: %w", err)
+		}
+		result.Response200 = &v
+	case 401:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
 	default:
 		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
 	}

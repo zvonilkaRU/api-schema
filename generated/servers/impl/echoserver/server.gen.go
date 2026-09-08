@@ -98,11 +98,18 @@ func (s *ServerHTTP) Register(e *echo.Echo) {
 	e.PATCH("/servers/v1/servers/:id/members/:uid", s.updateMember)
 	e.DELETE("/servers/v1/servers/:id/members/:uid", s.kickMember)
 	e.POST("/servers/v1/servers/:id/transfer", s.transferOwnership)
+	e.POST("/servers/v1/servers/:id/invites", s.createInvite)
+	e.GET("/servers/v1/servers/:id/invites", s.listServerInvites)
 	e.GET("/servers/v1/servers/:id/channels", s.listChannels)
 	e.POST("/servers/v1/servers/:id/channels", s.createChannel)
 	e.PATCH("/servers/v1/servers/:id/channels/:cid", s.updateChannel)
 	e.DELETE("/servers/v1/servers/:id/channels/:cid", s.deleteChannel)
 	e.POST("/servers/v1/channels/:id/join", s.joinChannel)
+	e.GET("/servers/v1/invites/:code", s.getInvite)
+	e.DELETE("/servers/v1/invites/:code", s.revokeInvite)
+	e.POST("/servers/v1/invites/:code/join", s.joinServerByInvite)
+	e.POST("/servers/v1/invites/:code/decline", s.declineInvite)
+	e.GET("/servers/v1/invites/incoming", s.listIncomingInvites)
 	e.GET("/servers/v1/health", s.healthCheck)
 }
 
@@ -334,6 +341,69 @@ func (s *ServerHTTP) transferOwnership(c echo.Context) error {
 	return c.NoContent(resp.Code)
 }
 
+func (s *ServerHTTP) createInvite(c echo.Context) error {
+	req := &apiclient.CreateInviteRequest{}
+	if err := bindBody(c, &req.Body); err != nil {
+		return err
+	}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	if err := validator.Validate(req, s.reg); err != nil {
+		return writeValidationError(c, err)
+	}
+	resp, err := s.impl.CreateInvite(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response201 != nil {
+		return c.JSON(201, resp.Response201)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response403 != nil {
+		return c.JSON(403, resp.Response403)
+	}
+	if resp.Response404 != nil {
+		return c.JSON(404, resp.Response404)
+	}
+	if resp.Response409 != nil {
+		return c.JSON(409, resp.Response409)
+	}
+	if resp.Response422 != nil {
+		return c.JSON(422, resp.Response422)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) listServerInvites(c echo.Context) error {
+	req := &apiclient.ListServerInvitesRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	if err := validator.Validate(req, s.reg); err != nil {
+		return writeValidationError(c, err)
+	}
+	resp, err := s.impl.ListServerInvites(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response403 != nil {
+		return c.JSON(403, resp.Response403)
+	}
+	if resp.Response404 != nil {
+		return c.JSON(404, resp.Response404)
+	}
+	return c.NoContent(resp.Code)
+}
+
 func (s *ServerHTTP) listChannels(c echo.Context) error {
 	req := &apiclient.ListChannelsRequest{}
 	if err := c.Bind(req); err != nil {
@@ -456,6 +526,138 @@ func (s *ServerHTTP) joinChannel(c echo.Context) error {
 	}
 	if resp.Response404 != nil {
 		return c.JSON(404, resp.Response404)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) getInvite(c echo.Context) error {
+	req := &apiclient.GetInviteRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	if err := validator.Validate(req, s.reg); err != nil {
+		return writeValidationError(c, err)
+	}
+	resp, err := s.impl.GetInvite(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response404 != nil {
+		return c.JSON(404, resp.Response404)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) revokeInvite(c echo.Context) error {
+	req := &apiclient.RevokeInviteRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	if err := validator.Validate(req, s.reg); err != nil {
+		return writeValidationError(c, err)
+	}
+	resp, err := s.impl.RevokeInvite(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response204 {
+		return c.NoContent(204)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response403 != nil {
+		return c.JSON(403, resp.Response403)
+	}
+	if resp.Response404 != nil {
+		return c.JSON(404, resp.Response404)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) joinServerByInvite(c echo.Context) error {
+	req := &apiclient.JoinServerByInviteRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	if err := validator.Validate(req, s.reg); err != nil {
+		return writeValidationError(c, err)
+	}
+	resp, err := s.impl.JoinServerByInvite(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response403 != nil {
+		return c.JSON(403, resp.Response403)
+	}
+	if resp.Response404 != nil {
+		return c.JSON(404, resp.Response404)
+	}
+	if resp.Response409 != nil {
+		return c.JSON(409, resp.Response409)
+	}
+	if resp.Response410 != nil {
+		return c.JSON(410, resp.Response410)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) declineInvite(c echo.Context) error {
+	req := &apiclient.DeclineInviteRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	if err := validator.Validate(req, s.reg); err != nil {
+		return writeValidationError(c, err)
+	}
+	resp, err := s.impl.DeclineInvite(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response204 {
+		return c.NoContent(204)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response403 != nil {
+		return c.JSON(403, resp.Response403)
+	}
+	if resp.Response404 != nil {
+		return c.JSON(404, resp.Response404)
+	}
+	return c.NoContent(resp.Code)
+}
+
+func (s *ServerHTTP) listIncomingInvites(c echo.Context) error {
+	req := &apiclient.ListIncomingInvitesRequest{}
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	if err := validator.Validate(req, s.reg); err != nil {
+		return writeValidationError(c, err)
+	}
+	resp, err := s.impl.ListIncomingInvites(c.Request().Context(), req)
+	if err != nil {
+		return err
+	}
+	if resp.Response200 != nil {
+		return c.JSON(200, resp.Response200)
+	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
 	}
 	return c.NoContent(resp.Code)
 }

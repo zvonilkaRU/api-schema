@@ -1,0 +1,31 @@
+name: IncomingInvite
+description: Direct invite addressed to the current user (DM panel).
+type: object
+required:
+  - id
+  - code
+  - server_id
+  - server_name
+  - created_at
+properties:
+  id:
+    type: string
+    format: uuid
+    readOnly: true
+  code:
+    type: string
+    readOnly: true
+  server_id:
+    type: string
+    format: uuid
+    readOnly: true
+  server_name:
+    type: string
+    readOnly: true
+  expires_at:
+    $ref: "../../../../../common/src/openapi/schemas/time/Timestamp.yaml"
+    readOnly: true
+  created_at:
+    $ref: "../../../../../common/src/openapi/schemas/time/Timestamp.yaml"
+    readOnly: true
+additionalProperties: false

@@ -1,0 +1,103 @@
+post:
+  tags:
+    - servers
+  summary: Create server invite
+  description: Any server member can create an invite. Limit of active invites per creator (409). expires_at is computed from ttl server-side.
+  operationId: createInvite
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Server ID.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../schemas/models/CreateInviteRequest.yaml"
+  responses:
+    "201":
+      description: Created invite.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/models/Invite.yaml"
+    "401":
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "403":
+      description: Actor is not a server member.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "404":
+      description: Server not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "409":
+      description: Active invites limit reached.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "422":
+      description: Validation error.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+
+get:
+  tags:
+    - servers
+  summary: List active server invites
+  description: Active invites of the server (not expired/revoked/declined/exhausted). Any member can read.
+  operationId: listServerInvites
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Server ID.
+  responses:
+    "200":
+      description: Active invites.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../../../schemas/models/Invite.yaml"
+    "401":
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "403":
+      description: Actor is not a server member.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "404":
+      description: Server not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

@@ -1,0 +1,55 @@
+post:
+  tags:
+    - invites
+  summary: Join server by invite
+  description: Joins the server with role member. 409 if already a member (code is NOT consumed). 410 for dead codes, 403 if targeted to another user.
+  operationId: joinServerByInvite
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: code
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 8
+        maxLength: 8
+        pattern: "^[A-HJ-NP-Z2-9]{8}$"
+      description: Invite code.
+  responses:
+    "200":
+      description: Joined server.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/models/Server.yaml"
+    "401":
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "403":
+      description: Invite is addressed to another user.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "404":
+      description: Invite not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "409":
+      description: Already a member.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "410":
+      description: Invite expired, revoked, declined or exhausted.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

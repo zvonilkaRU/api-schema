@@ -8,6 +8,7 @@ package model
 // для проверки, что все валидаторы зарегистрированы.
 func ExpectedValidatorNames() []string {
 	return []string{
+		"app.InviteTTLValue",
 		"app.UTCDateTime",
 	}
 }

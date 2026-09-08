@@ -1,0 +1,17 @@
+name: CreateInviteRequest
+description: Request to create a server invite.
+type: object
+properties:
+  ttl:
+    type: string
+    description: Time to live - one of "1d", "7d", "30d", "never".
+    x-validations: ["app.InviteTTLValue"]
+  max_uses:
+    type: [integer, "null"]
+    description: Max joins (>= 1); omitted/null = unlimited.
+    x-validations: [">=1"]
+  target_user_id:
+    type: [string, "null"]
+    format: uuid
+    description: Target user for a direct invite; null/omitted = public code.
+additionalProperties: false

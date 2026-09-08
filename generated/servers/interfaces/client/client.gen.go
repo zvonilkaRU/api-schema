@@ -18,11 +18,18 @@ type Client interface {
 	UpdateMember(ctx context.Context, req *UpdateMemberRequest) (*UpdateMemberResponse, error)
 	KickMember(ctx context.Context, req *KickMemberRequest) (*KickMemberResponse, error)
 	TransferOwnership(ctx context.Context, req *TransferOwnershipRequest) (*TransferOwnershipResponse, error)
+	CreateInvite(ctx context.Context, req *CreateInviteRequest) (*CreateInviteResponse, error)
+	ListServerInvites(ctx context.Context, req *ListServerInvitesRequest) (*ListServerInvitesResponse, error)
 	ListChannels(ctx context.Context, req *ListChannelsRequest) (*ListChannelsResponse, error)
 	CreateChannel(ctx context.Context, req *CreateChannelRequest) (*CreateChannelResponse, error)
 	UpdateChannel(ctx context.Context, req *UpdateChannelRequest) (*UpdateChannelResponse, error)
 	DeleteChannel(ctx context.Context, req *DeleteChannelRequest) (*DeleteChannelResponse, error)
 	JoinChannel(ctx context.Context, req *JoinChannelRequest) (*JoinChannelResponse, error)
+	GetInvite(ctx context.Context, req *GetInviteRequest) (*GetInviteResponse, error)
+	RevokeInvite(ctx context.Context, req *RevokeInviteRequest) (*RevokeInviteResponse, error)
+	JoinServerByInvite(ctx context.Context, req *JoinServerByInviteRequest) (*JoinServerByInviteResponse, error)
+	DeclineInvite(ctx context.Context, req *DeclineInviteRequest) (*DeclineInviteResponse, error)
+	ListIncomingInvites(ctx context.Context, req *ListIncomingInvitesRequest) (*ListIncomingInvitesResponse, error)
 	HealthCheck(ctx context.Context, req *HealthCheckRequest) (*HealthCheckResponse, error)
 }
 
@@ -129,6 +136,33 @@ type TransferOwnershipResponse struct {
 	Response409 *model.ErrorResponse
 }
 
+type CreateInviteRequest struct {
+	ID   string                            `param:"id"`
+	Body models.CreateInviteRequestRequest `json:"-"`
+}
+
+type CreateInviteResponse struct {
+	Code        int
+	Response201 *models.InviteResponse
+	Response401 *model.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
+	Response409 *model.ErrorResponse
+	Response422 *model.ErrorResponse
+}
+
+type ListServerInvitesRequest struct {
+	ID string `param:"id"`
+}
+
+type ListServerInvitesResponse struct {
+	Code        int
+	Response200 *[]models.InviteResponse
+	Response401 *model.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
+}
+
 type ListChannelsRequest struct {
 	ID string `param:"id"`
 }
@@ -186,6 +220,64 @@ type JoinChannelResponse struct {
 	Response200 *model.JoinTokenResponse
 	Response403 *model.ErrorResponse
 	Response404 *model.ErrorResponse
+}
+
+type GetInviteRequest struct {
+	Code string `param:"code"`
+}
+
+type GetInviteResponse struct {
+	Code        int
+	Response200 *models.InvitePreviewResponse
+	Response401 *model.ErrorResponse
+	Response404 *model.ErrorResponse
+}
+
+type RevokeInviteRequest struct {
+	Code string `param:"code"`
+}
+
+type RevokeInviteResponse struct {
+	Code        int
+	Response204 bool
+	Response401 *model.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
+}
+
+type JoinServerByInviteRequest struct {
+	Code string `param:"code"`
+}
+
+type JoinServerByInviteResponse struct {
+	Code        int
+	Response200 *models.ServerResponse
+	Response401 *model.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
+	Response409 *model.ErrorResponse
+	Response410 *model.ErrorResponse
+}
+
+type DeclineInviteRequest struct {
+	Code string `param:"code"`
+}
+
+type DeclineInviteResponse struct {
+	Code        int
+	Response204 bool
+	Response401 *model.ErrorResponse
+	Response403 *model.ErrorResponse
+	Response404 *model.ErrorResponse
+}
+
+type ListIncomingInvitesRequest struct {
+}
+
+type ListIncomingInvitesResponse struct {
+	Code        int
+	Response200 *[]models.IncomingInviteResponse
+	Response401 *model.ErrorResponse
 }
 
 type HealthCheckRequest struct {

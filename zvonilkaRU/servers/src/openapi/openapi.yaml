@@ -25,6 +25,16 @@ paths:
     $ref: "./resources/v1/servers/channel.yaml"
   /servers/v1/channels/{id}/join:
     $ref: "./resources/v1/join.yaml"
+  /servers/v1/servers/{id}/invites:
+    $ref: "./resources/v1/servers/invites.yaml"
+  /servers/v1/invites/{code}:
+    $ref: "./resources/v1/invites/invite.yaml"
+  /servers/v1/invites/{code}/join:
+    $ref: "./resources/v1/invites/join.yaml"
+  /servers/v1/invites/{code}/decline:
+    $ref: "./resources/v1/invites/decline.yaml"
+  /servers/v1/invites/incoming:
+    $ref: "./resources/v1/invites/incoming.yaml"
   /servers/v1/health:
     $ref: "./resources/v1/service/health.yaml"
 components:
@@ -47,6 +57,14 @@ components:
       $ref: "./schemas/models/CreateChannelRequest.yaml"
     UpdateChannelRequest:
       $ref: "./schemas/models/UpdateChannelRequest.yaml"
+    Invite:
+      $ref: "./schemas/models/Invite.yaml"
+    CreateInviteRequest:
+      $ref: "./schemas/models/CreateInviteRequest.yaml"
+    IncomingInvite:
+      $ref: "./schemas/models/IncomingInvite.yaml"
+    InvitePreview:
+      $ref: "./schemas/models/InvitePreview.yaml"
     Error:
       $ref: "./../../../common/src/openapi/schemas/errors/Error.yaml"
     Timestamp:

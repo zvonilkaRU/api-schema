@@ -1,0 +1,77 @@
+get:
+  tags:
+    - invites
+  summary: Get invite preview
+  description: Public info for the preview screen. Dead codes (expired/revoked/declined/exhausted) return 200 with the state field; 404 only for a non-existing code.
+  operationId: getInvite
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: code
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 8
+        maxLength: 8
+        pattern: "^[A-HJ-NP-Z2-9]{8}$"
+      description: Invite code.
+  responses:
+    "200":
+      description: Invite preview.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../schemas/models/InvitePreview.yaml"
+    "401":
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "404":
+      description: Invite not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+
+delete:
+  tags:
+    - invites
+  summary: Revoke invite
+  description: Revoke by code. Allowed for the invite creator or server admin/owner.
+  operationId: revokeInvite
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: code
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 8
+        maxLength: 8
+        pattern: "^[A-HJ-NP-Z2-9]{8}$"
+      description: Invite code.
+  responses:
+    "204":
+      description: Revoked.
+    "401":
+      description: Unauthorized.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "403":
+      description: Actor is not the creator nor admin/owner.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"
+    "404":
+      description: Invite not found.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../../common/src/openapi/schemas/errors/Error.yaml"

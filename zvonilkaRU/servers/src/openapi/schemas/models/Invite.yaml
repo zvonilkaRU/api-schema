@@ -1,0 +1,52 @@
+name: Invite
+description: Server invite (public code or targeted to a friend).
+type: object
+required:
+  - id
+  - code
+  - server_id
+  - created_by
+  - uses_count
+  - created_at
+properties:
+  id:
+    type: string
+    format: uuid
+    readOnly: true
+  code:
+    type: string
+    description: Invite code, 8 chars from [A-HJ-NP-Z2-9].
+    readOnly: true
+  server_id:
+    type: string
+    format: uuid
+    readOnly: true
+  created_by:
+    type: string
+    format: uuid
+    readOnly: true
+  target_user_id:
+    type: [string, "null"]
+    format: uuid
+    description: Target user for direct invites; null = public code.
+    readOnly: true
+  max_uses:
+    type: [integer, "null"]
+    description: Max joins; null = unlimited.
+    readOnly: true
+  uses_count:
+    type: integer
+    readOnly: true
+  expires_at:
+    $ref: "../../../../../common/src/openapi/schemas/time/Timestamp.yaml"
+    readOnly: true
+  revoked_at:
+    $ref: "../../../../../common/src/openapi/schemas/time/Timestamp.yaml"
+    readOnly: true
+  declined_at:
+    $ref: "../../../../../common/src/openapi/schemas/time/Timestamp.yaml"
+    readOnly: true
+  created_at:
+    $ref: "../../../../../common/src/openapi/schemas/time/Timestamp.yaml"
+    readOnly: true
+additionalProperties: false

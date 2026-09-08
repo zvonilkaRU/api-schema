@@ -116,6 +116,28 @@ func (x *ClientSugared) TransferOwnership(ctx context.Context, req *TransferOwne
 	return fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
+func (x *ClientSugared) CreateInvite(ctx context.Context, req *CreateInviteRequest) (*models.InviteResponse, error) {
+	resp, err := x.impl.CreateInvite(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response201 != nil {
+		return resp.Response201, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) ListServerInvites(ctx context.Context, req *ListServerInvitesRequest) (*[]models.InviteResponse, error) {
+	resp, err := x.impl.ListServerInvites(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
 func (x *ClientSugared) ListChannels(ctx context.Context, req *ListChannelsRequest) (*[]models.ChannelResponse, error) {
 	resp, err := x.impl.ListChannels(ctx, req)
 	if err != nil {
@@ -162,6 +184,61 @@ func (x *ClientSugared) DeleteChannel(ctx context.Context, req *DeleteChannelReq
 
 func (x *ClientSugared) JoinChannel(ctx context.Context, req *JoinChannelRequest) (*model.JoinTokenResponse, error) {
 	resp, err := x.impl.JoinChannel(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) GetInvite(ctx context.Context, req *GetInviteRequest) (*models.InvitePreviewResponse, error) {
+	resp, err := x.impl.GetInvite(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) RevokeInvite(ctx context.Context, req *RevokeInviteRequest) error {
+	resp, err := x.impl.RevokeInvite(ctx, req)
+	if err != nil {
+		return err
+	}
+	if resp.Response204 {
+		return nil
+	}
+	return fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) JoinServerByInvite(ctx context.Context, req *JoinServerByInviteRequest) (*models.ServerResponse, error) {
+	resp, err := x.impl.JoinServerByInvite(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Response200 != nil {
+		return resp.Response200, nil
+	}
+	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) DeclineInvite(ctx context.Context, req *DeclineInviteRequest) error {
+	resp, err := x.impl.DeclineInvite(ctx, req)
+	if err != nil {
+		return err
+	}
+	if resp.Response204 {
+		return nil
+	}
+	return fmt.Errorf("unexpected status: %d", resp.Code)
+}
+
+func (x *ClientSugared) ListIncomingInvites(ctx context.Context, req *ListIncomingInvitesRequest) (*[]models.IncomingInviteResponse, error) {
+	resp, err := x.impl.ListIncomingInvites(ctx, req)
 	if err != nil {
 		return nil, err
 	}
