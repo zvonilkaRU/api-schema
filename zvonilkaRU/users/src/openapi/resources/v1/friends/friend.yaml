@@ -12,7 +12,7 @@ delete:
       required: true
       schema:
         type: string
-      description: ID дружбы (friendship row).
+      description: User id друга (из GET /friends/friends, users#65).
   responses:
     "204":
       description: Friend removed.
