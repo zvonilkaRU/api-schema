@@ -99,6 +99,30 @@ func (req *TransferOwnershipRequest) GetAuditData() any {
 	return am
 }
 
+type CreateInviteRequestAuditData struct {
+	ID   string
+	Body any
+}
+
+func (req *CreateInviteRequest) GetAuditData() any {
+	am := CreateInviteRequestAuditData{
+		ID: req.ID,
+	}
+	am.Body = req.Body.GetAuditData()
+	return am
+}
+
+type ListServerInvitesRequestAuditData struct {
+	ID string
+}
+
+func (req *ListServerInvitesRequest) GetAuditData() any {
+	am := ListServerInvitesRequestAuditData{
+		ID: req.ID,
+	}
+	return am
+}
+
 type ListChannelsRequestAuditData struct {
 	ID string
 }
@@ -158,6 +182,50 @@ type JoinChannelRequestAuditData struct {
 func (req *JoinChannelRequest) GetAuditData() any {
 	am := JoinChannelRequestAuditData{
 		ID: req.ID,
+	}
+	return am
+}
+
+type GetInviteRequestAuditData struct {
+	Code string
+}
+
+func (req *GetInviteRequest) GetAuditData() any {
+	am := GetInviteRequestAuditData{
+		Code: req.Code,
+	}
+	return am
+}
+
+type RevokeInviteRequestAuditData struct {
+	Code string
+}
+
+func (req *RevokeInviteRequest) GetAuditData() any {
+	am := RevokeInviteRequestAuditData{
+		Code: req.Code,
+	}
+	return am
+}
+
+type JoinServerByInviteRequestAuditData struct {
+	Code string
+}
+
+func (req *JoinServerByInviteRequest) GetAuditData() any {
+	am := JoinServerByInviteRequestAuditData{
+		Code: req.Code,
+	}
+	return am
+}
+
+type DeclineInviteRequestAuditData struct {
+	Code string
+}
+
+func (req *DeclineInviteRequest) GetAuditData() any {
+	am := DeclineInviteRequestAuditData{
+		Code: req.Code,
 	}
 	return am
 }
@@ -414,6 +482,114 @@ func (resp *TransferOwnershipResponse) Response409AuditData() TransferOwnershipR
 	return am
 }
 
+type CreateInviteResponse201AuditData struct {
+	Payload any
+}
+
+func (resp *CreateInviteResponse) Response201AuditData() CreateInviteResponse201AuditData {
+	am := CreateInviteResponse201AuditData{}
+	if resp.Response201 != nil {
+		am.Payload = resp.Response201.GetAuditData()
+	}
+	return am
+}
+
+type CreateInviteResponse401AuditData struct {
+	Payload any
+}
+
+func (resp *CreateInviteResponse) Response401AuditData() CreateInviteResponse401AuditData {
+	am := CreateInviteResponse401AuditData{}
+	if resp.Response401 != nil {
+		am.Payload = resp.Response401.GetAuditData()
+	}
+	return am
+}
+
+type CreateInviteResponse403AuditData struct {
+	Payload any
+}
+
+func (resp *CreateInviteResponse) Response403AuditData() CreateInviteResponse403AuditData {
+	am := CreateInviteResponse403AuditData{}
+	if resp.Response403 != nil {
+		am.Payload = resp.Response403.GetAuditData()
+	}
+	return am
+}
+
+type CreateInviteResponse404AuditData struct {
+	Payload any
+}
+
+func (resp *CreateInviteResponse) Response404AuditData() CreateInviteResponse404AuditData {
+	am := CreateInviteResponse404AuditData{}
+	if resp.Response404 != nil {
+		am.Payload = resp.Response404.GetAuditData()
+	}
+	return am
+}
+
+type CreateInviteResponse409AuditData struct {
+	Payload any
+}
+
+func (resp *CreateInviteResponse) Response409AuditData() CreateInviteResponse409AuditData {
+	am := CreateInviteResponse409AuditData{}
+	if resp.Response409 != nil {
+		am.Payload = resp.Response409.GetAuditData()
+	}
+	return am
+}
+
+type CreateInviteResponse422AuditData struct {
+	Payload any
+}
+
+func (resp *CreateInviteResponse) Response422AuditData() CreateInviteResponse422AuditData {
+	am := CreateInviteResponse422AuditData{}
+	if resp.Response422 != nil {
+		am.Payload = resp.Response422.GetAuditData()
+	}
+	return am
+}
+
+type ListServerInvitesResponse401AuditData struct {
+	Payload any
+}
+
+func (resp *ListServerInvitesResponse) Response401AuditData() ListServerInvitesResponse401AuditData {
+	am := ListServerInvitesResponse401AuditData{}
+	if resp.Response401 != nil {
+		am.Payload = resp.Response401.GetAuditData()
+	}
+	return am
+}
+
+type ListServerInvitesResponse403AuditData struct {
+	Payload any
+}
+
+func (resp *ListServerInvitesResponse) Response403AuditData() ListServerInvitesResponse403AuditData {
+	am := ListServerInvitesResponse403AuditData{}
+	if resp.Response403 != nil {
+		am.Payload = resp.Response403.GetAuditData()
+	}
+	return am
+}
+
+type ListServerInvitesResponse404AuditData struct {
+	Payload any
+}
+
+func (resp *ListServerInvitesResponse) Response404AuditData() ListServerInvitesResponse404AuditData {
+	am := ListServerInvitesResponse404AuditData{}
+	if resp.Response404 != nil {
+		am.Payload = resp.Response404.GetAuditData()
+	}
+	return am
+}
+
 type ListChannelsResponse403AuditData struct {
 	Payload any
 }
@@ -566,6 +742,198 @@ func (resp *JoinChannelResponse) Response404AuditData() JoinChannelResponse404Au
 	am := JoinChannelResponse404AuditData{}
 	if resp.Response404 != nil {
 		am.Payload = resp.Response404.GetAuditData()
+	}
+	return am
+}
+
+type GetInviteResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *GetInviteResponse) Response200AuditData() GetInviteResponse200AuditData {
+	am := GetInviteResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
+	}
+	return am
+}
+
+type GetInviteResponse401AuditData struct {
+	Payload any
+}
+
+func (resp *GetInviteResponse) Response401AuditData() GetInviteResponse401AuditData {
+	am := GetInviteResponse401AuditData{}
+	if resp.Response401 != nil {
+		am.Payload = resp.Response401.GetAuditData()
+	}
+	return am
+}
+
+type GetInviteResponse404AuditData struct {
+	Payload any
+}
+
+func (resp *GetInviteResponse) Response404AuditData() GetInviteResponse404AuditData {
+	am := GetInviteResponse404AuditData{}
+	if resp.Response404 != nil {
+		am.Payload = resp.Response404.GetAuditData()
+	}
+	return am
+}
+
+type RevokeInviteResponse401AuditData struct {
+	Payload any
+}
+
+func (resp *RevokeInviteResponse) Response401AuditData() RevokeInviteResponse401AuditData {
+	am := RevokeInviteResponse401AuditData{}
+	if resp.Response401 != nil {
+		am.Payload = resp.Response401.GetAuditData()
+	}
+	return am
+}
+
+type RevokeInviteResponse403AuditData struct {
+	Payload any
+}
+
+func (resp *RevokeInviteResponse) Response403AuditData() RevokeInviteResponse403AuditData {
+	am := RevokeInviteResponse403AuditData{}
+	if resp.Response403 != nil {
+		am.Payload = resp.Response403.GetAuditData()
+	}
+	return am
+}
+
+type RevokeInviteResponse404AuditData struct {
+	Payload any
+}
+
+func (resp *RevokeInviteResponse) Response404AuditData() RevokeInviteResponse404AuditData {
+	am := RevokeInviteResponse404AuditData{}
+	if resp.Response404 != nil {
+		am.Payload = resp.Response404.GetAuditData()
+	}
+	return am
+}
+
+type JoinServerByInviteResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *JoinServerByInviteResponse) Response200AuditData() JoinServerByInviteResponse200AuditData {
+	am := JoinServerByInviteResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
+	}
+	return am
+}
+
+type JoinServerByInviteResponse401AuditData struct {
+	Payload any
+}
+
+func (resp *JoinServerByInviteResponse) Response401AuditData() JoinServerByInviteResponse401AuditData {
+	am := JoinServerByInviteResponse401AuditData{}
+	if resp.Response401 != nil {
+		am.Payload = resp.Response401.GetAuditData()
+	}
+	return am
+}
+
+type JoinServerByInviteResponse403AuditData struct {
+	Payload any
+}
+
+func (resp *JoinServerByInviteResponse) Response403AuditData() JoinServerByInviteResponse403AuditData {
+	am := JoinServerByInviteResponse403AuditData{}
+	if resp.Response403 != nil {
+		am.Payload = resp.Response403.GetAuditData()
+	}
+	return am
+}
+
+type JoinServerByInviteResponse404AuditData struct {
+	Payload any
+}
+
+func (resp *JoinServerByInviteResponse) Response404AuditData() JoinServerByInviteResponse404AuditData {
+	am := JoinServerByInviteResponse404AuditData{}
+	if resp.Response404 != nil {
+		am.Payload = resp.Response404.GetAuditData()
+	}
+	return am
+}
+
+type JoinServerByInviteResponse409AuditData struct {
+	Payload any
+}
+
+func (resp *JoinServerByInviteResponse) Response409AuditData() JoinServerByInviteResponse409AuditData {
+	am := JoinServerByInviteResponse409AuditData{}
+	if resp.Response409 != nil {
+		am.Payload = resp.Response409.GetAuditData()
+	}
+	return am
+}
+
+type JoinServerByInviteResponse410AuditData struct {
+	Payload any
+}
+
+func (resp *JoinServerByInviteResponse) Response410AuditData() JoinServerByInviteResponse410AuditData {
+	am := JoinServerByInviteResponse410AuditData{}
+	if resp.Response410 != nil {
+		am.Payload = resp.Response410.GetAuditData()
+	}
+	return am
+}
+
+type DeclineInviteResponse401AuditData struct {
+	Payload any
+}
+
+func (resp *DeclineInviteResponse) Response401AuditData() DeclineInviteResponse401AuditData {
+	am := DeclineInviteResponse401AuditData{}
+	if resp.Response401 != nil {
+		am.Payload = resp.Response401.GetAuditData()
+	}
+	return am
+}
+
+type DeclineInviteResponse403AuditData struct {
+	Payload any
+}
+
+func (resp *DeclineInviteResponse) Response403AuditData() DeclineInviteResponse403AuditData {
+	am := DeclineInviteResponse403AuditData{}
+	if resp.Response403 != nil {
+		am.Payload = resp.Response403.GetAuditData()
+	}
+	return am
+}
+
+type DeclineInviteResponse404AuditData struct {
+	Payload any
+}
+
+func (resp *DeclineInviteResponse) Response404AuditData() DeclineInviteResponse404AuditData {
+	am := DeclineInviteResponse404AuditData{}
+	if resp.Response404 != nil {
+		am.Payload = resp.Response404.GetAuditData()
+	}
+	return am
+}
+
+type ListIncomingInvitesResponse401AuditData struct {
+	Payload any
+}
+
+func (resp *ListIncomingInvitesResponse) Response401AuditData() ListIncomingInvitesResponse401AuditData {
+	am := ListIncomingInvitesResponse401AuditData{}
+	if resp.Response401 != nil {
+		am.Payload = resp.Response401.GetAuditData()
 	}
 	return am
 }

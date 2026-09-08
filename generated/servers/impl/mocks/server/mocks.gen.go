@@ -148,6 +148,32 @@ func (mr *MockServerMockRecorder) TransferOwnership(arg0, arg1 any) *gomock.Call
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TransferOwnership", reflect.TypeOf((*MockServer)(nil).TransferOwnership), arg0, arg1)
 }
 
+func (m *MockServer) CreateInvite(arg0 context.Context, arg1 *apiclient.CreateInviteRequest) (*apiclient.CreateInviteResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateInvite", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.CreateInviteResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) CreateInvite(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateInvite", reflect.TypeOf((*MockServer)(nil).CreateInvite), arg0, arg1)
+}
+
+func (m *MockServer) ListServerInvites(arg0 context.Context, arg1 *apiclient.ListServerInvitesRequest) (*apiclient.ListServerInvitesResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListServerInvites", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.ListServerInvitesResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) ListServerInvites(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListServerInvites", reflect.TypeOf((*MockServer)(nil).ListServerInvites), arg0, arg1)
+}
+
 func (m *MockServer) ListChannels(arg0 context.Context, arg1 *apiclient.ListChannelsRequest) (*apiclient.ListChannelsResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListChannels", arg0, arg1)
@@ -211,6 +237,71 @@ func (m *MockServer) JoinChannel(arg0 context.Context, arg1 *apiclient.JoinChann
 func (mr *MockServerMockRecorder) JoinChannel(arg0, arg1 any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "JoinChannel", reflect.TypeOf((*MockServer)(nil).JoinChannel), arg0, arg1)
+}
+
+func (m *MockServer) GetInvite(arg0 context.Context, arg1 *apiclient.GetInviteRequest) (*apiclient.GetInviteResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetInvite", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.GetInviteResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) GetInvite(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInvite", reflect.TypeOf((*MockServer)(nil).GetInvite), arg0, arg1)
+}
+
+func (m *MockServer) RevokeInvite(arg0 context.Context, arg1 *apiclient.RevokeInviteRequest) (*apiclient.RevokeInviteResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RevokeInvite", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.RevokeInviteResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) RevokeInvite(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RevokeInvite", reflect.TypeOf((*MockServer)(nil).RevokeInvite), arg0, arg1)
+}
+
+func (m *MockServer) JoinServerByInvite(arg0 context.Context, arg1 *apiclient.JoinServerByInviteRequest) (*apiclient.JoinServerByInviteResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "JoinServerByInvite", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.JoinServerByInviteResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) JoinServerByInvite(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "JoinServerByInvite", reflect.TypeOf((*MockServer)(nil).JoinServerByInvite), arg0, arg1)
+}
+
+func (m *MockServer) DeclineInvite(arg0 context.Context, arg1 *apiclient.DeclineInviteRequest) (*apiclient.DeclineInviteResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeclineInvite", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.DeclineInviteResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) DeclineInvite(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeclineInvite", reflect.TypeOf((*MockServer)(nil).DeclineInvite), arg0, arg1)
+}
+
+func (m *MockServer) ListIncomingInvites(arg0 context.Context, arg1 *apiclient.ListIncomingInvitesRequest) (*apiclient.ListIncomingInvitesResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListIncomingInvites", arg0, arg1)
+	ret0, _ := ret[0].(*apiclient.ListIncomingInvitesResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (mr *MockServerMockRecorder) ListIncomingInvites(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListIncomingInvites", reflect.TypeOf((*MockServer)(nil).ListIncomingInvites), arg0, arg1)
 }
 
 func (m *MockServer) HealthCheck(arg0 context.Context, arg1 *apiclient.HealthCheckRequest) (*apiclient.HealthCheckResponse, error) {
