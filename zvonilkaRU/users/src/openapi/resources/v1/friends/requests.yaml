@@ -60,7 +60,10 @@ get:
   tags:
     - friends
   summary: List incoming friend requests
-  description: Возвращает список входящих (pending) заявок в друзья.
+  description: >-
+    Возвращает список входящих (pending) заявок в друзья. Поле id каждого
+    элемента — идентификатор заявки (friendship row), а не id пользователя:
+    его передают в accept/decline и cancel исходящей заявки.
   operationId: listIncomingRequests
   security:
     - bearerAuth: []
