@@ -2,7 +2,10 @@ get:
   tags:
     - friends
   summary: List outgoing friend requests
-  description: Возвращает список исходящих (pending) заявок в друзья.
+  description: >-
+    Возвращает список исходящих (pending) заявок в друзья. Поле id каждого
+    элемента — идентификатор заявки (friendship row): его передают в
+    DELETE /friends/outgoing/{id} для отмены.
   operationId: listOutgoingRequests
   security:
     - bearerAuth: []
