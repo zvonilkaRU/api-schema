@@ -38,6 +38,9 @@ func (x CreateInviteRequestRequest) ValidateOwn(reg *validator.Registry) error {
 			}
 		}
 	}
+	if x.MaxUses != nil && *x.MaxUses < 1 {
+		return fmt.Errorf("field MaxUses: must be >= 1")
+	}
 	return nil
 }
 
@@ -52,6 +55,9 @@ func (x CreateInviteRequestResponse) ValidateOwn(reg *validator.Registry) error 
 				return fmt.Errorf("field Ttl: %w", err)
 			}
 		}
+	}
+	if x.MaxUses != nil && *x.MaxUses < 1 {
+		return fmt.Errorf("field MaxUses: must be >= 1")
 	}
 	return nil
 }

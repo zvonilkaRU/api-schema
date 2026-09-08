@@ -9,7 +9,7 @@ properties:
   max_uses:
     type: [integer, "null"]
     description: Max joins (>= 1); omitted/null = unlimited.
-    x-validations: ["Min >=1"]
+    x-validations: [">=1"]
   target_user_id:
     type: [string, "null"]
     format: uuid
