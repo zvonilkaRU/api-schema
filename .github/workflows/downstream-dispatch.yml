@@ -1,0 +1,48 @@
+name: Downstream Dispatch
+
+# ci#15: при мёрже в main, меняющем Go-модуль (generated/, pkg/, go.mod) —
+# запускает в сервисных репо проверку api-schema-check: сервис собирается и
+# тестируется против НОВОГО generated-кода через временный replace на sha.
+# Требует секрет DOWNSTREAM_TOKEN (PAT с repo scope — диспатч в чужие репо
+# GITHUB_TOKEN'ом невозможен); без секрета шаг пропускается с предупреждением,
+# ран остаётся зелёным.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'generated/**'
+      - 'pkg/**'
+      - 'go.mod'
+      - 'go.sum'
+  workflow_dispatch:   # ручная проверка цепочки dispatch → api-schema-check без мэржа
+
+permissions:
+  contents: read
+
+jobs:
+  dispatch:
+    name: Dispatch api-schema-check
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [users, rooms, servers, iam]
+    steps:
+      - name: Repository dispatch
+        env:
+          GH_TOKEN: ${{ secrets.DOWNSTREAM_TOKEN }}
+          SERVICE: ${{ matrix.service }}
+          SHA: ${{ github.sha }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::warning::DOWNSTREAM_TOKEN не задан — downstream-проверки пропущены (ci#15)"
+            exit 0
+          fi
+          code=$(curl -s -o /dev/null -w '%{http_code}' -X POST \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H 'Accept: application/vnd.github+json' \
+            "https://api.github.com/repos/zvonilkaRU/$SERVICE/dispatches" \
+            -d "{\"event_type\":\"api-schema-check\",\"client_payload\":{\"sha\":\"$SHA\"}}")
+          echo "$SERVICE: dispatch HTTP $code"
+          [ "$code" = 204 ]
