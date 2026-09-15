@@ -21,8 +21,8 @@ info:
     - JWT claims: sub, iss, aud, exp, iat only.
   version: 1.0.0
 servers:
-  - url: https://users.zvonilka.space
-    description: Production
+  - url: https://api.zvonilka.space
+    description: Production (единый шлюз api.zvonilka.space; поддомены сервисов не публикуются)
   - url: http://localhost:8080
     description: Local dev
 paths:
