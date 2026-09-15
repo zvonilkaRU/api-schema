@@ -30,6 +30,8 @@ type CreateRoomResponse struct {
 }
 
 type ListRoomsRequest struct {
+	PageSize  *int32  `query:"page_size"`
+	PageToken *string `query:"page_token"`
 }
 
 type ListRoomsResponse struct {

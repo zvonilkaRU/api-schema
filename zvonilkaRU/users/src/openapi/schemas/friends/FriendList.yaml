@@ -1,14 +1,14 @@
-name: RoomList
-description: Список комнат с пагинацией.
+name: FriendList
+description: Список друзей (accepted) с пагинацией.
 type: object
 required:
   - items
 properties:
   items:
     type: array
-    description: Комнаты текущей страницы (порядок — по created_at, id).
+    description: Друзья текущей страницы. Элементы — UserRef.
     items:
-      $ref: "./Room.yaml"
+      $ref: "../models/UserRef.yaml"
   next_page_token:
     type: string
     description: Токен следующей страницы. Пустой или отсутствует — это последняя страница.

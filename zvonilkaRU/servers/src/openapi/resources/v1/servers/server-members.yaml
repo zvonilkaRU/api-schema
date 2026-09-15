@@ -13,15 +13,15 @@ get:
         type: string
         format: uuid
       description: Server ID.
+    - $ref: "../../../../../../common/src/openapi/parameters/list.yaml#/pageSizeParam"
+    - $ref: "../../../../../../common/src/openapi/parameters/list.yaml#/pageTokenParam"
   responses:
     "200":
       description: List of members.
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: "../../../schemas/models/ServerMember.yaml"
+            $ref: "../../../schemas/models/MemberList.yaml"
     "403":
       description: Forbidden (not a server member).
       content:

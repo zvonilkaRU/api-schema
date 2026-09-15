@@ -100,6 +100,12 @@ components:
       $ref: "./schemas/profile/UpdateUserRequest.yaml"
     SendFriendRequest:
       $ref: "./schemas/friends/SendFriendRequest.yaml"
+    FriendList:
+      $ref: "./schemas/friends/FriendList.yaml"
+    IncomingRequestList:
+      $ref: "./schemas/friends/IncomingRequestList.yaml"
+    OutgoingRequestList:
+      $ref: "./schemas/friends/OutgoingRequestList.yaml"
     SessionList:
       $ref: "./schemas/models/SessionList.yaml"
     JsonWebKey:

@@ -88,12 +88,14 @@ type DeleteServerResponse struct {
 }
 
 type ListMembersRequest struct {
-	ID string `param:"id"`
+	ID        string  `param:"id"`
+	PageSize  *int32  `query:"page_size"`
+	PageToken *string `query:"page_token"`
 }
 
 type ListMembersResponse struct {
 	Code        int
-	Response200 *[]models.ServerMemberResponse
+	Response200 *models.MemberListResponse
 	Response403 *model.ErrorResponse
 	Response404 *model.ErrorResponse
 }
@@ -152,24 +154,28 @@ type CreateInviteResponse struct {
 }
 
 type ListServerInvitesRequest struct {
-	ID string `param:"id"`
+	ID        string  `param:"id"`
+	PageSize  *int32  `query:"page_size"`
+	PageToken *string `query:"page_token"`
 }
 
 type ListServerInvitesResponse struct {
 	Code        int
-	Response200 *[]models.InviteResponse
+	Response200 *models.InviteListResponse
 	Response401 *model.ErrorResponse
 	Response403 *model.ErrorResponse
 	Response404 *model.ErrorResponse
 }
 
 type ListChannelsRequest struct {
-	ID string `param:"id"`
+	ID        string  `param:"id"`
+	PageSize  *int32  `query:"page_size"`
+	PageToken *string `query:"page_token"`
 }
 
 type ListChannelsResponse struct {
 	Code        int
-	Response200 *[]models.ChannelResponse
+	Response200 *models.ChannelListResponse
 	Response403 *model.ErrorResponse
 	Response404 *model.ErrorResponse
 }
@@ -272,11 +278,13 @@ type DeclineInviteResponse struct {
 }
 
 type ListIncomingInvitesRequest struct {
+	PageSize  *int32  `query:"page_size"`
+	PageToken *string `query:"page_token"`
 }
 
 type ListIncomingInvitesResponse struct {
 	Code        int
-	Response200 *[]models.IncomingInviteResponse
+	Response200 *models.IncomingInviteListResponse
 	Response401 *model.ErrorResponse
 }
 

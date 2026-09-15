@@ -72,7 +72,7 @@ func (x *ClientSugared) DeleteServer(ctx context.Context, req *DeleteServerReque
 	return fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
-func (x *ClientSugared) ListMembers(ctx context.Context, req *ListMembersRequest) (*[]models.ServerMemberResponse, error) {
+func (x *ClientSugared) ListMembers(ctx context.Context, req *ListMembersRequest) (*models.MemberListResponse, error) {
 	resp, err := x.impl.ListMembers(ctx, req)
 	if err != nil {
 		return nil, err
@@ -127,7 +127,7 @@ func (x *ClientSugared) CreateInvite(ctx context.Context, req *CreateInviteReque
 	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
-func (x *ClientSugared) ListServerInvites(ctx context.Context, req *ListServerInvitesRequest) (*[]models.InviteResponse, error) {
+func (x *ClientSugared) ListServerInvites(ctx context.Context, req *ListServerInvitesRequest) (*models.InviteListResponse, error) {
 	resp, err := x.impl.ListServerInvites(ctx, req)
 	if err != nil {
 		return nil, err
@@ -138,7 +138,7 @@ func (x *ClientSugared) ListServerInvites(ctx context.Context, req *ListServerIn
 	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
-func (x *ClientSugared) ListChannels(ctx context.Context, req *ListChannelsRequest) (*[]models.ChannelResponse, error) {
+func (x *ClientSugared) ListChannels(ctx context.Context, req *ListChannelsRequest) (*models.ChannelListResponse, error) {
 	resp, err := x.impl.ListChannels(ctx, req)
 	if err != nil {
 		return nil, err
@@ -237,7 +237,7 @@ func (x *ClientSugared) DeclineInvite(ctx context.Context, req *DeclineInviteReq
 	return fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
-func (x *ClientSugared) ListIncomingInvites(ctx context.Context, req *ListIncomingInvitesRequest) (*[]models.IncomingInviteResponse, error) {
+func (x *ClientSugared) ListIncomingInvites(ctx context.Context, req *ListIncomingInvitesRequest) (*models.IncomingInviteListResponse, error) {
 	resp, err := x.impl.ListIncomingInvites(ctx, req)
 	if err != nil {
 		return nil, err

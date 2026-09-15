@@ -189,11 +189,13 @@ type SendFriendRequestResponse struct {
 }
 
 type ListIncomingRequestsRequest struct {
+	PageSize  *int32  `query:"page_size"`
+	PageToken *string `query:"page_token"`
 }
 
 type ListIncomingRequestsResponse struct {
 	Code        int
-	Response200 *[]models.UserRefResponse
+	Response200 *friends.IncomingRequestListResponse
 	Response401 *model.ErrorResponse
 }
 
@@ -222,11 +224,13 @@ type DeclineFriendRequestResponse struct {
 }
 
 type ListFriendsRequest struct {
+	PageSize  *int32  `query:"page_size"`
+	PageToken *string `query:"page_token"`
 }
 
 type ListFriendsResponse struct {
 	Code        int
-	Response200 *[]models.UserRefResponse
+	Response200 *friends.FriendListResponse
 	Response401 *model.ErrorResponse
 }
 
@@ -243,11 +247,13 @@ type RemoveFriendResponse struct {
 }
 
 type ListOutgoingRequestsRequest struct {
+	PageSize  *int32  `query:"page_size"`
+	PageToken *string `query:"page_token"`
 }
 
 type ListOutgoingRequestsResponse struct {
 	Code        int
-	Response200 *[]models.UserRefResponse
+	Response200 *friends.OutgoingRequestListResponse
 	Response401 *model.ErrorResponse
 }
 

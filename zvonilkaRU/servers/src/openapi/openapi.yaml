@@ -65,6 +65,14 @@ components:
       $ref: "./schemas/models/IncomingInvite.yaml"
     InvitePreview:
       $ref: "./schemas/models/InvitePreview.yaml"
+    MemberList:
+      $ref: "./schemas/models/MemberList.yaml"
+    ChannelList:
+      $ref: "./schemas/models/ChannelList.yaml"
+    InviteList:
+      $ref: "./schemas/models/InviteList.yaml"
+    IncomingInviteList:
+      $ref: "./schemas/models/IncomingInviteList.yaml"
     Error:
       $ref: "./../../../common/src/openapi/schemas/errors/Error.yaml"
     Timestamp:

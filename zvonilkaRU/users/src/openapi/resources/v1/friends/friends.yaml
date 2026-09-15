@@ -2,19 +2,22 @@ get:
   tags:
     - friends
   summary: List friends
-  description: Возвращает список друзей (accepted). UserRef[].
+  description: >-
+    Возвращает список друзей (accepted) постранично: обёртка FriendList
+    {items, next_page_token}. Элементы — UserRef.
   operationId: listFriends
   security:
     - bearerAuth: []
+  parameters:
+    - $ref: "../../../../../../common/src/openapi/parameters/list.yaml#/pageSizeParam"
+    - $ref: "../../../../../../common/src/openapi/parameters/list.yaml#/pageTokenParam"
   responses:
     "200":
       description: List of friends.
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: "../../../schemas/models/UserRef.yaml"
+            $ref: "../../../schemas/friends/FriendList.yaml"
     "401":
       description: Unauthorized.
       content:

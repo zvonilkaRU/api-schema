@@ -5,31 +5,32 @@ package model
 import (
 	"fmt"
 	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
+	models "github.com/zvonilkaRU/api-schema/generated/users/model/models"
 )
 
-// Список комнат с пагинацией.
-type RoomListRequest struct {
-	// Комнаты текущей страницы (порядок — по created_at, id).
-	Items []RoomRequest `json:"items" yaml:"items"`
+// Список друзей (accepted) с пагинацией.
+type FriendListRequest struct {
+	// Друзья текущей страницы. Элементы — UserRef.
+	Items []models.UserRefRequest `json:"items" yaml:"items"`
 	// Токен следующей страницы. Пустой или отсутствует — это последняя страница.
 	NextPageToken *string `json:"next_page_token,omitempty" yaml:"next_page_token,omitempty"`
 }
 
-type RoomListResponse struct {
-	// Комнаты текущей страницы (порядок — по created_at, id).
-	Items []RoomResponse `json:"items" yaml:"items"`
+type FriendListResponse struct {
+	// Друзья текущей страницы. Элементы — UserRef.
+	Items []models.UserRefResponse `json:"items" yaml:"items"`
 	// Токен следующей страницы. Пустой или отсутствует — это последняя страница.
 	NextPageToken *string `json:"next_page_token,omitempty" yaml:"next_page_token,omitempty"`
 }
 
-func (x RoomListRequest) ValidateOwn(reg *validator.Registry) error {
+func (x FriendListRequest) ValidateOwn(reg *validator.Registry) error {
 	if x.NextPageToken != nil && len(*x.NextPageToken) > 256 {
 		return fmt.Errorf("field NextPageToken: must be <= 256")
 	}
 	return nil
 }
 
-func (x RoomListResponse) ValidateOwn(reg *validator.Registry) error {
+func (x FriendListResponse) ValidateOwn(reg *validator.Registry) error {
 	if x.NextPageToken != nil && len(*x.NextPageToken) > 256 {
 		return fmt.Errorf("field NextPageToken: must be <= 256")
 	}

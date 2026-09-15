@@ -8,5 +8,6 @@ func RoomListRequestToResponse(req RoomListRequest) RoomListResponse {
 	for i, v := range req.Items {
 		resp.Items[i] = RoomRequestToResponse(v)
 	}
+	resp.NextPageToken = req.NextPageToken
 	return resp
 }

@@ -3,21 +3,25 @@
 package model
 
 type RoomListRequestAuditData struct {
-	Items []RoomRequest `json:"items" yaml:"items"`
+	Items         []RoomRequest `json:"items" yaml:"items"`
+	NextPageToken *string       `json:"next_page_token,omitempty" yaml:"next_page_token,omitempty"`
 }
 
 func (m RoomListRequest) GetAuditData() any {
 	var am RoomListRequestAuditData
 	am.Items = m.Items
+	am.NextPageToken = m.NextPageToken
 	return am
 }
 
 type RoomListResponseAuditData struct {
-	Items []RoomResponse `json:"items" yaml:"items"`
+	Items         []RoomResponse `json:"items" yaml:"items"`
+	NextPageToken *string        `json:"next_page_token,omitempty" yaml:"next_page_token,omitempty"`
 }
 
 func (m RoomListResponse) GetAuditData() any {
 	var am RoomListResponseAuditData
 	am.Items = m.Items
+	am.NextPageToken = m.NextPageToken
 	return am
 }

@@ -151,7 +151,7 @@ func (x *ClientSugared) SendFriendRequest(ctx context.Context, req *SendFriendRe
 	return nil, fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
-func (x *ClientSugared) ListIncomingRequests(ctx context.Context, req *ListIncomingRequestsRequest) (*[]models.UserRefResponse, error) {
+func (x *ClientSugared) ListIncomingRequests(ctx context.Context, req *ListIncomingRequestsRequest) (*friends.IncomingRequestListResponse, error) {
 	resp, err := x.impl.ListIncomingRequests(ctx, req)
 	if err != nil {
 		return nil, err
@@ -184,7 +184,7 @@ func (x *ClientSugared) DeclineFriendRequest(ctx context.Context, req *DeclineFr
 	return fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
-func (x *ClientSugared) ListFriends(ctx context.Context, req *ListFriendsRequest) (*[]models.UserRefResponse, error) {
+func (x *ClientSugared) ListFriends(ctx context.Context, req *ListFriendsRequest) (*friends.FriendListResponse, error) {
 	resp, err := x.impl.ListFriends(ctx, req)
 	if err != nil {
 		return nil, err
@@ -206,7 +206,7 @@ func (x *ClientSugared) RemoveFriend(ctx context.Context, req *RemoveFriendReque
 	return fmt.Errorf("unexpected status: %d", resp.Code)
 }
 
-func (x *ClientSugared) ListOutgoingRequests(ctx context.Context, req *ListOutgoingRequestsRequest) (*[]models.UserRefResponse, error) {
+func (x *ClientSugared) ListOutgoingRequests(ctx context.Context, req *ListOutgoingRequestsRequest) (*friends.OutgoingRequestListResponse, error) {
 	resp, err := x.impl.ListOutgoingRequests(ctx, req)
 	if err != nil {
 		return nil, err

@@ -74,15 +74,15 @@ get:
         type: string
         format: uuid
       description: Server ID.
+    - $ref: "../../../../../../common/src/openapi/parameters/list.yaml#/pageSizeParam"
+    - $ref: "../../../../../../common/src/openapi/parameters/list.yaml#/pageTokenParam"
   responses:
     "200":
       description: Active invites.
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: "../../../schemas/models/Invite.yaml"
+            $ref: "../../../schemas/models/InviteList.yaml"
     "401":
       description: Unauthorized.
       content:

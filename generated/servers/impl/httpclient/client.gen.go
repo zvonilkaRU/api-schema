@@ -231,8 +231,16 @@ func (c *Client) DeleteServer(ctx context.Context, req *apiclient.DeleteServerRe
 func (c *Client) ListMembers(ctx context.Context, req *apiclient.ListMembersRequest) (*apiclient.ListMembersResponse, error) {
 	path := "/servers/v1/servers/{id}/members"
 	path = strings.Replace(path, "{id}", url.PathEscape(fmt.Sprint(req.ID)), 1)
+	q := url.Values{}
+	if req.PageSize != nil {
+		q.Set("page_size", fmt.Sprint(*req.PageSize))
+	}
+	if req.PageToken != nil {
+		q.Set("page_token", fmt.Sprint(*req.PageToken))
+	}
 	u := *c.http.ServerURL()
 	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	u.RawQuery = q.Encode()
 	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
 	if err != nil {
 		return nil, err
@@ -245,7 +253,7 @@ func (c *Client) ListMembers(ctx context.Context, req *apiclient.ListMembersRequ
 	result := &apiclient.ListMembersResponse{Code: resp.StatusCode}
 	switch resp.StatusCode {
 	case 200:
-		var v []models.ServerMemberResponse
+		var v models.MemberListResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 200: %w", err)
 		}
@@ -460,8 +468,16 @@ func (c *Client) CreateInvite(ctx context.Context, req *apiclient.CreateInviteRe
 func (c *Client) ListServerInvites(ctx context.Context, req *apiclient.ListServerInvitesRequest) (*apiclient.ListServerInvitesResponse, error) {
 	path := "/servers/v1/servers/{id}/invites"
 	path = strings.Replace(path, "{id}", url.PathEscape(fmt.Sprint(req.ID)), 1)
+	q := url.Values{}
+	if req.PageSize != nil {
+		q.Set("page_size", fmt.Sprint(*req.PageSize))
+	}
+	if req.PageToken != nil {
+		q.Set("page_token", fmt.Sprint(*req.PageToken))
+	}
 	u := *c.http.ServerURL()
 	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	u.RawQuery = q.Encode()
 	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
 	if err != nil {
 		return nil, err
@@ -474,7 +490,7 @@ func (c *Client) ListServerInvites(ctx context.Context, req *apiclient.ListServe
 	result := &apiclient.ListServerInvitesResponse{Code: resp.StatusCode}
 	switch resp.StatusCode {
 	case 200:
-		var v []models.InviteResponse
+		var v models.InviteListResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 200: %w", err)
 		}
@@ -506,8 +522,16 @@ func (c *Client) ListServerInvites(ctx context.Context, req *apiclient.ListServe
 func (c *Client) ListChannels(ctx context.Context, req *apiclient.ListChannelsRequest) (*apiclient.ListChannelsResponse, error) {
 	path := "/servers/v1/servers/{id}/channels"
 	path = strings.Replace(path, "{id}", url.PathEscape(fmt.Sprint(req.ID)), 1)
+	q := url.Values{}
+	if req.PageSize != nil {
+		q.Set("page_size", fmt.Sprint(*req.PageSize))
+	}
+	if req.PageToken != nil {
+		q.Set("page_token", fmt.Sprint(*req.PageToken))
+	}
 	u := *c.http.ServerURL()
 	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	u.RawQuery = q.Encode()
 	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
 	if err != nil {
 		return nil, err
@@ -520,7 +544,7 @@ func (c *Client) ListChannels(ctx context.Context, req *apiclient.ListChannelsRe
 	result := &apiclient.ListChannelsResponse{Code: resp.StatusCode}
 	switch resp.StatusCode {
 	case 200:
-		var v []models.ChannelResponse
+		var v models.ChannelListResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 200: %w", err)
 		}
@@ -895,8 +919,16 @@ func (c *Client) DeclineInvite(ctx context.Context, req *apiclient.DeclineInvite
 
 func (c *Client) ListIncomingInvites(ctx context.Context, req *apiclient.ListIncomingInvitesRequest) (*apiclient.ListIncomingInvitesResponse, error) {
 	path := "/servers/v1/invites/incoming"
+	q := url.Values{}
+	if req.PageSize != nil {
+		q.Set("page_size", fmt.Sprint(*req.PageSize))
+	}
+	if req.PageToken != nil {
+		q.Set("page_token", fmt.Sprint(*req.PageToken))
+	}
 	u := *c.http.ServerURL()
 	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	u.RawQuery = q.Encode()
 	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
 	if err != nil {
 		return nil, err
@@ -909,7 +941,7 @@ func (c *Client) ListIncomingInvites(ctx context.Context, req *apiclient.ListInc
 	result := &apiclient.ListIncomingInvitesResponse{Code: resp.StatusCode}
 	switch resp.StatusCode {
 	case 200:
-		var v []models.IncomingInviteResponse
+		var v models.IncomingInviteListResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 200: %w", err)
 		}

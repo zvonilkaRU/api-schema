@@ -48,12 +48,16 @@ func (req *DeleteServerRequest) GetAuditData() any {
 }
 
 type ListMembersRequestAuditData struct {
-	ID string
+	ID        string
+	PageSize  *int32
+	PageToken *string
 }
 
 func (req *ListMembersRequest) GetAuditData() any {
 	am := ListMembersRequestAuditData{
-		ID: req.ID,
+		ID:        req.ID,
+		PageSize:  req.PageSize,
+		PageToken: req.PageToken,
 	}
 	return am
 }
@@ -113,23 +117,31 @@ func (req *CreateInviteRequest) GetAuditData() any {
 }
 
 type ListServerInvitesRequestAuditData struct {
-	ID string
+	ID        string
+	PageSize  *int32
+	PageToken *string
 }
 
 func (req *ListServerInvitesRequest) GetAuditData() any {
 	am := ListServerInvitesRequestAuditData{
-		ID: req.ID,
+		ID:        req.ID,
+		PageSize:  req.PageSize,
+		PageToken: req.PageToken,
 	}
 	return am
 }
 
 type ListChannelsRequestAuditData struct {
-	ID string
+	ID        string
+	PageSize  *int32
+	PageToken *string
 }
 
 func (req *ListChannelsRequest) GetAuditData() any {
 	am := ListChannelsRequestAuditData{
-		ID: req.ID,
+		ID:        req.ID,
+		PageSize:  req.PageSize,
+		PageToken: req.PageToken,
 	}
 	return am
 }
@@ -226,6 +238,19 @@ type DeclineInviteRequestAuditData struct {
 func (req *DeclineInviteRequest) GetAuditData() any {
 	am := DeclineInviteRequestAuditData{
 		Code: req.Code,
+	}
+	return am
+}
+
+type ListIncomingInvitesRequestAuditData struct {
+	PageSize  *int32
+	PageToken *string
+}
+
+func (req *ListIncomingInvitesRequest) GetAuditData() any {
+	am := ListIncomingInvitesRequestAuditData{
+		PageSize:  req.PageSize,
+		PageToken: req.PageToken,
 	}
 	return am
 }
@@ -370,6 +395,18 @@ func (resp *DeleteServerResponse) Response404AuditData() DeleteServerResponse404
 	am := DeleteServerResponse404AuditData{}
 	if resp.Response404 != nil {
 		am.Payload = resp.Response404.GetAuditData()
+	}
+	return am
+}
+
+type ListMembersResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *ListMembersResponse) Response200AuditData() ListMembersResponse200AuditData {
+	am := ListMembersResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
 	}
 	return am
 }
@@ -554,6 +591,18 @@ func (resp *CreateInviteResponse) Response422AuditData() CreateInviteResponse422
 	return am
 }
 
+type ListServerInvitesResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *ListServerInvitesResponse) Response200AuditData() ListServerInvitesResponse200AuditData {
+	am := ListServerInvitesResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
+	}
+	return am
+}
+
 type ListServerInvitesResponse401AuditData struct {
 	Payload any
 }
@@ -586,6 +635,18 @@ func (resp *ListServerInvitesResponse) Response404AuditData() ListServerInvitesR
 	am := ListServerInvitesResponse404AuditData{}
 	if resp.Response404 != nil {
 		am.Payload = resp.Response404.GetAuditData()
+	}
+	return am
+}
+
+type ListChannelsResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *ListChannelsResponse) Response200AuditData() ListChannelsResponse200AuditData {
+	am := ListChannelsResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
 	}
 	return am
 }
@@ -922,6 +983,18 @@ func (resp *DeclineInviteResponse) Response404AuditData() DeclineInviteResponse4
 	am := DeclineInviteResponse404AuditData{}
 	if resp.Response404 != nil {
 		am.Payload = resp.Response404.GetAuditData()
+	}
+	return am
+}
+
+type ListIncomingInvitesResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *ListIncomingInvitesResponse) Response200AuditData() ListIncomingInvitesResponse200AuditData {
+	am := ListIncomingInvitesResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
 	}
 	return am
 }

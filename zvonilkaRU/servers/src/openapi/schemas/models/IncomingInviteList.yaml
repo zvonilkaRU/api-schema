@@ -1,0 +1,16 @@
+name: IncomingInviteList
+description: Список входящих персональных приглашений текущего пользователя с пагинацией.
+type: object
+required:
+  - items
+properties:
+  items:
+    type: array
+    description: Входящие приглашения текущей страницы (порядок — по created_at, id).
+    items:
+      $ref: "./IncomingInvite.yaml"
+  next_page_token:
+    type: string
+    description: Токен следующей страницы. Пустой или отсутствует — это последняя страница.
+    x-validations: ["Size <=256"]
+additionalProperties: false

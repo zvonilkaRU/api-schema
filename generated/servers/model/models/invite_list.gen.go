@@ -7,29 +7,29 @@ import (
 	validator "github.com/ilovepitsa/oapicodegen/pkg/validator"
 )
 
-// Список комнат с пагинацией.
-type RoomListRequest struct {
-	// Комнаты текущей страницы (порядок — по created_at, id).
-	Items []RoomRequest `json:"items" yaml:"items"`
+// Список активных инвайтов сервера с пагинацией.
+type InviteListRequest struct {
+	// Активные инвайты текущей страницы (порядок — по created_at, id).
+	Items []InviteRequest `json:"items" yaml:"items"`
 	// Токен следующей страницы. Пустой или отсутствует — это последняя страница.
 	NextPageToken *string `json:"next_page_token,omitempty" yaml:"next_page_token,omitempty"`
 }
 
-type RoomListResponse struct {
-	// Комнаты текущей страницы (порядок — по created_at, id).
-	Items []RoomResponse `json:"items" yaml:"items"`
+type InviteListResponse struct {
+	// Активные инвайты текущей страницы (порядок — по created_at, id).
+	Items []InviteResponse `json:"items" yaml:"items"`
 	// Токен следующей страницы. Пустой или отсутствует — это последняя страница.
 	NextPageToken *string `json:"next_page_token,omitempty" yaml:"next_page_token,omitempty"`
 }
 
-func (x RoomListRequest) ValidateOwn(reg *validator.Registry) error {
+func (x InviteListRequest) ValidateOwn(reg *validator.Registry) error {
 	if x.NextPageToken != nil && len(*x.NextPageToken) > 256 {
 		return fmt.Errorf("field NextPageToken: must be <= 256")
 	}
 	return nil
 }
 
-func (x RoomListResponse) ValidateOwn(reg *validator.Registry) error {
+func (x InviteListResponse) ValidateOwn(reg *validator.Registry) error {
 	if x.NextPageToken != nil && len(*x.NextPageToken) > 256 {
 		return fmt.Errorf("field NextPageToken: must be <= 256")
 	}
