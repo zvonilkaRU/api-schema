@@ -47,17 +47,24 @@ api-schema/
 - **x-validations** — используем для декларативной валидации (`Size >=N`, `app.EmailFormat`, и т.д.).
 - **Resource files** — без префикса имени группы (e.g., `auth/register.yaml`, не `auth/authRegister.yaml`), т.к. папка уже указывает группу.
 
-## Генерация кода (когда генератор будет передан)
+## Генерация кода
+
+Команда — ровно как в CI (`.github/workflows/ci.yml`, `pr-tag.yml`); CI на PR
+перегенерирует и падает, если закоммичено не то, что генерируется:
 
 ```bash
-# Для каждого сервиса:
-go run ~/projects/oapigenerator/cmd/oapigen \
-  -input ./users/src/openapi/openapi.yaml \
-  -output ./generated/users \
-  -import-prefix github.com/zvonilka/users/gen \
-  -generation-flags-config-path ./generation_flags.yaml \
-  -project-flags-path ./users/generation_flags.yaml
+GOPRIVATE=github.com/zvonilkaRU,github.com/ilovepitsa \
+  go run github.com/ilovepitsa/oapicodegen/cmd/oapigen@v1.3.6 \
+  -input ./zvonilkaRU \
+  -output ./generated \
+  -import-prefix github.com/zvonilkaRU/api-schema/generated \
+  -generation-flags-config-path ./generation_flags.yaml
 ```
+
+Конфиг флагов один — корневой `generation_flags.yaml`; пер-сервисные
+`{service}/generation_flags.yaml` могут точечно переопределять (файл может
+отсутствовать). Проектного уровня `zvonilkaRU/generation_flags.yaml` нет —
+генератор его не читал (каталог без своей спеки не считается проектом).
 
 ## Текущее состояние
 

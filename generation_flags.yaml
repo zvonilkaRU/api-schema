@@ -1,7 +1,8 @@
-# Global generation flags (source of truth).
-# Priority: per-service flags > project-level flags (zvonilkaRU/) > this file.
-# See zvonilkaRU/generation_flags.yaml for project-level overrides.
-# See zvonilkaRU/{service}/generation_flags.yaml for per-service overrides.
+# Global generation flags — единственный конфиг генерации (infra#10-style
+# консолидация, api-schema#10: проектного уровня zvonilkaRU/generation_flags.yaml
+# больше нет, он не читался генератором и только создавал видимость переопределений).
+# Слои: этот файл (дефолты) > {service}/generation_flags.yaml (per-service override,
+# файл может отсутствовать — тогда действуют дефолты отсюда).
 
 - name: GOLANG_SERVER_BODY_REQUEST_NO_AUTO_DEFAULTS
   default_value: false
