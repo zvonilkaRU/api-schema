@@ -1,0 +1,116 @@
+asyncapi: 3.0.0
+
+# WebSocket-контракт событий голосовых комнат rooms (api-schema#11).
+# Синхронизирован с реализацией rooms#9 (presence — только из LiveKit-webhook,
+# server-ping/pong heartbeat). Файл НЕ входит в codegen: генератор ищет
+# src/openapi/openapi.yaml, этот контракт — документация протокола.
+
+info:
+  title: Zvonilka Rooms — события голосовых комнат (WebSocket)
+  version: 1.0.0
+  description: |
+    Однонаправленный поток событий lifecycle комнаты: сервер → клиент.
+    Источник правды по событиям — LiveKit-webhook (rooms#9): подключение
+    events-сокета НЕ означает присутствие в звонке; participant.* приходит
+    по факту медиа-подключения/отключения в LiveKit.
+
+    ## Handshake
+
+    1. `POST /rooms/v1/ws-tickets` с Bearer JWT пользователя → одноразовый
+       билет (TTL короткий, потребляется одним подключением, повторное
+       использование — отказ).
+    2. `GET wss://api.zvonilka.space/rooms/v1/rooms/{roomId}/events?ticket=...`
+    3. Сервер проверяет билет и `can_join` комнаты в IAM (rooms через iam API).
+
+    Отказы до upgrade:
+    - `401` — билета нет или он невалиден (единый ответ без деталей);
+    - `403` — доступ к комнате запрещён (can_join = false).
+
+    ## Heartbeat
+
+    Сервер шлёт protocol-level WebSocket PING каждые **54с**; клиент обязан
+    отвечать PONG (браузерные WS-стеки делают это автоматически). Read-deadline
+    сервера — **60с**: соединение без пангов закрывается. Прикладных
+    сообщений клиент → сервер нет (только pong control-фреймы).
+
+    ## Close и reconnect
+
+    - Сервер закрывает соединения при остановке сервиса, предварительно
+      разослав `call.ended` в каждую комнату.
+    - Replay-а событий нет: за время отключения события теряются. После
+      переподключения клиент должен восстановить состояние сам (состав
+      комнаты — отдельной задачей, см. rooms#57).
+    - Билет одноразовый: reconnect = новый `POST /rooms/v1/ws-tickets`,
+      затем новый upgrade.
+
+servers:
+  production:
+    host: api.zvonilka.space
+    protocol: wss
+    description: Единый шлюз (api.zvonilka.space).
+
+channels:
+  roomEvents:
+    address: /rooms/v1/rooms/{roomId}/events
+    title: События комнаты
+    summary: Только server→client; сообщения клиент → сервер не предусмотрены.
+    parameters:
+      roomId:
+        description: UUID комнаты (без префикса identity-конвенции LiveKit «room:»).
+        schema:
+          type: string
+          format: uuid
+    messages:
+      event:
+        $ref: '#/components/messages/event'
+
+operations:
+  roomEventsStream:
+    action: send
+    title: Рассылка событий комнаты подписчикам
+    channel:
+      $ref: '#/channels/roomEvents'
+
+components:
+  messages:
+    event:
+      name: Event
+      title: Событие lifecycle комнаты
+      description: |
+        Wire-формат — camelCase JSON (пинируется реализацией
+        rooms/internal/domain/event.go; менять имена полей нельзя).
+      payload:
+        $ref: '#/components/schemas/event'
+
+  schemas:
+    event:
+      type: object
+      additionalProperties: false
+      required:
+        - type
+        - timestamp
+      properties:
+        type:
+          type: string
+          enum:
+            - participant.joined
+            - participant.left
+            - call.ended
+          description: |
+            `participant.joined`/`participant.left` — медиа-presence из
+            LiveKit-webhook (participant_joined/participant_left);
+            `call.ended` — комната закончилась (room_finished) либо сервер
+            останавливается (graceful shutdown).
+        userId:
+          type: string
+          description: Кто вызвал событие (identity LiveKit). Отсутствует у call.ended.
+        userName:
+          type: string
+          description: Отображаемое имя (никнейм из билета).
+        roomId:
+          type: string
+          description: Идентификатор комнаты без префикса.
+        timestamp:
+          type: integer
+          format: int64
+          description: Unix-время в секундах.

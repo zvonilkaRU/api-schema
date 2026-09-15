@@ -46,6 +46,7 @@ api-schema/
 - **Generation flags** — `GOLANG_SPLIT_REQUEST_RESPONSE: true`, `USE_UTC_FOR_DATE_TIME: true` (глобально).
 - **x-validations** — используем для декларативной валидации (`Size >=N`, `app.EmailFormat`, и т.д.).
 - **Resource files** — без префикса имени группы (e.g., `auth/register.yaml`, не `auth/authRegister.yaml`), т.к. папка уже указывает группу.
+- **WebSocket-контракты** — AsyncAPI 3.0 в `<service>/src/asyncapi.yaml`; в codegen не входят (документация протокола). Rooms: события голосовых комнат — handshake по одноразовому билету `/rooms/v1/ws-tickets`, heartbeat server-ping 54с, replay нет (api-schema#11).
 
 ## Генерация кода
 
