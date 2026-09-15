@@ -666,8 +666,16 @@ func (c *Client) SendFriendRequest(ctx context.Context, req *apiclient.SendFrien
 
 func (c *Client) ListIncomingRequests(ctx context.Context, req *apiclient.ListIncomingRequestsRequest) (*apiclient.ListIncomingRequestsResponse, error) {
 	path := "/users/v1/friends/requests"
+	q := url.Values{}
+	if req.PageSize != nil {
+		q.Set("page_size", fmt.Sprint(*req.PageSize))
+	}
+	if req.PageToken != nil {
+		q.Set("page_token", fmt.Sprint(*req.PageToken))
+	}
 	u := *c.http.ServerURL()
 	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	u.RawQuery = q.Encode()
 	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
 	if err != nil {
 		return nil, err
@@ -680,7 +688,7 @@ func (c *Client) ListIncomingRequests(ctx context.Context, req *apiclient.ListIn
 	result := &apiclient.ListIncomingRequestsResponse{Code: resp.StatusCode}
 	switch resp.StatusCode {
 	case 200:
-		var v []models.UserRefResponse
+		var v friends.IncomingRequestListResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 200: %w", err)
 		}
@@ -787,8 +795,16 @@ func (c *Client) DeclineFriendRequest(ctx context.Context, req *apiclient.Declin
 
 func (c *Client) ListFriends(ctx context.Context, req *apiclient.ListFriendsRequest) (*apiclient.ListFriendsResponse, error) {
 	path := "/users/v1/friends/friends"
+	q := url.Values{}
+	if req.PageSize != nil {
+		q.Set("page_size", fmt.Sprint(*req.PageSize))
+	}
+	if req.PageToken != nil {
+		q.Set("page_token", fmt.Sprint(*req.PageToken))
+	}
 	u := *c.http.ServerURL()
 	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	u.RawQuery = q.Encode()
 	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
 	if err != nil {
 		return nil, err
@@ -801,7 +817,7 @@ func (c *Client) ListFriends(ctx context.Context, req *apiclient.ListFriendsRequ
 	result := &apiclient.ListFriendsResponse{Code: resp.StatusCode}
 	switch resp.StatusCode {
 	case 200:
-		var v []models.UserRefResponse
+		var v friends.FriendListResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 200: %w", err)
 		}
@@ -862,8 +878,16 @@ func (c *Client) RemoveFriend(ctx context.Context, req *apiclient.RemoveFriendRe
 
 func (c *Client) ListOutgoingRequests(ctx context.Context, req *apiclient.ListOutgoingRequestsRequest) (*apiclient.ListOutgoingRequestsResponse, error) {
 	path := "/users/v1/friends/outgoing"
+	q := url.Values{}
+	if req.PageSize != nil {
+		q.Set("page_size", fmt.Sprint(*req.PageSize))
+	}
+	if req.PageToken != nil {
+		q.Set("page_token", fmt.Sprint(*req.PageToken))
+	}
 	u := *c.http.ServerURL()
 	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	u.RawQuery = q.Encode()
 	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
 	if err != nil {
 		return nil, err
@@ -876,7 +900,7 @@ func (c *Client) ListOutgoingRequests(ctx context.Context, req *apiclient.ListOu
 	result := &apiclient.ListOutgoingRequestsResponse{Code: resp.StatusCode}
 	switch resp.StatusCode {
 	case 200:
-		var v []models.UserRefResponse
+		var v friends.OutgoingRequestListResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
 			return nil, fmt.Errorf("decode 200: %w", err)
 		}

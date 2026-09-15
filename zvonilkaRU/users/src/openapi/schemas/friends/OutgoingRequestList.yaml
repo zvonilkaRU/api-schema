@@ -1,0 +1,19 @@
+name: OutgoingRequestList
+description: Список исходящих (pending) заявок в друзья с пагинацией.
+type: object
+required:
+  - items
+properties:
+  items:
+    type: array
+    description: >-
+      Исходящие заявки текущей страницы. Элементы — UserRef; поле id каждого
+      элемента — идентификатор заявки (friendship row), его передают в
+      DELETE /friends/outgoing/{id} для отмены.
+    items:
+      $ref: "../models/UserRef.yaml"
+  next_page_token:
+    type: string
+    description: Токен следующей страницы. Пустой или отсутствует — это последняя страница.
+    x-validations: ["Size <=256"]
+additionalProperties: false

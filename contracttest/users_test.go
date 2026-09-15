@@ -424,11 +424,14 @@ func TestUsersConformance(t *testing.T) {
 		}
 	})
 
-	t.Run("ListFriends: 200 массив UserRef", func(t *testing.T) {
+	t.Run("ListFriends: 200 обёртка FriendList", func(t *testing.T) {
 		fake.listFriends = func(context.Context, *apiclient.ListFriendsRequest) (*apiclient.ListFriendsResponse, error) {
 			return &apiclient.ListFriendsResponse{
-				Code:        http.StatusOK,
-				Response200: &[]models.UserRefResponse{ref},
+				Code: http.StatusOK,
+				Response200: &friends.FriendListResponse{
+					Items:         []models.UserRefResponse{ref},
+					NextPageToken: nil,
+				},
 			}, nil
 		}
 		resp, err := client.ListFriends(ctx, &apiclient.ListFriendsRequest{})
@@ -436,16 +439,19 @@ func TestUsersConformance(t *testing.T) {
 			t.Fatalf("client: %v", err)
 		}
 		must("ListFriends", resp.Code, http.StatusOK)
-		if resp.Response200 == nil || len(*resp.Response200) != 1 || (*resp.Response200)[0].Nickname != "Боб" {
+		if resp.Response200 == nil || len(resp.Response200.Items) != 1 || resp.Response200.Items[0].Nickname != "Боб" {
 			t.Errorf("клиент не разобрал 200: %+v", resp.Response200)
 		}
 	})
 
-	t.Run("ListIncomingRequests: 200 массив UserRef", func(t *testing.T) {
+	t.Run("ListIncomingRequests: 200 обёртка IncomingRequestList", func(t *testing.T) {
 		fake.listIncomingRequests = func(context.Context, *apiclient.ListIncomingRequestsRequest) (*apiclient.ListIncomingRequestsResponse, error) {
 			return &apiclient.ListIncomingRequestsResponse{
-				Code:        http.StatusOK,
-				Response200: &[]models.UserRefResponse{ref},
+				Code: http.StatusOK,
+				Response200: &friends.IncomingRequestListResponse{
+					Items:         []models.UserRefResponse{ref},
+					NextPageToken: nil,
+				},
 			}, nil
 		}
 		resp, err := client.ListIncomingRequests(ctx, &apiclient.ListIncomingRequestsRequest{})
@@ -453,16 +459,16 @@ func TestUsersConformance(t *testing.T) {
 			t.Fatalf("client: %v", err)
 		}
 		must("ListIncomingRequests", resp.Code, http.StatusOK)
-		if resp.Response200 == nil || len(*resp.Response200) != 1 {
+		if resp.Response200 == nil || len(resp.Response200.Items) != 1 {
 			t.Errorf("клиент не разобрал 200: %+v", resp.Response200)
 		}
 	})
 
-	t.Run("ListOutgoingRequests: 200 пустой массив", func(t *testing.T) {
+	t.Run("ListOutgoingRequests: 200 пустая страница", func(t *testing.T) {
 		fake.listOutgoingRequests = func(context.Context, *apiclient.ListOutgoingRequestsRequest) (*apiclient.ListOutgoingRequestsResponse, error) {
 			return &apiclient.ListOutgoingRequestsResponse{
 				Code:        http.StatusOK,
-				Response200: &[]models.UserRefResponse{},
+				Response200: &friends.OutgoingRequestListResponse{Items: []models.UserRefResponse{}},
 			}, nil
 		}
 		resp, err := client.ListOutgoingRequests(ctx, &apiclient.ListOutgoingRequestsRequest{})
@@ -470,7 +476,7 @@ func TestUsersConformance(t *testing.T) {
 			t.Fatalf("client: %v", err)
 		}
 		must("ListOutgoingRequests", resp.Code, http.StatusOK)
-		if resp.Response200 == nil || len(*resp.Response200) != 0 {
+		if resp.Response200 == nil || len(resp.Response200.Items) != 0 {
 			t.Errorf("клиент не разобрал 200: %+v", resp.Response200)
 		}
 	})

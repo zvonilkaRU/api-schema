@@ -12,6 +12,19 @@ func (req *CreateRoomRequest) GetAuditData() any {
 	return am
 }
 
+type ListRoomsRequestAuditData struct {
+	PageSize  *int32
+	PageToken *string
+}
+
+func (req *ListRoomsRequest) GetAuditData() any {
+	am := ListRoomsRequestAuditData{
+		PageSize:  req.PageSize,
+		PageToken: req.PageToken,
+	}
+	return am
+}
+
 type GetRoomByIDRequestAuditData struct {
 	ID string
 }

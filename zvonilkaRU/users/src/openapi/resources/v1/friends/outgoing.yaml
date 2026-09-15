@@ -9,15 +9,16 @@ get:
   operationId: listOutgoingRequests
   security:
     - bearerAuth: []
+  parameters:
+    - $ref: "../../../../../../common/src/openapi/parameters/list.yaml#/pageSizeParam"
+    - $ref: "../../../../../../common/src/openapi/parameters/list.yaml#/pageTokenParam"
   responses:
     "200":
       description: List of outgoing pending requests.
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: "../../../schemas/models/UserRef.yaml"
+            $ref: "../../../schemas/friends/OutgoingRequestList.yaml"
     "401":
       description: Unauthorized.
       content:

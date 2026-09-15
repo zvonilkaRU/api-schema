@@ -76,8 +76,16 @@ func (c *Client) CreateRoom(ctx context.Context, req *apiclient.CreateRoomReques
 
 func (c *Client) ListRooms(ctx context.Context, req *apiclient.ListRoomsRequest) (*apiclient.ListRoomsResponse, error) {
 	path := "/rooms/v1/rooms"
+	q := url.Values{}
+	if req.PageSize != nil {
+		q.Set("page_size", fmt.Sprint(*req.PageSize))
+	}
+	if req.PageToken != nil {
+		q.Set("page_token", fmt.Sprint(*req.PageToken))
+	}
 	u := *c.http.ServerURL()
 	u.Path = strings.TrimSuffix(u.Path, "/") + path
+	u.RawQuery = q.Encode()
 	httpReq, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
 	if err != nil {
 		return nil, err

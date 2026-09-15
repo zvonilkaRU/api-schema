@@ -6,15 +6,16 @@ get:
   operationId: listIncomingInvites
   security:
     - bearerAuth: []
+  parameters:
+    - $ref: "../../../../../../common/src/openapi/parameters/list.yaml#/pageSizeParam"
+    - $ref: "../../../../../../common/src/openapi/parameters/list.yaml#/pageTokenParam"
   responses:
     "200":
       description: Incoming invites.
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: "../../../schemas/models/IncomingInvite.yaml"
+            $ref: "../../../schemas/models/IncomingInviteList.yaml"
     "401":
       description: Unauthorized.
       content:

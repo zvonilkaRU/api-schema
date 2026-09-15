@@ -121,6 +121,19 @@ func (req *SendFriendRequestRequest) GetAuditData() any {
 	return am
 }
 
+type ListIncomingRequestsRequestAuditData struct {
+	PageSize  *int32
+	PageToken *string
+}
+
+func (req *ListIncomingRequestsRequest) GetAuditData() any {
+	am := ListIncomingRequestsRequestAuditData{
+		PageSize:  req.PageSize,
+		PageToken: req.PageToken,
+	}
+	return am
+}
+
 type AcceptFriendRequestRequestAuditData struct {
 	ID string
 }
@@ -143,6 +156,19 @@ func (req *DeclineFriendRequestRequest) GetAuditData() any {
 	return am
 }
 
+type ListFriendsRequestAuditData struct {
+	PageSize  *int32
+	PageToken *string
+}
+
+func (req *ListFriendsRequest) GetAuditData() any {
+	am := ListFriendsRequestAuditData{
+		PageSize:  req.PageSize,
+		PageToken: req.PageToken,
+	}
+	return am
+}
+
 type RemoveFriendRequestAuditData struct {
 	ID string
 }
@@ -150,6 +176,19 @@ type RemoveFriendRequestAuditData struct {
 func (req *RemoveFriendRequest) GetAuditData() any {
 	am := RemoveFriendRequestAuditData{
 		ID: req.ID,
+	}
+	return am
+}
+
+type ListOutgoingRequestsRequestAuditData struct {
+	PageSize  *int32
+	PageToken *string
+}
+
+func (req *ListOutgoingRequestsRequest) GetAuditData() any {
+	am := ListOutgoingRequestsRequestAuditData{
+		PageSize:  req.PageSize,
+		PageToken: req.PageToken,
 	}
 	return am
 }
@@ -813,6 +852,18 @@ func (resp *SendFriendRequestResponse) Response429AuditData() SendFriendRequestR
 	return am
 }
 
+type ListIncomingRequestsResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *ListIncomingRequestsResponse) Response200AuditData() ListIncomingRequestsResponse200AuditData {
+	am := ListIncomingRequestsResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
+	}
+	return am
+}
+
 type ListIncomingRequestsResponse401AuditData struct {
 	Payload any
 }
@@ -909,6 +960,18 @@ func (resp *DeclineFriendRequestResponse) Response422AuditData() DeclineFriendRe
 	return am
 }
 
+type ListFriendsResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *ListFriendsResponse) Response200AuditData() ListFriendsResponse200AuditData {
+	am := ListFriendsResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
+	}
+	return am
+}
+
 type ListFriendsResponse401AuditData struct {
 	Payload any
 }
@@ -953,6 +1016,18 @@ func (resp *RemoveFriendResponse) Response422AuditData() RemoveFriendResponse422
 	am := RemoveFriendResponse422AuditData{}
 	if resp.Response422 != nil {
 		am.Payload = resp.Response422.GetAuditData()
+	}
+	return am
+}
+
+type ListOutgoingRequestsResponse200AuditData struct {
+	Payload any
+}
+
+func (resp *ListOutgoingRequestsResponse) Response200AuditData() ListOutgoingRequestsResponse200AuditData {
+	am := ListOutgoingRequestsResponse200AuditData{}
+	if resp.Response200 != nil {
+		am.Payload = resp.Response200.GetAuditData()
 	}
 	return am
 }

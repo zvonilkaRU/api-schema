@@ -38,6 +38,9 @@ get:
   operationId: listRooms
   security:
     - bearerAuth: []
+  parameters:
+    - $ref: "../../../../../common/src/openapi/parameters/list.yaml#/pageSizeParam"
+    - $ref: "../../../../../common/src/openapi/parameters/list.yaml#/pageTokenParam"
   responses:
     "200":
       description: List of rooms.
