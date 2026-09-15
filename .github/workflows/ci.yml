@@ -38,3 +38,6 @@ jobs:
             echo "::error::Generated code is out of sync. Run codegen locally and commit the changes."
             exit 1
           fi
+      # Конформанс-тесты контракта (api-schema#9): generated-эхосервер + клиент.
+      - name: Test
+        run: go test ./...
