@@ -10,7 +10,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
+	"log/slog"
 	"math/big"
 	"net/http"
 	"strings"
@@ -49,6 +49,11 @@ type Verifier struct {
 	issuer          string
 	jwksURL         string
 	refreshInterval time.Duration
+	// stopCh гасит фоновый refreshLoop (api-schema#15); closeOnce делает
+	// Close идемпотентным. ctx из NewVerifier не годится: сервисы передают
+	// короткоживущий startup-контекст, а не lifecycle.
+	stopCh    chan struct{}
+	closeOnce sync.Once
 }
 
 // contextKey is an unexported type for context keys.
@@ -68,6 +73,7 @@ func NewVerifier(ctx context.Context, jwksURL string) (*Verifier, error) {
 		issuer:          "users.zvonilka.space",
 		jwksURL:         jwksURL,
 		refreshInterval: 15 * time.Minute,
+		stopCh:          make(chan struct{}),
 	}
 
 	// Fetch JWKS with retry + exponential backoff (up to 5 retries).
@@ -82,7 +88,7 @@ func NewVerifier(ctx context.Context, jwksURL string) (*Verifier, error) {
 			break
 		}
 		if i < 4 {
-			log.Printf("auth: JWKS fetch attempt %d/5 failed: %v (retrying in %v)", i+1, lastErr, backoff)
+			slog.Warn("auth: JWKS fetch failed, retrying", "attempt", i+1, "err", lastErr, "backoff", backoff)
 			select {
 			case <-time.After(backoff):
 			case <-ctx.Done():
@@ -157,22 +163,36 @@ func (v *Verifier) fetchJWKS(ctx context.Context) (*ecdsa.PublicKey, error) {
 	}, nil
 }
 
+// Close останавливает фоновый refreshLoop. Идемпотентен; вызывать при
+// graceful shutdown (api-schema#15) — до этого goroutine жила вечно.
+func (v *Verifier) Close() {
+	v.closeOnce.Do(func() { close(v.stopCh) })
+}
+
 // refreshLoop periodically re-fetches JWKS. On failure it keeps the current key
 // and logs a warning, avoiding auth outage from a transient refresh failure.
+// Выходит по Close() (api-schema#15): утёкшая goroutine при shutdown продолжала
+// бы дёргать JWKS каждые refreshInterval.
 func (v *Verifier) refreshLoop() {
 	ticker := time.NewTicker(v.refreshInterval)
 	defer ticker.Stop()
-	for range ticker.C {
-		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-		key, err := v.fetchJWKS(ctx)
-		cancel()
-		if err != nil {
-			log.Printf("auth: JWKS refresh failed (keeping current key): %v", err)
-			continue
+	for {
+		select {
+		case <-ticker.C:
+			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+			key, err := v.fetchJWKS(ctx)
+			cancel()
+			if err != nil {
+				slog.Warn("auth: JWKS refresh failed (keeping current key)", "err", err)
+
+				continue
+			}
+			v.mu.Lock()
+			v.key = key
+			v.mu.Unlock()
+		case <-v.stopCh:
+			return
 		}
-		v.mu.Lock()
-		v.key = key
-		v.mu.Unlock()
 	}
 }
 
