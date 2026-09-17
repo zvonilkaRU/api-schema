@@ -56,14 +56,14 @@ func StubRegistry(
 	t.Helper()
 
 	reg := validator.New()
+	// С Go 1.22 переменная цикла своя на каждой итерации — копия не нужна.
 	for _, name := range expected {
-		n := name
-		reg.Register(stubValidator{name: n, fn: func(value any) error {
+		reg.Register(stubValidator{name: name, fn: func(value any) error {
 			if decide == nil {
 				return nil
 			}
 
-			return decide(n, value)
+			return decide(name, value)
 		}})
 	}
 	if err := reg.AssertExact(expected); err != nil {
