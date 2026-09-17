@@ -3,6 +3,7 @@
 package metrics
 
 import (
+	"net/http"
 	"strconv"
 	"time"
 
@@ -13,9 +14,12 @@ import (
 
 // Metrics collects Prometheus HTTP metrics.
 type Metrics struct {
-	requestsTotal   *prometheus.CounterVec
-	requestDuration *prometheus.HistogramVec
+	requestsTotal    *prometheus.CounterVec
+	requestDuration  *prometheus.HistogramVec
 	requestsInFlight prometheus.Gauge
+	// promHandler готовится один раз: promhttp.Handler() на каждый вызов
+	// аллоцирует счётчики и лезет в реестр — на каждый scrape это не нужно.
+	promHandler http.Handler
 }
 
 // New creates a new Metrics collector with standard HTTP metrics.
@@ -34,6 +38,7 @@ func New() *Metrics {
 			Name: "http_requests_in_flight",
 			Help: "Current number of HTTP requests being served.",
 		}),
+		promHandler: promhttp.Handler(),
 	}
 	prometheus.MustRegister(m.requestsTotal)
 	prometheus.MustRegister(m.requestDuration)
@@ -71,6 +76,6 @@ func (m *Metrics) Middleware() echo.MiddlewareFunc {
 
 // Handler serves Prometheus metrics via promhttp.
 func (m *Metrics) Handler(c echo.Context) error {
-	promhttp.Handler().ServeHTTP(c.Response(), c.Request())
+	m.promHandler.ServeHTTP(c.Response(), c.Request())
 	return nil
 }

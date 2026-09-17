@@ -251,35 +251,23 @@ func WithNickname(ctx context.Context, nick string) context.Context {
 	return context.WithValue(ctx, ctxNickname, nick)
 }
 
-// UserID extracts the user ID from a request context (set by Middleware).
-func UserID(ctx context.Context) string {
-	if v := ctx.Value(ctxUserID); v != nil {
-		if id, ok := v.(string); ok {
-			return id
-		}
+// fromContext достаёт строковое значение из контекста по ключу;
+// отсутствующее значение или не-строка → "".
+func fromContext(ctx context.Context, key contextKey) string {
+	if s, ok := ctx.Value(key).(string); ok {
+		return s
 	}
 	return ""
 }
+
+// UserID extracts the user ID from a request context (set by Middleware).
+func UserID(ctx context.Context) string { return fromContext(ctx, ctxUserID) }
 
 // Nickname extracts the user nickname from a request context (set by Middleware).
-func Nickname(ctx context.Context) string {
-	if v := ctx.Value(ctxNickname); v != nil {
-		if n, ok := v.(string); ok {
-			return n
-		}
-	}
-	return ""
-}
+func Nickname(ctx context.Context) string { return fromContext(ctx, ctxNickname) }
 
 // RawToken extracts the raw JWT token from a request context (set by Middleware).
-func RawToken(ctx context.Context) string {
-	if v := ctx.Value(ctxRawToken); v != nil {
-		if t, ok := v.(string); ok {
-			return t
-		}
-	}
-	return ""
-}
+func RawToken(ctx context.Context) string { return fromContext(ctx, ctxRawToken) }
 
 // Middleware returns an Echo middleware that validates JWT tokens,
 // skipping the given public paths. Additional skippers (e.g. for
@@ -308,8 +296,10 @@ func Middleware(v *Verifier, publicPaths PublicPaths, skippers ...func(c echo.Co
 			if err != nil {
 				return c.JSON(http.StatusUnauthorized, NewAPIError("UNAUTHORIZED", "invalid token"))
 			}
-			ctx := context.WithValue(c.Request().Context(), ctxUserID, claims.Subject)
-			ctx = context.WithValue(ctx, ctxNickname, claims.Nickname)
+			// Кладём через собственные хелперы, а не сырые WithValue —
+			// единая точка истины для ключей и типов.
+			ctx := WithUserID(c.Request().Context(), claims.Subject)
+			ctx = WithNickname(ctx, claims.Nickname)
 			ctx = context.WithValue(ctx, ctxRawToken, parts[1])
 			c.SetRequest(c.Request().WithContext(ctx))
 			return next(c)
