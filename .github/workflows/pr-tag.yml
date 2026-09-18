@@ -16,7 +16,10 @@ jobs:
   tag:
     name: Codegen + Tag
     runs-on: ubuntu-latest
-    if: false  # temporarily disabled — tag generation paused
+    # ci#30: остаётся выключенным намеренно — кросс-репо тестирование
+    # API-изменений идёт через ручные теги. Включить = убрать следующую
+    # строку (воркфлоу рабочий, формат тега v0.0.0-pr.N валиден для Go).
+    if: false
     steps:
       - name: Checkout
         uses: actions/checkout@v4
