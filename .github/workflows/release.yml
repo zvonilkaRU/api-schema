@@ -14,9 +14,11 @@ jobs:
   release:
     name: Codegen + Release
     runs-on: ubuntu-latest
-    # ci#30: включён обратно. Тег режется ТОЛЬКО когда codegen реально изменил
-    # generated/ (раньше версия поднималась на каждый push в main, даже
-    # docs-only — вероятно, поэтому воркфлоу и ставили на паузу).
+    # ci#30: включён обратно. Тег режется при расхождении generated/ в HEAD
+    # с последним тегом: docs-only и CI-only пушы не тегируются, а контракты
+    # (мерджи PR со спеками) — тегируются всегда (раньше версия поднималась
+    # на каждый push в main, даже docs-only — вероятно, поэтому воркфлоу
+    # и ставили на паузу).
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -53,11 +55,30 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
+      # Тег не привязан к факту codegen-коммита выше: ci.yml на PR требует,
+      # чтобы регенерация была уже закоммичена в ветку («Check diff» валит
+      # рассинхрон), поэтому после мержа codegen даёт нулевой diff и
+      # условие changed == 'true' не срабатывало никогда. Режем тег, когда
+      # generated/ в HEAD отличается от generated/ в последнем теге;
+      # автокоммит выше остаётся как ремонт дрейфа при прямых пушах в main.
       - name: Bump version and tag
-        if: steps.codegen.outputs.changed == 'true'
         run: |
-          # Find latest non-prerelease version tag
+          # Последний стабильный тег (пререлизные -pr.* отсеиваем)
           LATEST=$(git tag -l 'v[0-9]*' --sort=-v:refname | grep -v '\-pr\.' | head -1 || true)
+
+          # Нет тегов — сравниваем с пустым деревом (тег, если generated/ непуст)
+          NEED_TAG=false
+          if [ -n "${LATEST}" ]; then
+            git diff --quiet "${LATEST}" HEAD -- generated/ || NEED_TAG=true
+          else
+            EMPTY_TREE=$(git hash-object -t tree /dev/null)
+            git diff --quiet "${EMPTY_TREE}" HEAD -- generated/ || NEED_TAG=true
+          fi
+          if [ "${NEED_TAG}" = "false" ]; then
+            echo "generated/ не отличается от ${LATEST:-<тегов нет>} — тег не режем."
+            exit 0
+          fi
+
           if [ -z "${LATEST}" ]; then
             NEW="v0.0.1"
           else
