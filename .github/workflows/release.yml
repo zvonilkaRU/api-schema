@@ -14,7 +14,9 @@ jobs:
   release:
     name: Codegen + Release
     runs-on: ubuntu-latest
-    if: false  # temporarily disabled — tag generation paused
+    # ci#30: включён обратно. Тег режется ТОЛЬКО когда codegen реально изменил
+    # generated/ (раньше версия поднималась на каждый push в main, даже
+    # docs-only — вероятно, поэтому воркфлоу и ставили на паузу).
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,6 +40,7 @@ jobs:
             -generation-flags-config-path ./generation_flags.yaml
 
       - name: Commit regenerated code
+        id: codegen
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -47,9 +50,11 @@ jobs:
           else
             git commit -m "chore: regenerate code [skip ci]"
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Bump version and tag
+        if: steps.codegen.outputs.changed == 'true'
         run: |
           # Find latest non-prerelease version tag
           LATEST=$(git tag -l 'v[0-9]*' --sort=-v:refname | grep -v '\-pr\.' | head -1 || true)
