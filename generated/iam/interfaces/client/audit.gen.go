@@ -155,6 +155,30 @@ func (resp *CheckPermissionResponse) Response400AuditData() CheckPermissionRespo
 	return am
 }
 
+type CheckPermissionResponse401AuditData struct {
+	Payload any
+}
+
+func (resp *CheckPermissionResponse) Response401AuditData() CheckPermissionResponse401AuditData {
+	am := CheckPermissionResponse401AuditData{}
+	if resp.Response401 != nil {
+		am.Payload = resp.Response401.GetAuditData()
+	}
+	return am
+}
+
+type CheckPermissionResponse403AuditData struct {
+	Payload any
+}
+
+func (resp *CheckPermissionResponse) Response403AuditData() CheckPermissionResponse403AuditData {
+	am := CheckPermissionResponse403AuditData{}
+	if resp.Response403 != nil {
+		am.Payload = resp.Response403.GetAuditData()
+	}
+	return am
+}
+
 type CheckPermissionResponse500AuditData struct {
 	Payload any
 }

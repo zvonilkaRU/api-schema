@@ -190,6 +190,18 @@ func (c *Client) CheckPermission(ctx context.Context, req *apiclient.CheckPermis
 			return nil, fmt.Errorf("decode 400: %w", err)
 		}
 		result.Response400 = &v
+	case 401:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 401: %w", err)
+		}
+		result.Response401 = &v
+	case 403:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 403: %w", err)
+		}
+		result.Response403 = &v
 	case 500:
 		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {

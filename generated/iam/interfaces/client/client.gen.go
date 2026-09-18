@@ -58,6 +58,8 @@ type CheckPermissionResponse struct {
 	Code        int
 	Response200 *models.CheckResponseResponse
 	Response400 *model.ErrorResponse
+	Response401 *model.ErrorResponse
+	Response403 *model.ErrorResponse
 	Response500 *model.ErrorResponse
 }
 
