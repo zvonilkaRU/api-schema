@@ -47,6 +47,7 @@ type DeleteTupleRequest struct {
 type DeleteTupleResponse struct {
 	Code        int
 	Response204 bool
+	Response400 *model.ErrorResponse
 	Response404 *model.ErrorResponse
 }
 

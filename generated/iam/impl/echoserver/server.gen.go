@@ -165,6 +165,9 @@ func (s *ServerHTTP) deleteTuple(c echo.Context) error {
 	if resp.Response204 {
 		return c.NoContent(204)
 	}
+	if resp.Response400 != nil {
+		return c.JSON(400, resp.Response400)
+	}
 	if resp.Response404 != nil {
 		return c.JSON(404, resp.Response404)
 	}

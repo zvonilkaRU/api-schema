@@ -119,6 +119,18 @@ func (resp *WriteTupleResponse) Response500AuditData() WriteTupleResponse500Audi
 	return am
 }
 
+type DeleteTupleResponse400AuditData struct {
+	Payload any
+}
+
+func (resp *DeleteTupleResponse) Response400AuditData() DeleteTupleResponse400AuditData {
+	am := DeleteTupleResponse400AuditData{}
+	if resp.Response400 != nil {
+		am.Payload = resp.Response400.GetAuditData()
+	}
+	return am
+}
+
 type DeleteTupleResponse404AuditData struct {
 	Payload any
 }

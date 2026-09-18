@@ -146,6 +146,12 @@ func (c *Client) DeleteTuple(ctx context.Context, req *apiclient.DeleteTupleRequ
 	switch resp.StatusCode {
 	case 204:
 		result.Response204 = true
+	case 400:
+		var v model.ErrorResponse
+		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
+			return nil, fmt.Errorf("decode 400: %w", err)
+		}
+		result.Response400 = &v
 	case 404:
 		var v model.ErrorResponse
 		if err := json.NewDecoder(resp.Body).Decode(&v); err != nil {
