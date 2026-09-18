@@ -99,6 +99,12 @@ delete:
   responses:
     "204":
       description: Tuple deleted.
+    "400":
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: "../../../../../common/src/openapi/schemas/errors/Error.yaml"
     "404":
       description: Tuple not found.
       content:
