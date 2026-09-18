@@ -192,6 +192,12 @@ func (s *ServerHTTP) checkPermission(c echo.Context) error {
 	if resp.Response400 != nil {
 		return c.JSON(400, resp.Response400)
 	}
+	if resp.Response401 != nil {
+		return c.JSON(401, resp.Response401)
+	}
+	if resp.Response403 != nil {
+		return c.JSON(403, resp.Response403)
+	}
 	if resp.Response500 != nil {
 		return c.JSON(500, resp.Response500)
 	}
